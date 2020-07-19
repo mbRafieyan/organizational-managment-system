@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="oracle" uuid="5f1c9bac-dad6-449b-82a4-7660087c7b61">
+      <driver-ref>0e692026-fa31-44db-b556-a9620b15b62f</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
+      <jdbc-url>jdbc:oracle:thin:@localhost:1521:db11g</jdbc-url>
+    </data-source>
+  </component>
+</project>
