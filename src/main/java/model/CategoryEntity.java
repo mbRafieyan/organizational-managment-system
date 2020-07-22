@@ -1,12 +1,11 @@
 package model;
 
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "CATEGORY", schema = "DOTIN", catalog = "")
+@Table(name = "CATEGORY", schema = "DOTIN")
 public class CategoryEntity {
 
     private Long categoryId;
@@ -16,13 +15,13 @@ public class CategoryEntity {
     @Id
     @Column(name = "CATEGORYID", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", sequenceName = "DOTINSEQUENCE", allocationSize = 1)
-    public long getCategoryId() {
+    @SequenceGenerator(name = "sequence", sequenceName = "oracleSequence")
+    public Long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(long categoryid) {
-        this.categoryId = categoryid;
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 
     @Basic
@@ -31,12 +30,11 @@ public class CategoryEntity {
         return categoryName;
     }
 
-    public void setCategoryName(String categoryname) {
-        this.categoryName = categoryname;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    @OneToMany
-    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+    @OneToMany(mappedBy = "categoryEntity" ,cascade = CascadeType.ALL)
     public List<CategoryElementEntity> getCategoryElementEntityList() {
         return categoryElements;
     }

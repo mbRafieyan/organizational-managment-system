@@ -2,6 +2,7 @@
   <dictionary name="Mb_r">
     <words>
       <w>categoryid</w>
+      <w>managerid</w>
     </words>
   </dictionary>
 </component>

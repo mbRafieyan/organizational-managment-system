@@ -1,37 +1,29 @@
 package model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "EMAIL", schema = "DOTIN")
 public class EmailEntity {
 
     private Long emailId;
-    private String distAddress;
     private String subject;
     private String text;
-    private EmployeeEntity employee;
+    private String attachment;
+    private EmployeeEntity senderEmployee;
+    private List<EmployeeEntity> recievers;
 
     @Id
     @Column(name = "EMAILID", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", sequenceName = "DOTINSEQUENCE", allocationSize = 1)
-    public long getEmailId() {
+    @SequenceGenerator(name = "sequence", sequenceName = "oracleSequence")
+    public Long getEmailId() {
         return emailId;
     }
 
-    public void setEmailId(long emailid) {
-        this.emailId = emailid;
-    }
-
-    @Basic
-    @Column(name = "DISTADDRESS")
-    public String getDistAddress() {
-        return distAddress;
-    }
-
-    public void setDistAddress(String distaddress) {
-        this.distAddress = distaddress;
+    public void setEmailId(long emailId) {
+        this.emailId = emailId;
     }
 
     @Basic
@@ -54,14 +46,32 @@ public class EmailEntity {
         this.text = text;
     }
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "SOURCEID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SENDERID")
     public EmployeeEntity getEmployeeEntity() {
-        return employee;
+        return senderEmployee;
     }
 
     public void setEmployeeEntity(EmployeeEntity employeeEntity) {
-        this.employee = employeeEntity;
+        this.senderEmployee = employeeEntity;
     }
 
+    @Basic
+    @Column(name = "ATTACHMENT")
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
+    }
+
+    @ManyToMany(mappedBy = "recieverEmails", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    public List<EmployeeEntity> getRecievers() {
+        return recievers;
+    }
+
+    public void setRecievers(List<EmployeeEntity> recievers) {
+        this.recievers = recievers;
+    }
 }

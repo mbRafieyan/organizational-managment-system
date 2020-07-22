@@ -9,6 +9,6 @@ import service.EmailEntityService;
 @RequestMapping("/email")
 public class EmailController {
 
-    @Autowired
-    EmailEntityService emailEntityService;
+    /*@Autowired
+    EmailEntityService emailEntityService;*/
 }

@@ -1,6 +1,5 @@
 package model;
 
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,13 +19,13 @@ public class CategoryElementEntity {
     @Id
     @Column(name = "CATEGORYELEMENTID", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", sequenceName = "DOTINSEQUENCE", allocationSize = 1)
-    public long getCategoryElementId() {
+    @SequenceGenerator(name = "sequence", sequenceName = "oracleSequence")
+    public Long getCategoryElementId() {
         return categoryElementId;
     }
 
-    public void setCategoryElementId(long categoryelementid) {
-        this.categoryElementId = categoryelementid;
+    public void setCategoryElementId(long categoryElementId) {
+        this.categoryElementId = categoryElementId;
     }
 
     @Basic
@@ -49,8 +48,7 @@ public class CategoryElementEntity {
         this.code = code;
     }
 
-    @OneToMany
-    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+    @OneToMany(mappedBy = "employeeRole", cascade = CascadeType.ALL)
     public List<EmployeeEntity> getEmployeeEntityList() {
         return employees;
     }
@@ -59,7 +57,7 @@ public class CategoryElementEntity {
         this.employees = employeeEntityList;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CID")
     public CategoryEntity getCategoryEntity() {
         return categoryEntity;
@@ -69,8 +67,7 @@ public class CategoryElementEntity {
         this.categoryEntity = categoryEntity;
     }
 
-    @OneToMany
-    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+    @OneToMany(mappedBy = "vacationTypeCee", cascade = CascadeType.ALL)
     public List<VacationsEntity> getTypeVacationsEntityList() {
         return typeVacations;
     }
@@ -79,13 +76,12 @@ public class CategoryElementEntity {
         this.typeVacations = typeVacationsEntityList;
     }
 
-    @OneToMany
-    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+    @OneToMany(mappedBy = "vacationStatusCee", cascade = CascadeType.ALL)
     public List<VacationsEntity> getStatusvacationEntityList() {
         return statusVacations;
     }
 
-    public void setStatusvacationEntityList(List<VacationsEntity> statusvacationEntityList) {
-        this.statusVacations = statusvacationEntityList;
+    public void setStatusvacationEntityList(List<VacationsEntity> statusVacationEntityList) {
+        this.statusVacations = statusVacationEntityList;
     }
 }

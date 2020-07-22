@@ -1,42 +1,42 @@
 package dao;
 
 import model.CategoryElementEntity;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
 public class CategoryElementEntityDaoImpl implements CategoryElementEntityDao {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public void insert(CategoryElementEntity categoryElementEntity) {
-        sessionFactory.getCurrentSession().persist(categoryElementEntity);
+        entityManager.persist(categoryElementEntity);
     }
 
     @Override
     public void update(CategoryElementEntity categoryElementEntity) {
-        sessionFactory.getCurrentSession().merge(categoryElementEntity);
+        entityManager.merge(categoryElementEntity);
     }
 
     @Override
     public List<CategoryElementEntity> selectAll() {
-        Query query = sessionFactory.getCurrentSession().createQuery("from CategoryElementEntity");
-        return (List<CategoryElementEntity>) query.list();
+        Query query = entityManager.createQuery("select c from CategoryElementEntity c");
+        return (List<CategoryElementEntity>) query.getResultList();
     }
 
     @Override
     public CategoryElementEntity selectById(long id) {
-        return sessionFactory.getCurrentSession().find(CategoryElementEntity.class, id);
+        return entityManager.find(CategoryElementEntity.class, id);
     }
 
     @Override
     public void delete(CategoryElementEntity categoryElementEntity) {
-        sessionFactory.getCurrentSession().delete(categoryElementEntity);
+        entityManager.remove(categoryElementEntity);
     }
 }

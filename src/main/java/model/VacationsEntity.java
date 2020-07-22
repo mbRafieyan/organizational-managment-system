@@ -17,13 +17,13 @@ public class VacationsEntity {
     @Id
     @Column(name = "VACATIONID", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", sequenceName = "DOTINSEQUENCE", allocationSize = 1)
-    public long getVacationId() {
+    @SequenceGenerator(name = "sequence", sequenceName = "oracleSequence")
+    public Long getVacationId() {
         return vacationId;
     }
 
-    public void setVacationId(long vacationid) {
-        this.vacationId = vacationid;
+    public void setVacationId(long vacationId) {
+        this.vacationId = vacationId;
     }
 
     @Basic
@@ -33,8 +33,8 @@ public class VacationsEntity {
         return vacationStart;
     }
 
-    public void setVacationStart(Date vacationstart) {
-        this.vacationStart = vacationstart;
+    public void setVacationStart(Date vacationStart) {
+        this.vacationStart = vacationStart;
     }
 
     @Basic
@@ -44,11 +44,11 @@ public class VacationsEntity {
         return vacationEnd;
     }
 
-    public void setVacationEnd(Date vacationend) {
-        this.vacationEnd = vacationend;
+    public void setVacationEnd(Date vacationEnd) {
+        this.vacationEnd = vacationEnd;
     }
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "REQUESTEDEMPLOYEEID")
     public EmployeeEntity getEmployeeEntity() {
         return employee;
@@ -58,7 +58,7 @@ public class VacationsEntity {
         this.employee = employeeEntity;
     }
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "VACATIONTYPE")
     public CategoryElementEntity getVacationTypeCee() {
         return vacationTypeCee;
@@ -68,7 +68,7 @@ public class VacationsEntity {
         this.vacationTypeCee = vacationTypeCee;
     }
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "VACATIONSTATUS")
     public CategoryElementEntity getVacationStatusCee() {
         return vacationStatusCee;

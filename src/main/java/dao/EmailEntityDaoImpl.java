@@ -1,18 +1,19 @@
 package dao;
 
 import model.EmailEntity;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Repository
 public class EmailEntityDaoImpl implements EmailEntityDao {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public void insert(EmailEntity emailEntity) {
-        sessionFactory.getCurrentSession().persist(emailEntity);
+        entityManager.persist(emailEntity);
     }
 }

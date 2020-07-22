@@ -9,6 +9,6 @@ import service.VacationsEntityService;
 @RequestMapping("/vacations")
 public class VacationsController {
 
-    @Autowired
-    VacationsEntityService vacationsEntityService;
+   /* @Autowired
+    VacationsEntityService vacationsEntityService;*/
 }

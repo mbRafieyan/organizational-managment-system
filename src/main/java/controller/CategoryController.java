@@ -9,6 +9,6 @@ import service.CategoryEntityService;
 @RequestMapping("/category")
 public class CategoryController {
 
-    @Autowired
-    CategoryEntityService categoryEntityService;
+   /* @Autowired
+    CategoryEntityService categoryEntityService;*/
 }

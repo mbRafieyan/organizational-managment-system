@@ -1,42 +1,42 @@
 package dao;
 
 import model.VacationsEntity;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
 public class VacationsEntityDaoImpl implements VacationsEntityDao {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public void insert(VacationsEntity vacationsEntity) {
-        sessionFactory.getCurrentSession().persist(vacationsEntity);
+        entityManager.persist(vacationsEntity);
     }
 
     @Override
     public void update(VacationsEntity vacationsEntity) {
-        sessionFactory.getCurrentSession().merge(vacationsEntity);
+        entityManager.merge(vacationsEntity);
     }
 
     @Override
     public List<VacationsEntity> selectAll() {
-        Query query = sessionFactory.getCurrentSession().createQuery("from VacationsEntity");
-        return (List<VacationsEntity>) query.list();
+        Query query = entityManager.createQuery("select c from VacationsEntity c");
+        return (List<VacationsEntity>) query.getResultList();
     }
 
     @Override
     public VacationsEntity selectById(long id) {
-        return sessionFactory.getCurrentSession().find(VacationsEntity.class, id);
+        return entityManager.find(VacationsEntity.class, id);
     }
 
     @Override
     public void delete(VacationsEntity vacationsEntity) {
-        sessionFactory.getCurrentSession().delete(vacationsEntity);
+        entityManager.remove(vacationsEntity);
     }
 }

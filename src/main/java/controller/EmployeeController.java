@@ -9,6 +9,6 @@ import service.EmployeeEntityService;
 @RequestMapping("/employee")
 public class EmployeeController {
 
-    @Autowired
-    EmployeeEntityService employeeEntityService;
+    /*@Autowired
+    EmployeeEntityService employeeEntityService;*/
 }
