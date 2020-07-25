@@ -5,29 +5,28 @@ import java.util.List;
 
 @Entity
 @Table(name = "EMAIL", schema = "DOTIN")
-public class EmailEntity {
-
-    private Long emailId;
-    private String subject;
-    private String text;
-    private String attachment;
-    private EmployeeEntity senderEmployee;
-    private List<EmployeeEntity> recievers;
-
-    @Id
-    @Column(name = "EMAILID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", sequenceName = "oracleSequence")
-    public Long getEmailId() {
-        return emailId;
-    }
-
-    public void setEmailId(long emailId) {
-        this.emailId = emailId;
-    }
+@PrimaryKeyJoinColumn(name = "ID")
+public class EmailEntity extends ParentEntity{
 
     @Basic
     @Column(name = "SUBJECT")
+    private String subject;
+
+    @Basic
+    @Column(name = "TEXT")
+    private String text;
+
+    @Basic
+    @Column(name = "ATTACHMENT")
+    private String attachment;
+
+    @JoinColumn(name = "SENDERID")
+    @ManyToOne
+    private EmployeeEntity senderEmployee;
+
+    @ManyToMany(mappedBy = "recieverEmails", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    private List<EmployeeEntity> recievers;
+
     public String getSubject() {
         return subject;
     }
@@ -36,8 +35,6 @@ public class EmailEntity {
         this.subject = subject;
     }
 
-    @Basic
-    @Column(name = "TEXT")
     public String getText() {
         return text;
     }
@@ -46,18 +43,6 @@ public class EmailEntity {
         this.text = text;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SENDERID")
-    public EmployeeEntity getEmployeeEntity() {
-        return senderEmployee;
-    }
-
-    public void setEmployeeEntity(EmployeeEntity employeeEntity) {
-        this.senderEmployee = employeeEntity;
-    }
-
-    @Basic
-    @Column(name = "ATTACHMENT")
     public String getAttachment() {
         return attachment;
     }
@@ -66,7 +51,14 @@ public class EmailEntity {
         this.attachment = attachment;
     }
 
-    @ManyToMany(mappedBy = "recieverEmails", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    public EmployeeEntity getEmployeeEntity() {
+        return senderEmployee;
+    }
+
+    public void setEmployeeEntity(EmployeeEntity employeeEntity) {
+        this.senderEmployee = employeeEntity;
+    }
+
     public List<EmployeeEntity> getRecievers() {
         return recievers;
     }

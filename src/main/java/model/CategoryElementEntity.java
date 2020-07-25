@@ -6,30 +6,30 @@ import java.util.List;
 
 @Entity
 @Table(name = "CATEGORYELEMENT", schema = "DOTIN")
-public class CategoryElementEntity {
-
-    private Long categoryElementId;
-    private String name;
-    private String code;
-    private CategoryEntity categoryEntity;
-    private List<EmployeeEntity> employees;
-    private List<VacationsEntity> typeVacations;
-    private List<VacationsEntity> statusVacations;
-
-    @Id
-    @Column(name = "CATEGORYELEMENTID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", sequenceName = "oracleSequence")
-    public Long getCategoryElementId() {
-        return categoryElementId;
-    }
-
-    public void setCategoryElementId(long categoryElementId) {
-        this.categoryElementId = categoryElementId;
-    }
+@PrimaryKeyJoinColumn(name = "ID")
+public class CategoryElementEntity extends ParentEntity {
 
     @Basic
     @Column(name = "NAME")
+    private String name;
+
+    @Basic
+    @Column(name = "CODE")
+    private String code;
+
+    @ManyToOne
+    @JoinColumn(name = "CID")
+    private CategoryEntity categoryEntity;
+
+    @OneToMany(mappedBy = "employeeRole", cascade = CascadeType.ALL)
+    private List<EmployeeEntity> employees;
+
+    @OneToMany(mappedBy = "vacationTypeCee", cascade = CascadeType.ALL)
+    private List<VacationsEntity> typeVacations;
+
+    @OneToMany(mappedBy = "vacationStatusCee", cascade = CascadeType.ALL)
+    private List<VacationsEntity> statusVacations;
+
     public String getName() {
         return name;
     }
@@ -38,8 +38,6 @@ public class CategoryElementEntity {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "CODE")
     public String getCode() {
         return code;
     }
@@ -48,7 +46,6 @@ public class CategoryElementEntity {
         this.code = code;
     }
 
-    @OneToMany(mappedBy = "employeeRole", cascade = CascadeType.ALL)
     public List<EmployeeEntity> getEmployeeEntityList() {
         return employees;
     }
@@ -57,8 +54,6 @@ public class CategoryElementEntity {
         this.employees = employeeEntityList;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CID")
     public CategoryEntity getCategoryEntity() {
         return categoryEntity;
     }
@@ -67,7 +62,7 @@ public class CategoryElementEntity {
         this.categoryEntity = categoryEntity;
     }
 
-    @OneToMany(mappedBy = "vacationTypeCee", cascade = CascadeType.ALL)
+
     public List<VacationsEntity> getTypeVacationsEntityList() {
         return typeVacations;
     }
@@ -76,7 +71,6 @@ public class CategoryElementEntity {
         this.typeVacations = typeVacationsEntityList;
     }
 
-    @OneToMany(mappedBy = "vacationStatusCee", cascade = CascadeType.ALL)
     public List<VacationsEntity> getStatusvacationEntityList() {
         return statusVacations;
     }

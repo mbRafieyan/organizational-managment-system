@@ -6,32 +6,44 @@ import java.util.List;
 
 @Entity
 @Table(name = "EMPLOYEE", schema = "DOTIN")
-public class EmployeeEntity {
-
-    private Long employeeId;
-    private String firstName;
-    private String lastName;
-    private String emailAddress;
-    private EmployeeEntity employeeManager;
-    private List<EmailEntity> senderEmails;
-    private List<EmailEntity> recieverEmails;
-    private List<VacationsEntity> vacations;
-    private CategoryElementEntity employeeRole;
-
-    @Id
-    @Column(name = "EMPLOYEEID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", sequenceName = "oracleSequence")
-    public Long getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(long employeeId) {
-        this.employeeId = employeeId;
-    }
+@PrimaryKeyJoinColumn(name = "ID")
+public class EmployeeEntity extends ParentEntity{
 
     @Basic
     @Column(name = "FIRSTNAME")
+    private String firstName;
+
+    @Basic
+    @Column(name = "LASTNAME")
+    private String lastName;
+
+    @Basic
+    @Column(name = "EMAILADDRESS")
+    private String emailAddress;
+
+    @ManyToOne
+    @JoinColumn(name = "MANAGERID")
+    private EmployeeEntity employeeManager;
+
+    @OneToMany(mappedBy = "employeeManager", cascade = CascadeType.ALL)
+    private List<EmployeeEntity> managerEmployeesList;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(name = "RECIEVER",
+            joinColumns = @JoinColumn(name = "EMPLOYEEID"),
+            inverseJoinColumns = @JoinColumn(name = "EMAILID"))
+    private List<EmailEntity> recieverEmails;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private List<VacationsEntity> vacations;
+
+    @ManyToOne
+    @JoinColumn(name = "ROLEID")
+    private CategoryElementEntity employeeRole;
+
+    @OneToMany(mappedBy = "senderEmployee", cascade = CascadeType.ALL)
+    private List<EmailEntity> senderEmails;
+
     public String getFirstName() {
         return firstName;
     }
@@ -40,8 +52,6 @@ public class EmployeeEntity {
         this.firstName = firstName;
     }
 
-    @Basic
-    @Column(name = "LASTNAME")
     public String getLastName() {
         return lastName;
     }
@@ -50,8 +60,6 @@ public class EmployeeEntity {
         this.lastName = lastName;
     }
 
-    @Basic
-    @Column(name = "EMAILADDRESS")
     public String getEmailAddress() {
         return emailAddress;
     }
@@ -60,8 +68,6 @@ public class EmployeeEntity {
         this.emailAddress = emailAddress;
     }
 
-    @OneToOne
-    @Column(name = "MANAGERID")
     public EmployeeEntity getEmployeeManager() {
         return employeeManager;
     }
@@ -70,7 +76,6 @@ public class EmployeeEntity {
         this.employeeManager = employeeManager;
     }
 
-    @OneToMany(mappedBy = "senderEmployee", cascade = CascadeType.ALL)
     public List<EmailEntity> getEmailEntityList() {
         return senderEmails;
     }
@@ -79,7 +84,6 @@ public class EmployeeEntity {
         this.senderEmails = emailEntityList;
     }
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     public List<VacationsEntity> getVacationsEntityList() {
         return vacations;
     }
@@ -88,8 +92,6 @@ public class EmployeeEntity {
         this.vacations = vacationsEntityList;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ROLEID")
     public CategoryElementEntity getCategoryElementEntity() {
         return employeeRole;
     }
@@ -98,15 +100,19 @@ public class EmployeeEntity {
         this.employeeRole = categoryElementEntity;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "RECIEVER",
-            joinColumns = @JoinColumn(name = "EMPLOYEEID"),
-            inverseJoinColumns = @JoinColumn(name = "EMAILID"))
     public List<EmailEntity> getRecieverEmails() {
         return recieverEmails;
     }
 
     public void setRecieverEmails(List<EmailEntity> recieverEmails) {
         this.recieverEmails = recieverEmails;
+    }
+
+    public List<EmployeeEntity> getManagerEmployeesList() {
+        return managerEmployeesList;
+    }
+
+    public void setManagerEmployeesList(List<EmployeeEntity> managerEmployeesList) {
+        this.managerEmployeesList = managerEmployeesList;
     }
 }

@@ -5,30 +5,31 @@ import java.util.Date;
 
 @Entity
 @Table(name = "VACATIONS", schema = "DOTIN")
-public class VacationsEntity {
-
-    private Long vacationId;
-    private Date vacationStart;
-    private Date vacationEnd;
-    private EmployeeEntity employee;
-    private CategoryElementEntity vacationTypeCee;
-    private CategoryElementEntity vacationStatusCee;
-
-    @Id
-    @Column(name = "VACATIONID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", sequenceName = "oracleSequence")
-    public Long getVacationId() {
-        return vacationId;
-    }
-
-    public void setVacationId(long vacationId) {
-        this.vacationId = vacationId;
-    }
+@PrimaryKeyJoinColumn(name = "ID")
+public class VacationsEntity extends ParentEntity{
 
     @Basic
     @Column(name = "VACATIONSTART")
     @Temporal(TemporalType.DATE)
+    private Date vacationStart;
+
+    @Basic
+    @Column(name = "VACATIONEND")
+    @Temporal(TemporalType.DATE)
+    private Date vacationEnd;
+
+    @ManyToOne
+    @JoinColumn(name = "REQUESTEDEMPLOYEEID")
+    private EmployeeEntity employee;
+
+    @ManyToOne
+    @JoinColumn(name = "VACATIONTYPE")
+    private CategoryElementEntity vacationTypeCee;
+
+    @ManyToOne
+    @JoinColumn(name = "VACATIONSTATUS")
+    private CategoryElementEntity vacationStatusCee;
+
     public Date getVacationStart() {
         return vacationStart;
     }
@@ -37,9 +38,6 @@ public class VacationsEntity {
         this.vacationStart = vacationStart;
     }
 
-    @Basic
-    @Column(name = "VACATIONEND")
-    @Temporal(TemporalType.DATE)
     public Date getVacationEnd() {
         return vacationEnd;
     }
@@ -48,8 +46,6 @@ public class VacationsEntity {
         this.vacationEnd = vacationEnd;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REQUESTEDEMPLOYEEID")
     public EmployeeEntity getEmployeeEntity() {
         return employee;
     }
@@ -58,8 +54,6 @@ public class VacationsEntity {
         this.employee = employeeEntity;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "VACATIONTYPE")
     public CategoryElementEntity getVacationTypeCee() {
         return vacationTypeCee;
     }
@@ -68,8 +62,6 @@ public class VacationsEntity {
         this.vacationTypeCee = vacationTypeCee;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "VACATIONSTATUS")
     public CategoryElementEntity getVacationStatusCee() {
         return vacationStatusCee;
     }

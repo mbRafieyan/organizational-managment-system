@@ -6,26 +6,16 @@ import java.util.List;
 
 @Entity
 @Table(name = "CATEGORY", schema = "DOTIN")
-public class CategoryEntity {
-
-    private Long categoryId;
-    private String categoryName;
-    private List<CategoryElementEntity> categoryElements;
-
-    @Id
-    @Column(name = "CATEGORYID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", sequenceName = "oracleSequence")
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(long categoryId) {
-        this.categoryId = categoryId;
-    }
+@PrimaryKeyJoinColumn(name = "ID")
+public class CategoryEntity extends ParentEntity{
 
     @Basic
     @Column(name = "CATEGORYNAME")
+    private String categoryName;
+
+    @OneToMany(mappedBy = "categoryEntity" ,cascade = CascadeType.ALL)
+    private List<CategoryElementEntity> categoryElements;
+
     public String getCategoryName() {
         return categoryName;
     }
@@ -34,7 +24,6 @@ public class CategoryEntity {
         this.categoryName = categoryName;
     }
 
-    @OneToMany(mappedBy = "categoryEntity" ,cascade = CascadeType.ALL)
     public List<CategoryElementEntity> getCategoryElementEntityList() {
         return categoryElements;
     }

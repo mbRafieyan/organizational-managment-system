@@ -3,6 +3,7 @@
     <words>
       <w>categoryid</w>
       <w>managerid</w>
+      <w>senderid</w>
     </words>
   </dictionary>
 </component>

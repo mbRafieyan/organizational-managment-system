@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -16,6 +17,10 @@ public class CategoryEntityDaoImpl implements CategoryEntityDao {
 
     @Override
     public void insert(CategoryEntity categoryEntity) {
+
+        categoryEntity.setCreateDate(new Date());
+        categoryEntity.setActive(true);
+        categoryEntity.setVersion(1.0F);
         entityManager.persist(categoryEntity);
     }
 

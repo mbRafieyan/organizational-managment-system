@@ -124,7 +124,7 @@
   </dependencies>
 
   <build>
-    <finalName>organizational-managment-sestem</finalName>
+    <finalName>Organizational-Managment-System</finalName>
       <pluginManagement>
         <plugins>
           <plugin>
