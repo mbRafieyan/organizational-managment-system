@@ -4,9 +4,9 @@ import dao.CategoryEntityDao;
 import model.CategoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CategoryEntityServiceImpl implements CategoryEntityService {
@@ -15,33 +15,18 @@ public class CategoryEntityServiceImpl implements CategoryEntityService {
     private CategoryEntityDao categoryEntityDao;
 
     @Override
-    @Transactional
-    public void addCategoryEntity(CategoryEntity categoryEntity) {
-        categoryEntityDao.insert(categoryEntity);
+    public List<CategoryEntity> selectAllCategory() {
+        return categoryEntityDao.selectAllCategory();
     }
 
     @Override
-    @Transactional
-    public void updateCategoryEntity(CategoryEntity categoryEntity) {
-        categoryEntityDao.update(categoryEntity);
+    public List<CategoryEntity> findByCategoryName(String name) {
+        return categoryEntityDao.findByCategoryName(name);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<CategoryEntity> getCategoryEntities() {
-        return categoryEntityDao.selectAll();
+    public Map<Long, CategoryEntity> insertAllCategory() {
+        return categoryEntityDao.insertAllCategory();
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public CategoryEntity getCategoryEntityById(long id) {
-        return categoryEntityDao.selectById(id);
-
-    }
-
-    @Override
-    @Transactional
-    public void deleteCategoryEntity(CategoryEntity categoryEntity) {
-        categoryEntityDao.delete(categoryEntity);
-    }
 }

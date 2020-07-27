@@ -1,4 +1,4 @@
-/*
+
 fieldset.form-border {
     border: 1px groove #ddd !important;
     padding: 1em 1.4em 1.4em 1.4em !important;
@@ -15,7 +15,6 @@ legend.form-border {
     padding:0 10px;
     border-bottom:none;
 }
-*/
 
 html {
     font-size: 14px;

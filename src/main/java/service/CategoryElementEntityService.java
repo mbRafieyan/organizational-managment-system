@@ -2,18 +2,13 @@ package service;
 
 
 import model.CategoryElementEntity;
+import model.CategoryEntity;
 
 import java.util.List;
 
 public interface CategoryElementEntityService {
 
-     void addCategoryElementEntity(CategoryElementEntity categoryElementEntity);
+    void insertAllCategoryElement(CategoryEntity categoryEntity);
 
-     void updateCategoryElementEntity(CategoryElementEntity categoryElementEntity);
-
-     List<CategoryElementEntity> getCategoryElementEntities();
-
-     CategoryElementEntity getCategoryElementEntityById(long id);
-
-     void deleteCategoryElementEntity(CategoryElementEntity categoryElementEntity);
+    List<CategoryElementEntity> findByCategory(CategoryEntity categoryEntity);
 }

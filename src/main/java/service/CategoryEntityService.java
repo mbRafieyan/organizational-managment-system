@@ -4,16 +4,13 @@ package service;
 import model.CategoryEntity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CategoryEntityService {
 
-     void addCategoryEntity(CategoryEntity categoryEntity);
+    List<CategoryEntity> selectAllCategory();
 
-     void updateCategoryEntity(CategoryEntity categoryEntity);
+    List<CategoryEntity> findByCategoryName(String name);
 
-     List<CategoryEntity> getCategoryEntities();
-
-     CategoryEntity getCategoryEntityById(long id);
-
-     void deleteCategoryEntity(CategoryEntity categoryEntity);
+    Map<Long, CategoryEntity> insertAllCategory();
 }

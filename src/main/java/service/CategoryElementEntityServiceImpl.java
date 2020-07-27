@@ -2,9 +2,9 @@ package service;
 
 import dao.CategoryElementEntityDao;
 import model.CategoryElementEntity;
+import model.CategoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,32 +15,13 @@ public class CategoryElementEntityServiceImpl implements CategoryElementEntitySe
     private CategoryElementEntityDao categoryElementEntityDao;
 
     @Override
-    @Transactional
-    public void addCategoryElementEntity(CategoryElementEntity categoryElementEntity) {
-        categoryElementEntityDao.insert(categoryElementEntity);
+    public void insertAllCategoryElement(CategoryEntity categoryEntity) {
+        categoryElementEntityDao.insertAllCategoryElement(categoryEntity);
     }
 
     @Override
-    @Transactional
-    public void updateCategoryElementEntity(CategoryElementEntity categoryElementEntity) {
-        categoryElementEntityDao.update(categoryElementEntity);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<CategoryElementEntity> getCategoryElementEntities() {
-        return categoryElementEntityDao.selectAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public CategoryElementEntity getCategoryElementEntityById(long id) {
-        return categoryElementEntityDao.selectById(id);
-    }
-
-    @Override
-    @Transactional
-    public void deleteCategoryElementEntity(CategoryElementEntity categoryElementEntity) {
-        categoryElementEntityDao.delete(categoryElementEntity);
+    public List<CategoryElementEntity> findByCategory(CategoryEntity categoryEntity) {
+        List<CategoryElementEntity> CategoryElementEntityList = categoryElementEntityDao.findByCategory(categoryEntity);
+        return CategoryElementEntityList;
     }
 }
