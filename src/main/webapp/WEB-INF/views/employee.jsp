@@ -27,7 +27,7 @@
                 <h4 class="my-0 font-weight-normal">Employee</h4>
             </div>
             <div class="card-body">
-                <a href="<%=request.getContextPath()%>/addEmployee"
+                <a href="<%=request.getContextPath()%>/addEmployeeView"
                    class="btn btn-lg btn-block btn-outline-primary">Add Employee</a>
             </div>
         </div>

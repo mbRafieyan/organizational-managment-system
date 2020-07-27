@@ -11,7 +11,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Transactional
@@ -47,10 +49,27 @@ public class CategoryElementEntityDaoImpl implements CategoryElementEntityDao {
     }
 
     @Override
-    public List<CategoryElementEntity> findByCategory(CategoryEntity categoryEntity) {
+    public Map<Long, String> findByCategory(CategoryEntity categoryEntity) {
+
         Query query = entityManager.createQuery("select c from CategoryElementEntity c where c.categoryEntity =:categoryEntity");
         query.setParameter("categoryEntity", categoryEntity);
 
-        return (List<CategoryElementEntity>) query.getResultList();
+        List<CategoryElementEntity> categoryElementEntityList = query.getResultList();
+
+        Map<Long, String> categoryElementEntityMap = new HashMap<>();
+
+        for (CategoryElementEntity ce : categoryElementEntityList) {
+            categoryElementEntityMap.put(ce.getId(), ce.getName());
+        }
+        return categoryElementEntityMap;
+    }
+
+    @Override
+    public List<CategoryElementEntity> findByCategoryElementName(String name) {
+
+        Query query = entityManager.createQuery("select c from CategoryElementEntity c where c.code like :manager");
+        query.setParameter("manager", "%Manager%");
+        List<CategoryElementEntity> CategoryElementEntityList = query.getResultList();
+        return CategoryElementEntityList;
     }
 }

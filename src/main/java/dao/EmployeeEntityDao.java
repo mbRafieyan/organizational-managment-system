@@ -1,8 +1,10 @@
 package dao;
 
+import model.CategoryElementEntity;
 import model.EmployeeEntity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EmployeeEntityDao {
 
@@ -15,4 +17,6 @@ public interface EmployeeEntityDao {
      EmployeeEntity selectById(long id);
 
      void delete(EmployeeEntity employeeEntity);
+
+     Map<Long, String> findByEmployeeRole(CategoryElementEntity categoryElementEntity);
 }

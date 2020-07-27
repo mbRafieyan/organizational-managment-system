@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -26,7 +27,7 @@
                 <h4 class="my-0 font-weight-normal">Update Employee</h4>
             </div>
             <div class="card-body">
-                <form method="POST" action="<%=request.getContextPath()%>/showEmployee/saveEmployee">
+                <form method="POST" action="<%=request.getContextPath()%>/saveEmployee">
                     <div class="form-group">
 
                         <label for="InputFirstName">First Name</label>
@@ -40,21 +41,15 @@
 
                         </br>
                         <label for="selectRole">Eployee Role</label>
-                        <select class="browser-default custom-select" id="selectRole">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
+                        <form:select path = "roleCategoryElementMap" id="selectRole" class="browser-default custom-select">
+                            <form:options items = "${roleCategoryElementMap}"/>
+                        </form:select>
 
                         </br></br>
                         <label for="selectManager">Employee Manager</label>
-                        <select class="browser-default custom-select" id="selectManager">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
+                        <form:select path = "managerEmployeeEntityMap" id="selectManager" class="browser-default custom-select">
+                            <form:options items = "${managerEmployeeEntityMap}"/>
+                        </form:select>
                     </div>
 
                     <a type="button" href="<%=request.getContextPath()%>/employee" class="btn btn-dark">Cancel</a>
@@ -64,7 +59,6 @@
             </div>
         </div>
     </div>
-</div>
 
 <%@include file="footer.jsp" %>
 </html>

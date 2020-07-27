@@ -29,7 +29,8 @@ public class VacationsEntityDaoImpl implements VacationsEntityDao {
     @Override
     public List<VacationsEntity> selectAll() {
         Query query = entityManager.createQuery("select c from VacationsEntity c");
-        return (List<VacationsEntity>) query.getResultList();
+        List<VacationsEntity> VacationsEntityList = query.getResultList();
+        return VacationsEntityList;
     }
 
     @Override

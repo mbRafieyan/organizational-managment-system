@@ -32,10 +32,11 @@ public class CategoryEntityDaoImpl implements CategoryEntityDao {
 
     @Override
     public List<CategoryEntity> findByCategoryName(String name) {
+
         Query query = entityManager.createQuery("select c from CategoryEntity c where c.categoryName =:name");
         query.setParameter("name", name);
-
-        return (List<CategoryEntity>) query.getResultList();
+        List<CategoryEntity> CategoryEntityList = query.getResultList();
+        return CategoryEntityList;
     }
 
     @Override
