@@ -1,11 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="model.CategoryElementEntity" %>
-<%@ page import="java.util.List" %>
 
-<%
-    List<CategoryElementEntity> roleCategoryElementList = (List<CategoryElementEntity>) request.getSession().getAttribute("roleCategoryElementList");
-    System.out.println("roleCategoryElementList=> " + roleCategoryElementList.size());
-%>
 <html>
 <head>
     <meta charset="utf-8">

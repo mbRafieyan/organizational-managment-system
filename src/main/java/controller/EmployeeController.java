@@ -34,11 +34,11 @@ public class EmployeeController {
     @RequestMapping(value = "/addEmployee", method= RequestMethod.GET)
     public String addEmployee(Model model, HttpServletRequest request){
 
-       /* List<CategoryEntity> employeeRoleList = categoryEntityService.findByCategoryName("employeeRole");
+        List<CategoryEntity> employeeRoleList = categoryEntityService.findByCategoryName("employeeRole");
         CategoryEntity roleCategory = employeeRoleList.get(0);
         List<CategoryElementEntity> roleCategoryElementList = categoryElementEntityService.findByCategory(roleCategory);
 
-        Model roleCategoryElementList1 = model.addAllAttributes("roleCategoryElementList", roleCategoryElementList);*/
+        /*Model roleCategoryElementList1 = model.addAllAttributes("roleCategoryElementList", roleCategoryElementList);*/
 
         return "updateEmployee";
     }
