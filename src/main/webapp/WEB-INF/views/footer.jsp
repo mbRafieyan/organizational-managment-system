@@ -9,7 +9,7 @@
         <div class="col-6 col-md">
             <h5>Employee</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="<%=request.getContextPath()%>/employee">Add Employee</a></li>
+                <li><a class="text-muted" href="<%=request.getContextPath()%>/viewEmployee">Add Employee</a></li>
             </ul>
         </div>
 

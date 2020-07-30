@@ -1,4 +1,4 @@
-package dao;
+package repository;
 
 import model.EmailEntity;
 import org.springframework.stereotype.Repository;
@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 
 @Repository
 @Transactional
-public class EmailEntityDaoImpl implements EmailEntityDao {
+public class EmailEntityCRUDImpl implements IEmailEntityCRUD {
 
     @PersistenceContext
     private EntityManager entityManager;

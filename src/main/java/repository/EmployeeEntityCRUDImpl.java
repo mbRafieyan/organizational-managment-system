@@ -1,4 +1,4 @@
-package dao;
+package repository;
 
 import model.CategoryElementEntity;
 import model.EmployeeEntity;
@@ -8,19 +8,25 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Repository
 @Transactional
-public class EmployeeEntityDaoImpl implements EmployeeEntityDao {
+public class EmployeeEntityCRUDImpl implements IEmployeeEntityCRUD {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     public void insert(EmployeeEntity employeeEntity) {
+
+        employeeEntity.setActive(true);
+        employeeEntity.setVersion(1);
+        employeeEntity.setCreateDate(new Date().toString());
+
         entityManager.persist(employeeEntity);
     }
 
@@ -30,6 +36,26 @@ public class EmployeeEntityDaoImpl implements EmployeeEntityDao {
     }
 
     @Override
+    public EmployeeEntity selectById(long id) {
+        return entityManager.find(EmployeeEntity.class, id);
+    }
+
+    @Override
+    public List<EmployeeEntity> findByManager(EmployeeEntity employeeEntity) {
+        Query query = entityManager.createQuery("select e from EmployeeEntity e where e.employeeManager = :employeeManager");
+        query.setParameter("employeeManager", employeeEntity.getEmployeeManager());
+        List<EmployeeEntity> childEmployeeList = query.getResultList();
+        return childEmployeeList;
+    }
+
+    @Override
+    public void delete(EmployeeEntity employeeEntity) {
+        EmployeeEntity employee = entityManager.find(EmployeeEntity.class, employeeEntity.getId());
+        entityManager.remove(employee);
+    }
+
+
+    @Override
     public List<EmployeeEntity> selectAll() {
         Query query = entityManager.createQuery("select c from EmployeeEntity c");
         List<EmployeeEntity> EmployeeEntityList = query.getResultList();
@@ -37,19 +63,9 @@ public class EmployeeEntityDaoImpl implements EmployeeEntityDao {
     }
 
     @Override
-    public EmployeeEntity selectById(long id) {
-        return entityManager.find(EmployeeEntity.class, id);
-    }
-
-    @Override
-    public void delete(EmployeeEntity employeeEntity) {
-        entityManager.remove(employeeEntity);
-    }
-
-    @Override
     public Map<Long, String> findByEmployeeRole(CategoryElementEntity categoryElementEntity) {
 
-        Query query = entityManager.createQuery("select e from EmployeeEntity e where e.employeeRole=:categoryElementEntity");
+        Query query = entityManager.createQuery("select e from EmployeeEntity e where e.employeeRole = :categoryElementEntity");
         query.setParameter("categoryElementEntity", categoryElementEntity);
         List<EmployeeEntity> employeeEntityList = query.getResultList();
 

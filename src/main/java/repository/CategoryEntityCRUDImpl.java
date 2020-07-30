@@ -1,4 +1,4 @@
-package dao;
+package repository;
 
 import model.CategoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Repository
 @Transactional
-public class CategoryEntityDaoImpl implements CategoryEntityDao {
+public class CategoryEntityCRUDImpl implements ICategoryEntityCRUD {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -52,9 +52,9 @@ public class CategoryEntityDaoImpl implements CategoryEntityDao {
             CategoryEntity categoryEntity = new CategoryEntity();
 
             categoryEntity.setCategoryName(name);
-            categoryEntity.setVersion(1.0F);
+            categoryEntity.setVersion(1);
             categoryEntity.setActive(true);
-            categoryEntity.setCreateDate(new Date());
+            categoryEntity.setCreateDate(new Date().toString());
 
             entityManager.persist(categoryEntity);
             categoryMap.put(categoryEntity.getId(), categoryEntity);

@@ -22,8 +22,8 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @PropertySource({"classpath:database.properties"})
-@ComponentScan({"configuration", "dao", "controller", "model", "service"})
-@EnableJpaRepositories(basePackages = "dao")
+@ComponentScan({"configuration", "repository", "controller", "model", "service"})
+@EnableJpaRepositories(basePackages = "repository")
 public class JpaConfig {
 
     @Autowired

@@ -1,4 +1,4 @@
-package dao;
+package repository;
 
 import model.VacationsEntity;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class VacationsEntityDaoImpl implements VacationsEntityDao {
+public class VocationEntityCRUDImpl implements IVocationEntityCRUD {
 
     @PersistenceContext
     private EntityManager entityManager;

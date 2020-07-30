@@ -1,9 +1,9 @@
-package dao;
+package repository;
 
 
 import model.EmailEntity;
 
-public interface EmailEntityDao {
+public interface IEmailEntityCRUD {
 
     void insert(EmailEntity emailEntity);
 }

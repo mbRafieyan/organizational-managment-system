@@ -1,12 +1,11 @@
-package service;
-
+package repository;
 
 import model.CategoryEntity;
 
 import java.util.List;
 import java.util.Map;
 
-public interface CategoryEntityService {
+public interface ICategoryEntityCRUD {
 
     List<CategoryEntity> selectAllCategory();
 

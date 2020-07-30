@@ -1,48 +1,44 @@
 package model;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
-@Table(name = "VACATIONS", schema = "DOTIN")
-@PrimaryKeyJoinColumn(name = "ID")
-public class VacationsEntity extends ParentEntity{
+@Table(name = "T_VACATIONS", schema = "DOTIN")
+public class VacationsEntity extends ParentEntity {
 
     @Basic
-    @Column(name = "VACATIONSTART")
-    @Temporal(TemporalType.DATE)
-    private Date vacationStart;
+    @Column(name = "C_VACATIONSTART")
+    private String vacationStart;
 
     @Basic
-    @Column(name = "VACATIONEND")
-    @Temporal(TemporalType.DATE)
-    private Date vacationEnd;
+    @Column(name = "C_VACATIONEND")
+    private String vacationEnd;
 
     @ManyToOne
-    @JoinColumn(name = "REQUESTEDEMPLOYEEID")
+    @JoinColumn(name = "C_REQUESTEDEMPLOYEEID")
     private EmployeeEntity employee;
 
-    @ManyToOne
-    @JoinColumn(name = "VACATIONTYPE")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "C_VACATIONTYPE")
     private CategoryElementEntity vacationTypeCee;
 
-    @ManyToOne
-    @JoinColumn(name = "VACATIONSTATUS")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "C_VACATIONSTATUS")
     private CategoryElementEntity vacationStatusCee;
 
-    public Date getVacationStart() {
+    public String getVacationStart() {
         return vacationStart;
     }
 
-    public void setVacationStart(Date vacationStart) {
+    public void setVacationStart(String vacationStart) {
         this.vacationStart = vacationStart;
     }
 
-    public Date getVacationEnd() {
+    public String getVacationEnd() {
         return vacationEnd;
     }
 
-    public void setVacationEnd(Date vacationEnd) {
+    public void setVacationEnd(String vacationEnd) {
         this.vacationEnd = vacationEnd;
     }
 

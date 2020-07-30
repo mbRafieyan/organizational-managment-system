@@ -1,4 +1,4 @@
-package dao;
+package repository;
 
 import model.CategoryElementEntity;
 import model.CategoryEntity;
@@ -17,13 +17,18 @@ import java.util.Map;
 
 @Repository
 @Transactional
-public class CategoryElementEntityDaoImpl implements CategoryElementEntityDao {
+public class CategoryElementEntityCRUDImpl implements ICategoryElementEntityCRUD {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Autowired
     private Environment env;
+
+    @Override
+    public CategoryElementEntity findCategoryElementById(long id) {
+        return entityManager.find(CategoryElementEntity.class, id);
+    }
 
     @Override
     public void insertAllCategoryElement(CategoryEntity categoryEntity) {
@@ -41,8 +46,8 @@ public class CategoryElementEntityDaoImpl implements CategoryElementEntityDao {
             categoryElementEntity.setCode(categoryElementName);
             categoryElementEntity.setName(categoryElementName);
             categoryElementEntity.setActive(true);
-            categoryElementEntity.setVersion(1.0F);
-            categoryElementEntity.setCreateDate(new Date());
+            categoryElementEntity.setVersion(1);
+            categoryElementEntity.setCreateDate(new Date().toString());
 
             this.entityManager.persist(categoryElementEntity);
         }
@@ -65,7 +70,7 @@ public class CategoryElementEntityDaoImpl implements CategoryElementEntityDao {
     }
 
     @Override
-    public List<CategoryElementEntity> findByCategoryElementName(String name) {
+    public List<CategoryElementEntity> findByCategoryElementByName(String name) {
 
         Query query = entityManager.createQuery("select c from CategoryElementEntity c where c.code like :manager");
         query.setParameter("manager", "%Manager%");

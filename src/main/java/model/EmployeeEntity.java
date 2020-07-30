@@ -2,44 +2,44 @@ package model;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "EMPLOYEE", schema = "DOTIN")
-@PrimaryKeyJoinColumn(name = "ID")
-public class EmployeeEntity extends ParentEntity{
+@Table(name = "T_EMPLOYEE", schema = "DOTIN")
+public class EmployeeEntity extends ParentEntity implements Serializable {
 
     @Basic
-    @Column(name = "FIRSTNAME")
+    @Column(name = "C_FIRSTNAME")
     private String firstName;
 
     @Basic
-    @Column(name = "LASTNAME")
+    @Column(name = "C_LASTNAME")
     private String lastName;
 
     @Basic
-    @Column(name = "EMAILADDRESS")
+    @Column(name = "C_EMAILADDRESS")
     private String emailAddress;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "C_ROLEID")
+    private CategoryElementEntity employeeRole;
+
     @ManyToOne
-    @JoinColumn(name = "MANAGERID")
+    @JoinColumn(name = "C_MANAGERID")
     private EmployeeEntity employeeManager;
 
     @OneToMany(mappedBy = "employeeManager", cascade = CascadeType.ALL)
     private List<EmployeeEntity> managerEmployeesList;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinTable(name = "RECIEVER",
-            joinColumns = @JoinColumn(name = "EMPLOYEEID"),
-            inverseJoinColumns = @JoinColumn(name = "EMAILID"))
+    @JoinTable(name = "T_RECIEVER",
+            joinColumns = @JoinColumn(name = "C_EMPLOYEEID"),
+            inverseJoinColumns = @JoinColumn(name = "C_EMAILID"))
     private List<EmailEntity> recieverEmails;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<VacationsEntity> vacations;
-
-    @ManyToOne
-    @JoinColumn(name = "ROLEID")
-    private CategoryElementEntity employeeRole;
 
     @OneToMany(mappedBy = "senderEmployee", cascade = CascadeType.ALL)
     private List<EmailEntity> senderEmails;
@@ -92,11 +92,11 @@ public class EmployeeEntity extends ParentEntity{
         this.vacations = vacationsEntityList;
     }
 
-    public CategoryElementEntity getCategoryElementEntity() {
+    public CategoryElementEntity getEmployeeRole() {
         return employeeRole;
     }
 
-    public void setCategoryElementEntity(CategoryElementEntity categoryElementEntity) {
+    public void setEmployeeRole(CategoryElementEntity categoryElementEntity) {
         this.employeeRole = categoryElementEntity;
     }
 

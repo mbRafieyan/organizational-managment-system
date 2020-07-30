@@ -4,8 +4,9 @@ import model.CategoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import service.CategoryElementEntityService;
-import service.CategoryEntityService;
+import org.springframework.web.servlet.ModelAndView;
+import service.ICategoryElementEntityService;
+import service.ICategoryEntityService;
 
 import java.util.List;
 import java.util.Map;
@@ -14,23 +15,25 @@ import java.util.Map;
 public class HomeController {
 
     @Autowired
-    private CategoryEntityService categoryEntityService;
+    private ICategoryEntityService ICategoryEntityService;
 
     @Autowired
-    private CategoryElementEntityService categoryElementEntityService;
+    private ICategoryElementEntityService ICategoryElementEntityService;
 
     @RequestMapping("/")
-    public String home() {
+    public ModelAndView home() {
 
-        List<CategoryEntity> categoryEntities = categoryEntityService.selectAllCategory();
+        ModelAndView modelAndView = new ModelAndView("home");
+
+        List<CategoryEntity> categoryEntities = ICategoryEntityService.selectAllCategory();
 
         if (categoryEntities.size() == 0) {
-            Map<Long, CategoryEntity> categoryMap = categoryEntityService.insertAllCategory();
+            Map<Long, CategoryEntity> categoryMap = ICategoryEntityService.insertAllCategory();
 
             for (Map.Entry<Long, CategoryEntity> entry : categoryMap.entrySet()) {
-                categoryElementEntityService.insertAllCategoryElement(entry.getValue());
+                ICategoryElementEntityService.insertAllCategoryElement(entry.getValue());
             }
         }
-        return "home";
+        return modelAndView;
     }
 }

@@ -1,50 +1,56 @@
 package service;
 
-import dao.EmployeeEntityDao;
 import model.CategoryElementEntity;
 import model.EmployeeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import repository.IEmployeeEntityCRUD;
 
 import java.util.List;
 import java.util.Map;
 
 @Service
 @Transactional
-public class EmployeeEntityServiceImpl implements EmployeeEntityService {
+public class EmployeeEntityServiceImpl implements IEmployeeEntityService {
 
     @Autowired
-    private EmployeeEntityDao employeeEntityDao;
+    private IEmployeeEntityCRUD IEmployeeEntityCRUD;
 
     @Override
     public void addEmployeeEntity(EmployeeEntity employeeEntity) {
-        employeeEntityDao.insert(employeeEntity);
+        IEmployeeEntityCRUD.insert(employeeEntity);
     }
 
     @Override
     public void updateEmployeeEntity(EmployeeEntity employeeEntity) {
-        employeeEntityDao.update(employeeEntity);
+        IEmployeeEntityCRUD.update(employeeEntity);
     }
 
     @Override
     public List<EmployeeEntity> getEmployeeEntities() {
-        return employeeEntityDao.selectAll();
+        return IEmployeeEntityCRUD.selectAll();
     }
 
     @Override
     public EmployeeEntity getEmployeeEntityById(long id) {
-        return employeeEntityDao.selectById(id);
+        return IEmployeeEntityCRUD.selectById(id);
+    }
+
+    @Override
+    public List<EmployeeEntity> findByManager(EmployeeEntity employeeEntity) {
+        List<EmployeeEntity> childEmployeeList = IEmployeeEntityCRUD.findByManager(employeeEntity);
+        return childEmployeeList;
     }
 
     @Override
     public void deleteEmployeeEntity(EmployeeEntity employeeEntity) {
-        employeeEntityDao.delete(employeeEntity);
+        IEmployeeEntityCRUD.delete(employeeEntity);
     }
 
     @Override
     public Map<Long, String> findByEmployeeRole(CategoryElementEntity categoryElementEntity) {
-        Map<Long, String> employeeEntityList = employeeEntityDao.findByEmployeeRole(categoryElementEntity);
+        Map<Long, String> employeeEntityList = IEmployeeEntityCRUD.findByEmployeeRole(categoryElementEntity);
         return employeeEntityList;
     }
 }

@@ -1,11 +1,12 @@
-package dao;
+package service;
+
 
 import model.CategoryEntity;
 
 import java.util.List;
 import java.util.Map;
 
-public interface CategoryEntityDao {
+public interface ICategoryEntityService {
 
     List<CategoryEntity> selectAllCategory();
 

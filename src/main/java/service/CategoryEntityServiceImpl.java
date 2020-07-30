@@ -1,32 +1,32 @@
 package service;
 
-import dao.CategoryEntityDao;
 import model.CategoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import repository.ICategoryEntityCRUD;
 
 import java.util.List;
 import java.util.Map;
 
 @Service
-public class CategoryEntityServiceImpl implements CategoryEntityService {
+public class CategoryEntityServiceImpl implements ICategoryEntityService {
 
     @Autowired
-    private CategoryEntityDao categoryEntityDao;
+    private ICategoryEntityCRUD ICategoryEntityCRUD;
 
     @Override
     public List<CategoryEntity> selectAllCategory() {
-        return categoryEntityDao.selectAllCategory();
+        return ICategoryEntityCRUD.selectAllCategory();
     }
 
     @Override
     public List<CategoryEntity> findByCategoryName(String name) {
-        return categoryEntityDao.findByCategoryName(name);
+        return ICategoryEntityCRUD.findByCategoryName(name);
     }
 
     @Override
     public Map<Long, CategoryEntity> insertAllCategory() {
-        return categoryEntityDao.insertAllCategory();
+        return ICategoryEntityCRUD.insertAllCategory();
     }
 
 }

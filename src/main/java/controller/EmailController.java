@@ -1,20 +1,17 @@
 package controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import service.EmailEntityService;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class EmailController {
 
 
-
     @RequestMapping("/email")
-    public String test3(){
-        return "email";
-    }
+    public ModelAndView test3(){
 
+        ModelAndView modelAndView = new ModelAndView("email");
+        return modelAndView;
+    }
 }

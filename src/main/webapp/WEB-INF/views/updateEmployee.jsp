@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -16,7 +17,7 @@
 <%@include file="header.jsp" %>
 
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Update Employee</h1>
+    <h1 class="display-4">${subject} Employee</h1>
     <p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It's built with default Bootstrap components and utilities with little customization.</p>
 </div>
 
@@ -24,38 +25,60 @@
     <div class="card-deck mb-3">
         <div class="card mb-4 shadow-sm">
             <div class="card-header text-center">
-                <h4 class="my-0 font-weight-normal">Update Employee</h4>
+                <h4 class="my-0 font-weight-normal">${subject}  Employee</h4>
             </div>
             <div class="card-body">
-                <form method="POST" action="<%=request.getContextPath()%>/saveEmployee">
+                <c:url var="updateEmployee" value="/viewEmployee/updateEmployee" ></c:url>
+                <form:form method="POST" action="${updateEmployee}" modelAttribute="employeeEntity">
                     <div class="form-group">
 
-                        <label for="InputFirstName">First Name</label>
-                        <input type="text" name="firstName" class="form-control" id="InputFirstName" placeholder="First Name"/>
+                        <form:input type="hidden" path="id" />
 
-                        <label for="InputLastName">Last Name</label>
-                        <input type="text" name="LastName" class="form-control" id="InputLastName" placeholder="Last Name"/>
+                        <label for="inputFirstName">First Name</label>
+                        <form:input type="text" path="firstName" class="form-control" id="inputFirstName" placeholder="First Name"/>
 
-                        <label for="InputEmail">Email</label>
-                        <input type="text" name="email" class="form-control" id="InputEmail" placeholder="Email address"/>
+                        <label for="inputLastName">Last Name</label>
+                        <form:input type="text" path="lastName" class="form-control" id="inputLastName" placeholder="Last Name"/>
+
+                        <label for="inputEmail">Email</label>
+                        <form:input type="text" path="emailAddress" class="form-control" id="inputEmail" placeholder="Email address"/>
 
                         </br>
                         <label for="selectRole">Eployee Role</label>
-                        <form:select path = "roleCategoryElementMap" id="selectRole" class="browser-default custom-select">
-                            <form:options items = "${roleCategoryElementMap}"/>
-                        </form:select>
+                        <select name="emRole" id="selectRole" class="browser-default custom-select">
+                            <option value="0"><c:out value="Select Employee Role"/></option>
+                            <c:forEach var="role" items="${roleCategoryElementMap}">
+                                <c:choose>
+                                    <c:when test="${employeeEntity != null && employeeEntity.employeeRole.id == role.key}">
+                                        <option selected value="${role.key.toString()}"><c:out value="${role.value}"/></option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option  value="${role.key.toString()}"><c:out value="${role.value}"/></option>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </select>
 
                         </br></br>
                         <label for="selectManager">Employee Manager</label>
-                        <form:select path = "managerEmployeeEntityMap" id="selectManager" class="browser-default custom-select">
-                            <form:options items = "${managerEmployeeEntityMap}"/>
-                        </form:select>
+                        <select name = "emManager" id="selectManager" class="browser-default custom-select">
+                            <option value="0"><c:out value="Select Employee Managment"/></option>
+                            <c:forEach var="manager" items="${managerEmployeeEntityMap}">
+                                <c:choose>
+                                    <c:when test="${employeeEntity != null && employeeEntity.employeeManager.id == manager.key}">
+                                        <option selected value="${manager.key.toString()}"><c:out value="${manager.value}"/></option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option  value="${manager.key.toString()}"><c:out value="${manager.value}"/></option>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </select>
                     </div>
 
-                    <a type="button" href="<%=request.getContextPath()%>/employee" class="btn btn-dark">Cancel</a>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-
-                </form>
+                    <a type="button" href="<%=request.getContextPath()%>/viewEmployee" class="btn btn-dark">Cancel</a>
+                    <form:button type="submit" class="btn btn-primary">Submit</form:button>
+                </form:form>
             </div>
         </div>
     </div>

@@ -1,26 +1,27 @@
 package model;
 
 import javax.persistence.*;
+import java.sql.Blob;
 import java.util.List;
 
 @Entity
-@Table(name = "EMAIL", schema = "DOTIN")
-@PrimaryKeyJoinColumn(name = "ID")
-public class EmailEntity extends ParentEntity{
+@Table(name = "T_EMAIL", schema = "DOTIN")
+public class EmailEntity extends ParentEntity {
 
     @Basic
-    @Column(name = "SUBJECT")
+    @Column(name = "C_SUBJECT")
     private String subject;
 
     @Basic
-    @Column(name = "TEXT")
+    @Column(name = "C_TEXT")
     private String text;
 
+    @Lob
     @Basic
-    @Column(name = "ATTACHMENT")
-    private String attachment;
+    @Column(name = "C_ATTACHMENT")
+    private Blob attachment;
 
-    @JoinColumn(name = "SENDERID")
+    @JoinColumn(name = "C_SENDERID")
     @ManyToOne
     private EmployeeEntity senderEmployee;
 
@@ -43,11 +44,11 @@ public class EmailEntity extends ParentEntity{
         this.text = text;
     }
 
-    public String getAttachment() {
+    public Blob getAttachment() {
         return attachment;
     }
 
-    public void setAttachment(String attachment) {
+    public void setAttachment(Blob attachment) {
         this.attachment = attachment;
     }
 

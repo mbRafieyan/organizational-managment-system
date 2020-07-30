@@ -1,20 +1,20 @@
 package service;
 
-import dao.EmailEntityDao;
 import model.EmailEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import repository.IEmailEntityCRUD;
 
 @Service
-public class EmailEntityServiceImpl implements EmailEntityService {
+public class EmailEntityServiceImpl implements IEmailEntityService {
 
     @Autowired
-    private EmailEntityDao emailEntityDao;
+    private IEmailEntityCRUD IEmailEntityCRUD;
 
     @Override
     @Transactional
     public void addEmailEntity(EmailEntity emailEntity) {
-        emailEntityDao.insert(emailEntity);
+        IEmailEntityCRUD.insert(emailEntity);
     }
 }

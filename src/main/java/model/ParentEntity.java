@@ -1,40 +1,37 @@
 package model;
 
 import javax.persistence.*;
-import java.util.Date;
 
-@Entity
-@Table(name = "PARENT", schema = "DOTIN")
-@Inheritance(strategy = InheritanceType.JOINED)
+@MappedSuperclass
 public class ParentEntity {
 
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
     @SequenceGenerator(name = "sequence", sequenceName = "oracleSequence")
-    private Long id;
+    private long id;
 
     @Basic
-    @Column(name = "ACTIVE")
+    @Column(name = "C_ACTIVE")
     private Boolean active;
 
     @Basic
-    @Column(name = "VERSION")
-    private Float version;
+    @Column(name = "C_VERSION")
+    private int version;
 
     @Basic
-    @Column(name = "CREATEDATE")
-    private Date createDate;
+    @Column(name = "C_CREATEDATE")
+    private String createDate;
 
     @Basic
-    @Column(name = "MODIFIEDDATE")
-    private Date modifiedDate;
+    @Column(name = "C_MODIFIEDDATE")
+    private String modifiedDate;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -46,27 +43,27 @@ public class ParentEntity {
         this.active = active;
     }
 
-    public Float getVersion() {
+    public int getVersion() {
         return version;
     }
 
-    public void setVersion(Float version) {
+    public void setVersion(int version) {
         this.version = version;
     }
 
-    public Date getCreateDate() {
+    public String getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 
-    public Date getModifiedDate() {
+    public String getModifiedDate() {
         return modifiedDate;
     }
 
-    public void setModifiedDate(Date modifiedDate) {
+    public void setModifiedDate(String modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 
