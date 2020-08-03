@@ -70,10 +70,10 @@ public class CategoryElementEntityCRUDImpl implements ICategoryElementEntityCRUD
     }
 
     @Override
-    public List<CategoryElementEntity> findByCategoryElementByName(String name) {
+    public List<CategoryElementEntity> findCategoryElementByName(String name) {
 
-        Query query = entityManager.createQuery("select c from CategoryElementEntity c where c.code like :manager");
-        query.setParameter("manager", "%Manager%");
+        Query query = entityManager.createQuery("select c from CategoryElementEntity c where c.code like :name");
+        query.setParameter("name", name);
         List<CategoryElementEntity> CategoryElementEntityList = query.getResultList();
         return CategoryElementEntityList;
     }

@@ -32,8 +32,8 @@ public class CategoryElementEntityServiceImpl implements ICategoryElementEntityS
     }
 
     @Override
-    public List<CategoryElementEntity> findByCategoryElementEntityByName(String name) {
-        List<CategoryElementEntity> categoryElementEntityList = ICategoryElementEntityCRUD.findByCategoryElementByName(name);
+    public List<CategoryElementEntity> findCategoryElementEntityByName(String name) {
+        List<CategoryElementEntity> categoryElementEntityList = ICategoryElementEntityCRUD.findCategoryElementByName(name);
         return categoryElementEntityList;
     }
 }

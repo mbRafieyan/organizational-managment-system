@@ -23,7 +23,7 @@
         <div class="col-6 col-md">
             <h5>Vacations</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="<%=request.getContextPath()%>/vacations">Request Vacation</a></li>
+                <li><a class="text-muted" href="<%=request.getContextPath()%>/viewVacation">Request Vacation</a></li>
             </ul>
         </div>
 
@@ -33,10 +33,6 @@
 
 
 <script src="<%=request.getContextPath()%>/resources/js/jquery-1.11.1.min.js"></script>
-
-<script src="<%=request.getContextPath()%>/resources/js/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
 <script src="<%=request.getContextPath()%>/resources/js/popper.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/holder.min.js"></script>

@@ -14,7 +14,7 @@ public class VacationsEntity extends ParentEntity {
     @Column(name = "C_VACATIONEND")
     private String vacationEnd;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "C_REQUESTEDEMPLOYEEID")
     private EmployeeEntity employee;
 

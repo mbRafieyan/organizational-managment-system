@@ -15,5 +15,5 @@ public interface ICategoryElementEntityService {
 
     Map<Long, String> findByCategory(CategoryEntity categoryEntity);
 
-    List<CategoryElementEntity> findByCategoryElementEntityByName(String name);
+    List<CategoryElementEntity> findCategoryElementEntityByName(String name);
 }

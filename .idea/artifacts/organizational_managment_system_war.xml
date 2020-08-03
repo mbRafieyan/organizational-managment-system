@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="organizational-managment-system:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>organizational-managment-system</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="OrganizationalManagmentSystem.war">
+      <element id="artifact" artifact-name="organizational-managment-system:war exploded" />
+    </root>
+  </artifact>
+</component>

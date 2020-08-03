@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.dotin</groupId>
-  <artifactId>organizational-managment-sestem</artifactId>
+  <artifactId>organizational-managment-system</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
-  <name>organizational-managment-sestem Maven Webapp</name>
+  <name>organizational-managment-system Maven Webapp</name>
 
   <properties>
     <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -144,6 +144,12 @@
               <warSourceDirectory>src/main/webapp</warSourceDirectory>
               <warName>OrganizationalManagmentSystem</warName>
               <failOnMissingWebXml>false</failOnMissingWebXml>
+              <nonFilteredFileExtensions>
+                <nonFilteredFileExtension>eot</nonFilteredFileExtension>
+                <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                <nonFilteredFileExtension>svg</nonFilteredFileExtension>
+                <nonFilteredFileExtension>woff</nonFilteredFileExtension>
+              </nonFilteredFileExtensions>
             </configuration>
           </plugin>
         </plugins>

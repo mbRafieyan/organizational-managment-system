@@ -4,7 +4,7 @@
         <a class="p-2 text-dark" href="<%=request.getContextPath()%>/">Home</a>
         <a class="p-2 text-dark" href="<%=request.getContextPath()%>/viewEmployee">Employee</a>
         <a class="p-2 text-dark" href="<%=request.getContextPath()%>/email">Email</a>
-        <a class="p-2 text-dark" href="<%=request.getContextPath()%>/vacations">Vacation</a>
+        <a class="p-2 text-dark" href="<%=request.getContextPath()%>/viewVacation">Vacation</a>
     </nav>
     <a class="btn btn-outline-primary" href="#">Sign up</a>
 </div>

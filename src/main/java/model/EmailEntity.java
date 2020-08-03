@@ -21,12 +21,15 @@ public class EmailEntity extends ParentEntity {
     @Column(name = "C_ATTACHMENT")
     private Blob attachment;
 
-    @JoinColumn(name = "C_SENDERID")
-    @ManyToOne
-    private EmployeeEntity senderEmployee;
-
-    @ManyToMany(mappedBy = "recieverEmails", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(name = "T_RECIEVER",
+            joinColumns = @JoinColumn(name = "C_EMPLOYEEID"),
+            inverseJoinColumns = @JoinColumn(name = "C_EMAILID"))
     private List<EmployeeEntity> recievers;
+
+    @ManyToOne
+    @JoinColumn(name = "C_SENDERID")
+    private EmployeeEntity senderEmployee;
 
     public String getSubject() {
         return subject;

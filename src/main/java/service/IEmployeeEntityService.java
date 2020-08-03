@@ -10,7 +10,7 @@ public interface IEmployeeEntityService {
 
     void addEmployeeEntity(EmployeeEntity employeeEntity);
 
-    void updateEmployeeEntity(EmployeeEntity employeeEntity);
+    void updateEmployeeEntity(EmployeeEntity employeeEntity, EmployeeEntity oldEmployeeEntity);
 
     void deleteEmployeeEntity(EmployeeEntity employeeEntity);
 

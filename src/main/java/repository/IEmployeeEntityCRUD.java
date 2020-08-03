@@ -10,7 +10,7 @@ public interface IEmployeeEntityCRUD {
 
     void insert(EmployeeEntity employeeEntity);
 
-    void update(EmployeeEntity employeeEntity);
+    void update(EmployeeEntity employeeEntity, EmployeeEntity oldEmployeeEntity);
 
     void delete(EmployeeEntity employeeEntity);
 

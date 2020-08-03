@@ -23,8 +23,8 @@ public class EmployeeEntityServiceImpl implements IEmployeeEntityService {
     }
 
     @Override
-    public void updateEmployeeEntity(EmployeeEntity employeeEntity) {
-        IEmployeeEntityCRUD.update(employeeEntity);
+    public void updateEmployeeEntity(EmployeeEntity employeeEntity, EmployeeEntity oldEmployeeEntity) {
+        IEmployeeEntityCRUD.update(employeeEntity, oldEmployeeEntity);
     }
 
     @Override

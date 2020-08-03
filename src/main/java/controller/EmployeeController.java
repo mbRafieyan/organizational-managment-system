@@ -25,10 +25,10 @@ import java.util.Map;
 public class EmployeeController {
 
     @Autowired
-    private IEmployeeEntityService IEmployeeEntityService;
+    private IEmployeeEntityService iEmployeeEntityService;
 
     @Autowired
-    private ICategoryEntityService ICategoryEntityService;
+    private ICategoryEntityService iCategoryEntityService;
 
     @Autowired
     private ICategoryElementEntityService ICategoryElementEntityService;
@@ -56,9 +56,9 @@ public class EmployeeController {
         if (page == null) {
 
             employeeEntities = new PagedListHolder<EmployeeEntity>();
-            List<EmployeeEntity> employeeEntityList = IEmployeeEntityService.getEmployeeEntities();
+            List<EmployeeEntity> employeeEntityList = iEmployeeEntityService.getEmployeeEntities();
             employeeEntities.setSource(employeeEntityList);
-            employeeEntities.setPageSize(3);
+            employeeEntities.setPageSize(2);
 
             request.getSession().setAttribute("employeeEntityList", employeeEntities);
 
@@ -93,22 +93,24 @@ public class EmployeeController {
             CategoryElementEntity categoryElementEntityRole = ICategoryElementEntityService.findCategoryElementById(employeeRole);
             employeeEntity.setEmployeeRole(categoryElementEntityRole);
         }
+
         if (employeeManager > 0) {
-            EmployeeEntity employeeEntityManager = IEmployeeEntityService.getEmployeeEntityById(employeeManager);
+            EmployeeEntity employeeEntityManager = iEmployeeEntityService.getEmployeeEntityById(employeeManager);
             employeeEntity.setEmployeeManager(employeeEntityManager);
         }
+
         if (employeeEntity.getId() == 0) {
 
-            IEmployeeEntityService.addEmployeeEntity(employeeEntity);
+            iEmployeeEntityService.addEmployeeEntity(employeeEntity);
             modelAndView.addObject("subject", "Add");
             modelAndView.addObject("successMassage", "The Record Was Successfully Added");
 
         } else {
 
-            IEmployeeEntityService.updateEmployeeEntity(employeeEntity);
+            EmployeeEntity oldEmployeeEntity = iEmployeeEntityService.getEmployeeEntityById(employeeEntity.getId());
+            iEmployeeEntityService.updateEmployeeEntity(employeeEntity, oldEmployeeEntity);
             modelAndView.addObject("subject", "Update");
             modelAndView.addObject("successMassage", "The Record Was Successfully Updated");
-
         }
 
         modelAndView.addObject(employeeEntity);
@@ -118,7 +120,7 @@ public class EmployeeController {
     @RequestMapping(value = {"/updateEmployee/{employeeId}"}, method = RequestMethod.GET)
     public ModelAndView viewUpdateEmployee(@PathVariable(name = "employeeId") String employeeId) {
 
-        EmployeeEntity employeeEntity = IEmployeeEntityService.getEmployeeEntityById(Long.parseLong(employeeId));
+        EmployeeEntity employeeEntity = iEmployeeEntityService.getEmployeeEntityById(Long.parseLong(employeeId));
         ModelAndView modelAndView = getModelAndView("updateEmployee");
         modelAndView.addObject(employeeEntity);
         modelAndView.addObject("subject", "Update");
@@ -131,11 +133,11 @@ public class EmployeeController {
 
         ModelAndView modelAndView = new ModelAndView("employee");
 
-        EmployeeEntity employeeEntity = IEmployeeEntityService.getEmployeeEntityById(Long.parseLong(employeeId));
-        List<EmployeeEntity> childEmployeeEntityList = IEmployeeEntityService.findByManager(employeeEntity);
+        EmployeeEntity employeeEntity = iEmployeeEntityService.getEmployeeEntityById(Long.parseLong(employeeId));
+        List<EmployeeEntity> childEmployeeEntityList = iEmployeeEntityService.findByManager(employeeEntity);
 
         if (childEmployeeEntityList.size() == 0) {
-            IEmployeeEntityService.deleteEmployeeEntity(employeeEntity);
+            iEmployeeEntityService.deleteEmployeeEntity(employeeEntity);
         } else {
 
             modelAndView.addObject("warningDelete", "The Record Has a Child");
@@ -148,17 +150,17 @@ public class EmployeeController {
 
         ModelAndView modelAndView = new ModelAndView(viewName);
 
-        List<CategoryEntity> employeeRoleList = ICategoryEntityService.findByCategoryName("employeeRole");
+        List<CategoryEntity> employeeRoleList = iCategoryEntityService.findByCategoryName("employeeRole");
         CategoryEntity roleCategory = employeeRoleList.get(0);
         Map<Long, String> roleCategoryElementMap = ICategoryElementEntityService.findByCategory(roleCategory);
 
-        List<CategoryElementEntity> managerCategoryElementList = ICategoryElementEntityService.findByCategoryElementEntityByName("Manager");
+        List<CategoryElementEntity> managerCategoryElementList = ICategoryElementEntityService.findCategoryElementEntityByName("Manager");
 
         Map<Long, String> managerEmployeeEntityMap = new HashMap<>();
 
         for (CategoryElementEntity ce : managerCategoryElementList) {
 
-            Map<Long, String> employeeEntityMap = IEmployeeEntityService.findByEmployeeRole(ce);
+            Map<Long, String> employeeEntityMap = iEmployeeEntityService.findByEmployeeRole(ce);
 
             for (Map.Entry<Long, String> entry : employeeEntityMap.entrySet()) {
                 managerEmployeeEntityMap.put(entry.getKey(), entry.getValue());

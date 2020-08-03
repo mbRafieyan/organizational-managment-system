@@ -32,17 +32,17 @@ public class EmployeeEntity extends ParentEntity implements Serializable {
     @OneToMany(mappedBy = "employeeManager", cascade = CascadeType.ALL)
     private List<EmployeeEntity> managerEmployeesList;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    /*@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "T_RECIEVER",
             joinColumns = @JoinColumn(name = "C_EMPLOYEEID"),
             inverseJoinColumns = @JoinColumn(name = "C_EMAILID"))
     private List<EmailEntity> recieverEmails;
 
+    @OneToMany(mappedBy = "senderEmployee", cascade = CascadeType.ALL)
+    private List<EmailEntity> senderEmails;*/
+
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<VacationsEntity> vacations;
-
-    @OneToMany(mappedBy = "senderEmployee", cascade = CascadeType.ALL)
-    private List<EmailEntity> senderEmails;
 
     public String getFirstName() {
         return firstName;
@@ -76,13 +76,13 @@ public class EmployeeEntity extends ParentEntity implements Serializable {
         this.employeeManager = employeeManager;
     }
 
-    public List<EmailEntity> getEmailEntityList() {
+    /*public List<EmailEntity> getEmailEntityList() {
         return senderEmails;
     }
 
     public void setEmailEntityList(List<EmailEntity> emailEntityList) {
         this.senderEmails = emailEntityList;
-    }
+    }*/
 
     public List<VacationsEntity> getVacationsEntityList() {
         return vacations;
@@ -100,13 +100,13 @@ public class EmployeeEntity extends ParentEntity implements Serializable {
         this.employeeRole = categoryElementEntity;
     }
 
-    public List<EmailEntity> getRecieverEmails() {
+    /*public List<EmailEntity> getRecieverEmails() {
         return recieverEmails;
     }
 
     public void setRecieverEmails(List<EmailEntity> recieverEmails) {
         this.recieverEmails = recieverEmails;
-    }
+    }*/
 
     public List<EmployeeEntity> getManagerEmployeesList() {
         return managerEmployeesList;

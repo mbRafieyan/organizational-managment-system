@@ -36,3 +36,12 @@ html {
 .card-deck .card {
     min-width: 220px;
 }
+
+label.col-md-2.control-label, label.form-check-label.col-md-8{
+    text-align: inherit;
+    padding-top: 0;
+    font-weight: normal;
+}
+
+
+

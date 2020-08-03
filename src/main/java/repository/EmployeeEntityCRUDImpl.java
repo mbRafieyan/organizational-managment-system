@@ -31,7 +31,12 @@ public class EmployeeEntityCRUDImpl implements IEmployeeEntityCRUD {
     }
 
     @Override
-    public void update(EmployeeEntity employeeEntity) {
+    public void update(EmployeeEntity employeeEntity, EmployeeEntity oldEmployeeEntity) {
+
+        employeeEntity.setCreateDate(oldEmployeeEntity.getCreateDate());
+        employeeEntity.setModifiedDate(new Date().toString());
+        employeeEntity.setActive(oldEmployeeEntity.getActive());
+        employeeEntity.setVersion(oldEmployeeEntity.getVersion()+1);
         entityManager.merge(employeeEntity);
     }
 
@@ -51,13 +56,16 @@ public class EmployeeEntityCRUDImpl implements IEmployeeEntityCRUD {
     @Override
     public void delete(EmployeeEntity employeeEntity) {
         EmployeeEntity employee = entityManager.find(EmployeeEntity.class, employeeEntity.getId());
-        entityManager.remove(employee);
+        employee.setActive(false);
+        employee.setModifiedDate(new Date().toString());
+        employee.setVersion(employeeEntity.getVersion()+1);
+        entityManager.merge(employee);
     }
 
 
     @Override
     public List<EmployeeEntity> selectAll() {
-        Query query = entityManager.createQuery("select c from EmployeeEntity c");
+        Query query = entityManager.createQuery("select c from EmployeeEntity c where c.active = true");
         List<EmployeeEntity> EmployeeEntityList = query.getResultList();
         return EmployeeEntityList;
     }
