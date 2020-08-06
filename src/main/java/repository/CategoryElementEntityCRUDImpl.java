@@ -64,7 +64,9 @@ public class CategoryElementEntityCRUDImpl implements ICategoryElementEntityCRUD
         Map<Long, String> categoryElementEntityMap = new HashMap<>();
 
         for (CategoryElementEntity ce : categoryElementEntityList) {
-            categoryElementEntityMap.put(ce.getId(), ce.getName());
+            if(!ce.getName().equals("administrator")){
+                categoryElementEntityMap.put(ce.getId(), ce.getName());
+            }
         }
         return categoryElementEntityMap;
     }
@@ -73,7 +75,7 @@ public class CategoryElementEntityCRUDImpl implements ICategoryElementEntityCRUD
     public List<CategoryElementEntity> findCategoryElementByName(String name) {
 
         Query query = entityManager.createQuery("select c from CategoryElementEntity c where c.code like :name");
-        query.setParameter("name", name);
+        query.setParameter("name", "%"+ name +"%");
         List<CategoryElementEntity> CategoryElementEntityList = query.getResultList();
         return CategoryElementEntityList;
     }

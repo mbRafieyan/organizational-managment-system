@@ -31,7 +31,7 @@ public class EmployeeController {
     private ICategoryEntityService iCategoryEntityService;
 
     @Autowired
-    private ICategoryElementEntityService ICategoryElementEntityService;
+    private ICategoryElementEntityService iCategoryElementEntityService;
 
     @RequestMapping(value = {"/viewAddEmployee"}, method = RequestMethod.GET)
     public ModelAndView viewAddEmployee() {
@@ -52,7 +52,6 @@ public class EmployeeController {
         modelAndView.addObject("subject", "Add");
 
         PagedListHolder<EmployeeEntity> employeeEntities;
-
         if (page == null) {
 
             employeeEntities = new PagedListHolder<EmployeeEntity>();
@@ -90,7 +89,7 @@ public class EmployeeController {
         long employeeManager = Long.parseLong(request.getParameter("emManager"));
 
         if (employeeRole > 0) {
-            CategoryElementEntity categoryElementEntityRole = ICategoryElementEntityService.findCategoryElementById(employeeRole);
+            CategoryElementEntity categoryElementEntityRole = iCategoryElementEntityService.findCategoryElementById(employeeRole);
             employeeEntity.setEmployeeRole(categoryElementEntityRole);
         }
 
@@ -139,7 +138,6 @@ public class EmployeeController {
         if (childEmployeeEntityList.size() == 0) {
             iEmployeeEntityService.deleteEmployeeEntity(employeeEntity);
         } else {
-
             modelAndView.addObject("warningDelete", "The Record Has a Child");
         }
 
@@ -150,11 +148,11 @@ public class EmployeeController {
 
         ModelAndView modelAndView = new ModelAndView(viewName);
 
-        List<CategoryEntity> employeeRoleList = iCategoryEntityService.findByCategoryName("employeeRole");
-        CategoryEntity roleCategory = employeeRoleList.get(0);
-        Map<Long, String> roleCategoryElementMap = ICategoryElementEntityService.findByCategory(roleCategory);
+        List<CategoryEntity> roleCategoryList = iCategoryEntityService.findByCategoryName("employeeRole");
+        CategoryEntity roleCategory = roleCategoryList.get(0);
+        Map<Long, String> roleCategoryElementMap = iCategoryElementEntityService.findByCategory(roleCategory);
 
-        List<CategoryElementEntity> managerCategoryElementList = ICategoryElementEntityService.findCategoryElementEntityByName("Manager");
+        List<CategoryElementEntity> managerCategoryElementList = iCategoryElementEntityService.findCategoryElementEntityByName("Manager");
 
         Map<Long, String> managerEmployeeEntityMap = new HashMap<>();
 

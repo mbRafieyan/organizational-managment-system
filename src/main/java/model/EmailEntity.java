@@ -1,12 +1,14 @@
 package model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "T_EMAIL", schema = "DOTIN")
-public class EmailEntity extends ParentEntity {
+public class EmailEntity extends ParentEntity implements Serializable {
 
     @Basic
     @Column(name = "C_SUBJECT")
@@ -21,10 +23,10 @@ public class EmailEntity extends ParentEntity {
     @Column(name = "C_ATTACHMENT")
     private Blob attachment;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "T_RECIEVER",
-            joinColumns = @JoinColumn(name = "C_EMPLOYEEID"),
-            inverseJoinColumns = @JoinColumn(name = "C_EMAILID"))
+            joinColumns = {@JoinColumn(name = "C_EMAILID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "C_EMPLOYEEID", referencedColumnName = "ID")})
     private List<EmployeeEntity> recievers;
 
     @ManyToOne
@@ -55,12 +57,12 @@ public class EmailEntity extends ParentEntity {
         this.attachment = attachment;
     }
 
-    public EmployeeEntity getEmployeeEntity() {
+    public EmployeeEntity getSenderEmployee() {
         return senderEmployee;
     }
 
-    public void setEmployeeEntity(EmployeeEntity employeeEntity) {
-        this.senderEmployee = employeeEntity;
+    public void setSenderEmployee(EmployeeEntity senderEmployee) {
+        this.senderEmployee = senderEmployee;
     }
 
     public List<EmployeeEntity> getRecievers() {

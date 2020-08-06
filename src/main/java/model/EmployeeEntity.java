@@ -32,15 +32,6 @@ public class EmployeeEntity extends ParentEntity implements Serializable {
     @OneToMany(mappedBy = "employeeManager", cascade = CascadeType.ALL)
     private List<EmployeeEntity> managerEmployeesList;
 
-    /*@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinTable(name = "T_RECIEVER",
-            joinColumns = @JoinColumn(name = "C_EMPLOYEEID"),
-            inverseJoinColumns = @JoinColumn(name = "C_EMAILID"))
-    private List<EmailEntity> recieverEmails;
-
-    @OneToMany(mappedBy = "senderEmployee", cascade = CascadeType.ALL)
-    private List<EmailEntity> senderEmails;*/
-
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<VacationsEntity> vacations;
 
@@ -76,14 +67,6 @@ public class EmployeeEntity extends ParentEntity implements Serializable {
         this.employeeManager = employeeManager;
     }
 
-    /*public List<EmailEntity> getEmailEntityList() {
-        return senderEmails;
-    }
-
-    public void setEmailEntityList(List<EmailEntity> emailEntityList) {
-        this.senderEmails = emailEntityList;
-    }*/
-
     public List<VacationsEntity> getVacationsEntityList() {
         return vacations;
     }
@@ -99,14 +82,6 @@ public class EmployeeEntity extends ParentEntity implements Serializable {
     public void setEmployeeRole(CategoryElementEntity categoryElementEntity) {
         this.employeeRole = categoryElementEntity;
     }
-
-    /*public List<EmailEntity> getRecieverEmails() {
-        return recieverEmails;
-    }
-
-    public void setRecieverEmails(List<EmailEntity> recieverEmails) {
-        this.recieverEmails = recieverEmails;
-    }*/
 
     public List<EmployeeEntity> getManagerEmployeesList() {
         return managerEmployeesList;

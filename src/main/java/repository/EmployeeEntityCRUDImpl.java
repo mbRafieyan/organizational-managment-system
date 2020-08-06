@@ -2,6 +2,7 @@ package repository;
 
 import model.CategoryElementEntity;
 import model.EmployeeEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,9 +47,23 @@ public class EmployeeEntityCRUDImpl implements IEmployeeEntityCRUD {
     }
 
     @Override
+    public void insertAdminEmployee(EmployeeEntity employeeEntity, CategoryElementEntity categoryElementEntity) {
+
+        employeeEntity.setFirstName("admin");
+        employeeEntity.setLastName("admin");
+        employeeEntity.setCreateDate(new Date().toString());
+        employeeEntity.setEmailAddress("admin@dotin.com");
+        employeeEntity.setVersion(1);
+        employeeEntity.setActive(true);
+        employeeEntity.setEmployeeRole(categoryElementEntity);
+
+        entityManager.persist(employeeEntity);
+    }
+
+    @Override
     public List<EmployeeEntity> findByManager(EmployeeEntity employeeEntity) {
-        Query query = entityManager.createQuery("select e from EmployeeEntity e where e.employeeManager = :employeeManager");
-        query.setParameter("employeeManager", employeeEntity.getEmployeeManager());
+        Query query = entityManager.createQuery("select e from EmployeeEntity e where e.employeeManager = :employeeManager and e.active = true");
+        query.setParameter("employeeManager", employeeEntity);
         List<EmployeeEntity> childEmployeeList = query.getResultList();
         return childEmployeeList;
     }
@@ -65,7 +80,8 @@ public class EmployeeEntityCRUDImpl implements IEmployeeEntityCRUD {
 
     @Override
     public List<EmployeeEntity> selectAll() {
-        Query query = entityManager.createQuery("select c from EmployeeEntity c where c.active = true");
+        Query query = entityManager.createQuery("select c from EmployeeEntity c where c.active = true and c.lastName <> :name");
+        query.setParameter("name","admin");
         List<EmployeeEntity> EmployeeEntityList = query.getResultList();
         return EmployeeEntityList;
     }
@@ -73,7 +89,7 @@ public class EmployeeEntityCRUDImpl implements IEmployeeEntityCRUD {
     @Override
     public Map<Long, String> findByEmployeeRole(CategoryElementEntity categoryElementEntity) {
 
-        Query query = entityManager.createQuery("select e from EmployeeEntity e where e.employeeRole = :categoryElementEntity");
+        Query query = entityManager.createQuery("select e from EmployeeEntity e where e.employeeRole = :categoryElementEntity and e.active = true");
         query.setParameter("categoryElementEntity", categoryElementEntity);
         List<EmployeeEntity> employeeEntityList = query.getResultList();
 
@@ -85,5 +101,19 @@ public class EmployeeEntityCRUDImpl implements IEmployeeEntityCRUD {
         }
 
         return employeeEntityMap;
+    }
+
+    @Override
+    public List<EmployeeEntity> findByEmployeeName(String name) {
+        Query query = entityManager.createQuery("select e from EmployeeEntity e where e.firstName = :name").setParameter("name", name);
+        List<EmployeeEntity> employeeEntityList = query.getResultList();
+        return employeeEntityList;
+    }
+
+    @Override
+    public List<EmployeeEntity> findEmployeeForSelect2(String name) {
+        Query query = entityManager.createQuery("select e from EmployeeEntity e where (e.firstName like :name or e.lastName like :name) and e.active = true");
+        query.setParameter("name", "%" + name +"%");
+        return query.getResultList();
     }
 }

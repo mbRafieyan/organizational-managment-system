@@ -7,8 +7,7 @@ public class ParentEntity {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", sequenceName = "oracleSequence")
+    @GeneratedValue
     private long id;
 
     @Basic

@@ -18,7 +18,14 @@ public interface IEmployeeEntityService {
 
     EmployeeEntity getEmployeeEntityById(long id);
 
+    void insertAdminEmployee(EmployeeEntity employeeEntity, CategoryElementEntity categoryElementEntity);
+
+    List<EmployeeEntity>  findByEmployeeName(String name);
+
     List<EmployeeEntity>  findByManager(EmployeeEntity employeeEntity);
 
     Map<Long, String> findByEmployeeRole(CategoryElementEntity categoryElementEntity);
+
+    List<EmployeeEntity> findEmployeeForSelect2(String name);
+
 }

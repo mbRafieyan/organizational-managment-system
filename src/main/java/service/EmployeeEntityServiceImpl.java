@@ -15,42 +15,57 @@ import java.util.Map;
 public class EmployeeEntityServiceImpl implements IEmployeeEntityService {
 
     @Autowired
-    private IEmployeeEntityCRUD IEmployeeEntityCRUD;
+    private IEmployeeEntityCRUD iEmployeeEntityCRUD;
 
     @Override
     public void addEmployeeEntity(EmployeeEntity employeeEntity) {
-        IEmployeeEntityCRUD.insert(employeeEntity);
+        iEmployeeEntityCRUD.insert(employeeEntity);
     }
 
     @Override
     public void updateEmployeeEntity(EmployeeEntity employeeEntity, EmployeeEntity oldEmployeeEntity) {
-        IEmployeeEntityCRUD.update(employeeEntity, oldEmployeeEntity);
+        iEmployeeEntityCRUD.update(employeeEntity, oldEmployeeEntity);
     }
 
     @Override
     public List<EmployeeEntity> getEmployeeEntities() {
-        return IEmployeeEntityCRUD.selectAll();
+        return iEmployeeEntityCRUD.selectAll();
     }
 
     @Override
     public EmployeeEntity getEmployeeEntityById(long id) {
-        return IEmployeeEntityCRUD.selectById(id);
+        return iEmployeeEntityCRUD.selectById(id);
+    }
+
+    @Override
+    public void insertAdminEmployee(EmployeeEntity employeeEntity, CategoryElementEntity categoryElementEntity) {
+        iEmployeeEntityCRUD.insertAdminEmployee(employeeEntity, categoryElementEntity);
+    }
+
+    @Override
+    public List<EmployeeEntity> findByEmployeeName(String name) {
+        return iEmployeeEntityCRUD.findByEmployeeName(name);
     }
 
     @Override
     public List<EmployeeEntity> findByManager(EmployeeEntity employeeEntity) {
-        List<EmployeeEntity> childEmployeeList = IEmployeeEntityCRUD.findByManager(employeeEntity);
+        List<EmployeeEntity> childEmployeeList = iEmployeeEntityCRUD.findByManager(employeeEntity);
         return childEmployeeList;
     }
 
     @Override
     public void deleteEmployeeEntity(EmployeeEntity employeeEntity) {
-        IEmployeeEntityCRUD.delete(employeeEntity);
+        iEmployeeEntityCRUD.delete(employeeEntity);
     }
 
     @Override
     public Map<Long, String> findByEmployeeRole(CategoryElementEntity categoryElementEntity) {
-        Map<Long, String> employeeEntityList = IEmployeeEntityCRUD.findByEmployeeRole(categoryElementEntity);
+        Map<Long, String> employeeEntityList = iEmployeeEntityCRUD.findByEmployeeRole(categoryElementEntity);
         return employeeEntityList;
+    }
+
+    @Override
+    public List<EmployeeEntity> findEmployeeForSelect2(String name) {
+        return iEmployeeEntityCRUD.findEmployeeForSelect2(name);
     }
 }

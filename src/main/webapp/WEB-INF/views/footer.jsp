@@ -16,7 +16,7 @@
         <div class="col-6 col-md">
             <h5>Email</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="<%=request.getContextPath()%>/email">Send Email</a></li>
+                <li><a class="text-muted" href="<%=request.getContextPath()%>/email/viewEmail">Send Email</a></li>
             </ul>
         </div>
 
@@ -36,6 +36,7 @@
 <script src="<%=request.getContextPath()%>/resources/js/popper.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/holder.min.js"></script>
+
 <script>
     Holder.addTheme('thumb', {
         bg: '#55595c',
