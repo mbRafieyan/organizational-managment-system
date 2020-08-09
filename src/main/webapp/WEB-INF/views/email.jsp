@@ -1,5 +1,8 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%
+    String employeeId = request.getParameter("employeeid");
+%>
 <html>
     <head>
         <meta charset="utf-8">
@@ -36,8 +39,11 @@
                         <h4 class="my-0 font-weight-normal">Sent</h4>
                     </div>
                     <div class="card-body">
-                        <a href="<%=request.getContextPath()%>/email/sentEmail"
-                           class="btn btn-lg btn-block btn-outline-primary">Sent Emails</a>
+                        <c:url value="/email/" var="sentEmailUrl">
+                            <c:param name="employeeId" value='${employeeId ? employeeId : "0"}'/>
+                            <c:param name="mailBoxName" value="sent"/>
+                        </c:url>
+                        <a href="${sentEmailUrl}" class="btn btn-lg btn-block btn-outline-primary">Sent Emails</a>
                     </div>
                 </div>
             </div>
@@ -47,8 +53,11 @@
                         <h4 class="my-0 font-weight-normal">Inbox</h4>
                     </div>
                     <div class="card-body">
-                        <a href="<%=request.getContextPath()%>/email/inboxEmail"
-                           class="btn btn-lg btn-block btn-outline-primary">Inbox Emails</a>
+                        <c:url value="/email/" var="inboxEmailUrl">
+                            <c:param name="employeeId" value='${employeeId ? employeeId : "0"}'/>
+                            <c:param name="mailBoxName" value="inbox"/>
+                        </c:url>
+                        <a href="${inboxEmailUrl}" class="btn btn-lg btn-block btn-outline-primary">Inbox Emails</a>
                     </div>
                 </div>
             </div>

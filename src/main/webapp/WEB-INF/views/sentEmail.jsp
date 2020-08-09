@@ -16,7 +16,7 @@
 <%@include file="header.jsp" %>
 
 <c:if test="${successMassage != null}">
-<div class="alert alert-success text-center" role="alert">${successMassage}</div>
+    <div class="alert alert-success text-center" role="alert">${successMassage}</div>
 </c:if>
 
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
@@ -33,14 +33,14 @@
                 <h4 class="my-0 font-weight-normal">Sent Emails</h4>
             </div>
 
-            <c:set value="${sentEmails}" var="emailPageList"/>
+            <c:set value="${emailEntities}" var="emailPageList"/>
             <table class="table table-hover" align="center">
 
                 <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">distination</th>
                     <th scope="col">subject</th>
-                    <th scope="col">attachment</th>
                     <th scope="col">action</th>
                 </tr>
                 </thead>
@@ -48,10 +48,14 @@
                 <c:forEach items="${emailPageList.pageList}" var="emailEntity" begin="0" step="1"
                            varStatus="rowNumber">
                     <tr>
-                        <td>${rowNumber.index+1}</td>
-                        <td>${emailEntity.subject}</td>
-                        <td>${emailEntity.attachment}</td>
-                        <td>
+                        <td align="center">${rowNumber.index+1}</td>
+                        <td align="center">
+                            <c:forEach items="${emailEntity.recievers}" var="employee">
+                                <c:out value="${employee.firstName}${\" \"}${employee.lastName}${!loop.last ? ',' : ''}" />
+                            </c:forEach>
+                        </td>
+                        <td align="center">${emailEntity.subject}</td>
+                        <td align="center">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,7 +63,9 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 
-                                    <c:url value="/email/showEmail/${emailEntity.id}" var="showUrl"/>
+                                    <c:url value="/email/viewAddEmail" var="showUrl">
+                                        <c:param name="emailId" value="${emailEntity.id}"/>
+                                    </c:url>
                                     <a href='<c:out value="${showUrl}" />' class="dropdown-item"
                                        type="button">show</a>
 
@@ -81,7 +87,10 @@
                             <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
                         </c:when>
                         <c:otherwise>
-                            <c:url value="/email/sent/${employeeId}/prev" var="url"/>
+                            <c:url value="/email/prev" var="url">
+                                <c:param name="employeeId" value='${employeeId ? employeeId : "0"}'/>
+                                <c:param name="mailBoxName" value="sent"/>
+                            </c:url>
                             <li class="page-item"><a class="page-link" href='<c:out value="${url}" />'>Previous</a></li>
                         </c:otherwise>
                     </c:choose>
@@ -91,9 +100,11 @@
                                 <li class="page-item disabled"><a class="page-link" href="#">${tagStatus.index}</a></li>
                             </c:when>
                             <c:otherwise>
-                                <c:url value="/email/sent/${employeeId}/${tagStatus.index}" var="url"/>
-                                <li class="page-item"><a class="page-link"
-                                                         href='<c:out value="${url}" />'>${tagStatus.index}</a></li>
+                                <c:url value="/email/${tagStatus.index}" var="url">
+                                    <c:param name="employeeId" value='${employeeId ? employeeId : "0"}'/>
+                                    <c:param name="mailBoxName" value="sent"/>
+                                </c:url>
+                                <li class="page-item"><a class="page-link" href='<c:out value="${url}" />'>${tagStatus.index}</a></li>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
@@ -102,7 +113,10 @@
                             <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                         </c:when>
                         <c:otherwise>
-                            <c:url value="/email/sent/${employeeId}/next" var="url"/>
+                            <c:url value="/email/next" var="url">
+                                <c:param name="employeeId" value='${employeeId ? employeeId : "0"}'/>
+                                <c:param name="mailBoxName" value="sent"/>
+                            </c:url>
                             <li class="page-item"><a class="page-link" href='<c:out value="${url}" />'>Next</a></li>
                         </c:otherwise>
                     </c:choose>

@@ -43,5 +43,7 @@ label.col-md-2.control-label, label.form-check-label.col-md-8{
     font-weight: normal;
 }
 
-
+th{
+    text-align: center;
+}
 

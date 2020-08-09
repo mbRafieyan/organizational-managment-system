@@ -65,13 +65,13 @@
                         <c:forEach items="${vacationsPageList.pageList}" var="vacation" begin="0" step="1"
                                    varStatus="rowNumber">
                             <tr>
-                                <td>${rowNumber.index+1}</td>
-                                <td>${vacation.employeeEntity.firstName}${" "}${vacation.employeeEntity.lastName}</td>
-                                <td>${vacation.vacationStart}</td>
-                                <td>${vacation.vacationEnd}</td>
-                                <td>${vacation.vacationTypeCee.code}</td>
-                                <td>${vacation.vacationStatusCee.code}</td>
-                                <td>
+                                <td align="center">${rowNumber.index+1}</td>
+                                <td align="center">${vacation.employeeEntity.firstName}${" "}${vacation.employeeEntity.lastName}</td>
+                                <td align="center">${vacation.vacationStart}</td>
+                                <td align="center">${vacation.vacationEnd}</td>
+                                <td align="center">${vacation.vacationTypeCee.code}</td>
+                                <td align="center">${vacation.vacationStatusCee.code}</td>
+                                <td align="center">
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

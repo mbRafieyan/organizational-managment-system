@@ -66,13 +66,13 @@
                 <c:forEach items="${employeePageList.pageList}" var="employeeEntity" begin="0" step="1"
                            varStatus="rowNumber">
                     <tr>
-                        <td>${rowNumber.index+1}</td>
-                        <td>${employeeEntity.firstName}</td>
-                        <td>${employeeEntity.lastName}</td>
-                        <td>${employeeEntity.employeeManager.firstName}${" "}${employeeEntity.employeeManager.lastName}</td>
-                        <td>${employeeEntity.employeeRole.code}</td>
-                        <td>${employeeEntity.emailAddress}</td>
-                        <td>
+                        <td align="center">${rowNumber.index+1}</td>
+                        <td align="center">${employeeEntity.firstName}</td>
+                        <td align="center">${employeeEntity.lastName}</td>
+                        <td align="center">${employeeEntity.employeeManager.firstName}${" "}${employeeEntity.employeeManager.lastName}</td>
+                        <td align="center">${employeeEntity.employeeRole.code}</td>
+                        <td align="center">${employeeEntity.emailAddress}</td>
+                        <td align="center">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

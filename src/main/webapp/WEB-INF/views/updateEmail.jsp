@@ -37,7 +37,13 @@
                         <input type="hidden" name="selectedIds" id="selectedIds"/>
 
                         <label for="selectEmployee">Employee</label>
-                        <select name = "selectedEmployee" id="selectEmployee" class="browser-default custom-select" multiple="multiple"></select>
+                        <select name = "selectedEmployee" id="selectEmployee" class="browser-default custom-select" multiple="multiple">
+                            <c:if test = "${not empty emailEntity.recievers}">
+                                <c:forEach items="${emailEntity.recievers}" var="employee">
+                                    <option value="${employee.id}" selected="selected">${employee.firstName}${" "}${employee.lastName}</option>
+                                </c:forEach>
+                            </c:if>
+                        </select>
 
                         <label for="inputSubject">Subject</label>
                         <form:input type="text" path="subject" class="form-control" id="inputSubject" placeholder="Subject"/>
@@ -47,10 +53,25 @@
 
                         <label for="file">Upload File</label>
                         <input name="file" type="file" class="form-control" id="file"/>
+
+                        <c:if test = "${not empty emailEntity.attachment}">
+                            <c:url var="urlFile" value="/email/fileRetriever">
+                                <c:param name="emailId" value="${emailEntity.id}"/>
+                            </c:url>
+                            <a href="${urlFile}"><c:out value="attachmentFile"/></a>
+                        </c:if>
                     </div>
 
-                    <a type="button" href="<%=request.getContextPath()%>/email/viewEmail" class="btn btn-dark">Cancel</a>
-                    <form:button type="submit" class="btn btn-primary">Send</form:button>
+                    <c:url value='${not empty emailEntity.senderEmployee.id ? "/email" : "/email/viewEmail" }' var="backUrl">
+                        <c:param name="mailBoxName" value="sent"/>
+                        <c:param name="employeeId" value="${emailEntity.senderEmployee.id}"/>
+                    </c:url>
+                    <a type="button" href="${backUrl}" class="btn btn-dark">Cancel</a>
+
+                    <c:if test = "${empty emailEntity.recievers}">
+                        <form:button type="submit" class="btn btn-primary">Send</form:button>
+                    </c:if>
+
                 </form:form>
             </div>
         </div>
@@ -109,6 +130,8 @@
                 var values = $('#selectEmployee').val();
                 $("#selectedIds").val(values);
             })
+
+
         });
 
     </script>
