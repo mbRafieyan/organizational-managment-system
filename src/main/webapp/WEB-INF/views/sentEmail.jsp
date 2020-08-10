@@ -65,6 +65,7 @@
 
                                     <c:url value="/email/viewAddEmail" var="showUrl">
                                         <c:param name="emailId" value="${emailEntity.id}"/>
+                                        <c:param name="mailBoxName" value='<%=request.getParameter("mailBoxName")%>'/>
                                     </c:url>
                                     <a href='<c:out value="${showUrl}" />' class="dropdown-item"
                                        type="button">show</a>

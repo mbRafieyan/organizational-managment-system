@@ -63,7 +63,7 @@
                     </div>
 
                     <c:url value='${not empty emailEntity.senderEmployee.id ? "/email" : "/email/viewEmail" }' var="backUrl">
-                        <c:param name="mailBoxName" value="sent"/>
+                        <c:param name="mailBoxName" value='<%=request.getParameter("mailBoxName")%>'/>
                         <c:param name="employeeId" value="${emailEntity.senderEmployee.id}"/>
                     </c:url>
                     <a type="button" href="${backUrl}" class="btn btn-dark">Cancel</a>
