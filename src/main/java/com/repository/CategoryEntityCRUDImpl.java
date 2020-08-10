@@ -2,6 +2,8 @@ package com.repository;
 
 import com.model.CategoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +23,8 @@ public class CategoryEntityCRUDImpl implements ICategoryEntityCRUD {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Autowired
-    private Environment env;
+    @Value("${category.name}")
+    private String categoryNamesStr;
 
     @Override
     public List<CategoryEntity> selectAllCategory() {
@@ -44,7 +46,6 @@ public class CategoryEntityCRUDImpl implements ICategoryEntityCRUD {
 
         Map<Long, CategoryEntity> categoryMap = new HashMap<>();
 
-        String categoryNamesStr = env.getProperty("category.name");
         String[] categoryNameArray = categoryNamesStr.split(",");
 
         for (String name : categoryNameArray) {

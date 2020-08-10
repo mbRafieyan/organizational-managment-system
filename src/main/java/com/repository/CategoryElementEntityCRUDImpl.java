@@ -3,6 +3,7 @@ package com.repository;
 import com.model.CategoryElementEntity;
 import com.model.CategoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 @Repository
 @Transactional
+@PropertySource("classpath:application.properties")
 public class CategoryElementEntityCRUDImpl implements ICategoryElementEntityCRUD {
 
     @PersistenceContext

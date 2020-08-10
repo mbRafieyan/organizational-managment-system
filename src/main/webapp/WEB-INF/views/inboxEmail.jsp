@@ -50,9 +50,7 @@
                     <tr>
                         <td align="center">${rowNumber.index+1}</td>
                         <td align="center">
-                            <c:forEach items="${emailEntity.senderEmployee}" var="employee">
-                                <c:out value="${employee.firstName}${\" \"}${employee.lastName}${!loop.last ? ',' : ''}" />
-                            </c:forEach>
+                            <c:out value="${emailEntity.senderEmployee.firstName}${\" \"}${emailEntity.senderEmployee.lastName}" />
                         </td>
                         <td align="center">${emailEntity.subject}</td>
                         <td align="center">
