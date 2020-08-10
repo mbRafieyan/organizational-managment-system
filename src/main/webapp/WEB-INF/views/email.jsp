@@ -41,7 +41,7 @@
                     <div class="card-body">
                         <c:url value="/email/" var="sentEmailUrl">
                             <c:param name="employeeId" value='${employeeId ? employeeId : "0"}'/>
-                            <c:param name="mailBoxName" value="sent"/>
+                            <c:param name="mailBoxName" value="sentEmail"/>
                         </c:url>
                         <a href="${sentEmailUrl}" class="btn btn-lg btn-block btn-outline-primary">Sent Emails</a>
                     </div>
@@ -55,7 +55,7 @@
                     <div class="card-body">
                         <c:url value="/email/" var="inboxEmailUrl">
                             <c:param name="employeeId" value='${employeeId ? employeeId : "0"}'/>
-                            <c:param name="mailBoxName" value="inbox"/>
+                            <c:param name="mailBoxName" value="inboxEmail"/>
                         </c:url>
                         <a href="${inboxEmailUrl}" class="btn btn-lg btn-block btn-outline-primary">Inbox Emails</a>
                     </div>

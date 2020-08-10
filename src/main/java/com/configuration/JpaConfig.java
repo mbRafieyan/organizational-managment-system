@@ -28,14 +28,14 @@ public class JpaConfig {
     @Value("${jdbc.driverClassName}")
     private String DRIVER;
 
-    @Value("${jdbc.pass}")
-    private String PASSWORD;
-
     @Value("${jdbc.url}")
     private String URL;
 
     @Value("${jdbc.user}")
     private String USERNAME;
+
+    @Value("${jdbc.pass}")
+    private String PASSWORD;
 
     @Value("${hibernate.dialect}")
     private String DIALECT;

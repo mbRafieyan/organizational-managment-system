@@ -131,10 +131,10 @@ public class EmailController {
     @RequestMapping(value = {"", "/{page}"}, method = RequestMethod.GET)
     public ModelAndView getAllEmail(@PathVariable(required = false, name = "page") String page, HttpServletRequest request) {
 
-        ModelAndView modelAndView = new ModelAndView("sentEmail");
-
         String employeeId = request.getParameter("employeeId");
         String mailBoxName = request.getParameter("mailBoxName");
+
+        ModelAndView modelAndView = new ModelAndView(mailBoxName);
 
         if (employeeId.equals("0")) {
             List<EmployeeEntity> adminList = iEmployeeEntityService.findByEmployeeName("admin");
