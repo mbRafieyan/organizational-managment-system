@@ -87,7 +87,7 @@
                         <c:otherwise>
                             <c:url value="/email/prev" var="url">
                                 <c:param name="employeeId" value='${employeeId ? employeeId : "0"}'/>
-                                <c:param name="mailBoxName" value="sent"/>
+                                <c:param name="mailBoxName" value="inboxEmail"/>
                             </c:url>
                             <li class="page-item"><a class="page-link" href='<c:out value="${url}" />'>Previous</a></li>
                         </c:otherwise>
@@ -100,7 +100,7 @@
                             <c:otherwise>
                                 <c:url value="/email/${tagStatus.index}" var="url">
                                     <c:param name="employeeId" value='${employeeId ? employeeId : "0"}'/>
-                                    <c:param name="mailBoxName" value="sent"/>
+                                    <c:param name="mailBoxName" value="inboxEmail"/>
                                 </c:url>
                                 <li class="page-item"><a class="page-link" href='<c:out value="${url}" />'>${tagStatus.index}</a></li>
                             </c:otherwise>
@@ -113,7 +113,7 @@
                         <c:otherwise>
                             <c:url value="/email/next" var="url">
                                 <c:param name="employeeId" value='${employeeId ? employeeId : "0"}'/>
-                                <c:param name="mailBoxName" value="sent"/>
+                                <c:param name="mailBoxName" value="inboxEmail"/>
                             </c:url>
                             <li class="page-item"><a class="page-link" href='<c:out value="${url}" />'>Next</a></li>
                         </c:otherwise>

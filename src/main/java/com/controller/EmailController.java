@@ -233,9 +233,9 @@ public class EmailController {
         List<EmailEntity> emailList = new ArrayList<>();
 
         if (mailBoxName.equals("sent")) {
-            emailList = iEmailEntityService.findSentEmailBySenderEmployee(employee);
-        } else {
             emailList = iEmailEntityService.findInboxEmailByReceiverEmployee(employee);
+        } else {
+            emailList = iEmailEntityService.findSentEmailBySenderEmployee(employee);
         }
 
         return emailList;
