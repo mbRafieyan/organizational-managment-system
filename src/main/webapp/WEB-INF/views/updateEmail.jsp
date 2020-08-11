@@ -1,6 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <html>
 <head>
@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>Send Email</title>
-    <link href="<%=request.getContextPath()%>/resources/image/dotin.jpg" rel="icon"/>
+    <link href="<%=request.getContextPath()%>/resources/images/dotin.jpg" rel="icon"/>
     <link href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="<%=request.getContextPath()%>/resources/css/select2.min.css" rel="stylesheet"/>
     <link href="<%=request.getContextPath()%>/resources/css/main.css" rel="stylesheet"/>
@@ -49,7 +49,7 @@
                         <form:input type="text" path="subject" class="form-control" id="inputSubject" placeholder="Subject"/>
 
                         <label for="editor">Content</label>
-                        <form:textarea path="text" cols="80" rows="10" class="form-control" id="editor"></form:textarea>
+                        <form:textarea path="text" cols="80" rows="10" class="form-control" id="editor" dir="rtl"></form:textarea>
 
                         <label for="file">Upload File</label>
                         <input name="file" type="file" class="form-control" id="file"/>
@@ -130,8 +130,6 @@
                 var values = $('#selectEmployee').val();
                 $("#selectedIds").val(values);
             })
-
-
         });
 
     </script>

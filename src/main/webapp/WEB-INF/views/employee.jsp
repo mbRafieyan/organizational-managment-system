@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <html>
 <head>
@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>Employee</title>
-    <link rel="icon" href="<%=request.getContextPath()%>/resources/image/dotin.jpg">
+    <link rel="icon" href="<%=request.getContextPath()%>/resources/images/dotin.jpg">
     <link href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="<%=request.getContextPath()%>/resources/css/main.css" rel="stylesheet">
 </head>
@@ -70,7 +70,7 @@
                         <td align="center">${employeeEntity.firstName}</td>
                         <td align="center">${employeeEntity.lastName}</td>
                         <td align="center">${employeeEntity.employeeManager.firstName}${" "}${employeeEntity.employeeManager.lastName}</td>
-                        <td align="center">${employeeEntity.employeeRole.code}</td>
+                        <td align="center">${employeeEntity.employeeRole.name}</td>
                         <td align="center">${employeeEntity.emailAddress}</td>
                         <td align="center">
                             <div class="dropdown">

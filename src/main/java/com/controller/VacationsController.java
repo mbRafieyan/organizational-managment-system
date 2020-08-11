@@ -63,8 +63,13 @@ public class VacationsController {
 
         List<CategoryElementEntity> categoryElementEntityList = iCategoryElementEntityService.findCategoryElementEntityByName("indeterminate");
         vacationsEntity.setVacationStatusCee(categoryElementEntityList.get(0));
-        vacationsEntityService.addVacationsEntity(vacationsEntity);
-        modelAndView.addObject("successMassage", "The Record Was Successfully Added");
+        String massage = vacationsEntityService.addVacationsEntity(vacationsEntity);
+
+        if(!massage.equals("failed")){
+            modelAndView.addObject("successMassage", "The Record Was Successfully Added");
+        } else {
+            modelAndView.addObject("failedMassage", "Vacation was not recorded due to overlap");
+        }
 
         return modelAndView;
     }

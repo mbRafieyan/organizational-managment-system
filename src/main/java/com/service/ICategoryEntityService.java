@@ -13,4 +13,6 @@ public interface ICategoryEntityService {
     List<CategoryEntity> findByCategoryName(String name);
 
     Map<Long, CategoryEntity> insertAllCategory();
+
+    CategoryEntity findByCategoryId(long id);
 }

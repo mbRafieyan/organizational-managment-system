@@ -1,9 +1,12 @@
 package com.repository;
 
+import com.controller.EmailController;
 import com.model.CategoryElementEntity;
 import com.model.CategoryEntity;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,15 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 @Repository
 @Transactional
-@PropertySource("classpath:application.properties")
+@PropertySources({@PropertySource("classpath:application.properties"), @PropertySource("classpath:language_fa_IR.properties")})
 public class CategoryElementEntityCRUDImpl implements ICategoryElementEntityCRUD {
+
+    public static final Logger logger = Logger.getLogger(CategoryElementEntityCRUDImpl.class);
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -37,8 +40,10 @@ public class CategoryElementEntityCRUDImpl implements ICategoryElementEntityCRUD
 
         String property = "categoryElement." + categoryEntity.getCategoryName();
         String categoryElementsStr = env.getProperty(property);
-
         String[] categoryElementsArray = categoryElementsStr.split(",");
+
+        Locale.setDefault(new Locale("fa", "IR"));
+        ResourceBundle bundle = ResourceBundle.getBundle("language");
 
         for (String categoryElementName : categoryElementsArray) {
 
@@ -46,7 +51,11 @@ public class CategoryElementEntityCRUDImpl implements ICategoryElementEntityCRUD
 
             categoryElementEntity.setCategoryEntity(categoryEntity);
             categoryElementEntity.setCode(categoryElementName);
-            categoryElementEntity.setName(categoryElementName);
+            try {
+                categoryElementEntity.setName(new String(bundle.getString(categoryElementName).getBytes("ISO-8859-1")));
+            } catch (UnsupportedEncodingException e) {
+                logger.error(e.getMessage(), e);
+            }
             categoryElementEntity.setActive(true);
             categoryElementEntity.setVersion(1);
             categoryElementEntity.setCreateDate(new Date().toString());

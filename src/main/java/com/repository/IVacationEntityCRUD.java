@@ -1,11 +1,12 @@
 package com.repository;
 
 
+import com.model.EmployeeEntity;
 import com.model.VacationsEntity;
 
 import java.util.List;
 
-public interface IVocationEntityCRUD {
+public interface IVacationEntityCRUD {
 
     void insert(VacationsEntity vacationsEntity);
 
@@ -16,4 +17,6 @@ public interface IVocationEntityCRUD {
     VacationsEntity selectById(long id);
 
     void delete(VacationsEntity vacationsEntity);
+
+    List<VacationsEntity> findByEmployee_Date(VacationsEntity vacationsEntity);
 }

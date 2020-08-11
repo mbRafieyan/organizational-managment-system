@@ -19,6 +19,7 @@ legend.form-border {
 html {
     font-size: 14px;
 }
+
 @media (min-width: 768px) {
     html {
         font-size: 16px;
@@ -47,3 +48,10 @@ th{
     text-align: center;
 }
 
+.form-check-input{
+    margin-left: 0rem;
+}
+
+.btn-cancel-vacation{
+    margin-left: 15px;
+}

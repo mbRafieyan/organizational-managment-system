@@ -1,6 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <html>
 <head>
@@ -8,12 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>UpdateVacation</title>
-    <link rel="icon" href="<%=request.getContextPath()%>/resources/image/dotin.jpg">
-    <link href="<%=request.getContextPath()%>/resources/dateTimePicher/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="icon" href="<%=request.getContextPath()%>/resources/images/dotin.jpg">
     <link href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="<%=request.getContextPath()%>/resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
     <link href="<%=request.getContextPath()%>/resources/css/main.css" rel="stylesheet">
-
+    <link href="<%=request.getContextPath()%>/resources/css/jquery.md.bootstrap.datetimepicker.style.css" rel="stylesheet">
 </head>
 <body>
 
@@ -37,7 +35,6 @@
 
                     <form:input type="hidden" path="id"/>
                     <div class="form-group">
-
                         <label for="inputVacationType" class="col-md-2 control-label">Vacation Type</label>
                         <c:forEach var="type" items="${vacationTypeMap}">
                             <div class="form-check col-md-2" id="inputVacationType">
@@ -62,26 +59,40 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="inputStartDate" class="col-md-2 control-label">Start Date</label>
-                        <div class="input-group date form_datetime col-md-5" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-                            <form:input type="text" path="vacationStart" class="form-control" size="16" value="" id="inputStartDate" readonly="true"/>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove date-input" style="right: 6px;"></span></span>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-th date-input" style="right: 6px;"></span></span>
+                        <label for="inputDate1" class="col-md-2 control-label">Start Date</label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text cursor-pointer" id="date1">
+                                        <img class="mb-2" src="<%=request.getContextPath()%>/resources/images/calendar.png" alt="" width="24"
+                                             height="24">
+                                    </span>
+                                </div>
+                                <form:input path="vacationStart" type="text" id="inputDate1" class="form-control" placeholder="From Date" aria-label="date4"
+                                            aria-describedby="date4"></form:input>
+                            </div>
                         </div>
                         <input type="hidden" id="dtp_input1" value=""/><br/>
                     </div>
 
                     <div class="form-group">
-                        <label for="inputEndDate" class="col-md-2 control-label">End Date</label>
-                        <div class="input-group date form_datetime col-md-5" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input2">
-                            <form:input type="text" path="vacationEnd" class="form-control" size="16" value="" id="inputEndDate" readonly="true"/>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove" style="right: 6px;"></span></span>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-th date-input" style="right: 6px;"></span></span>
+                        <label for="inputDate2" class="col-md-2 control-label">End Date</label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text cursor-pointer" id="date2">
+                                        <img class="mb-2" src="<%=request.getContextPath()%>/resources/images/calendar.png" alt="" width="24"
+                                             height="24">
+                                    </span>
+                                </div>
+                                <form:input path="vacationEnd" type="text" id="inputDate2" class="form-control" placeholder="End Date" aria-label="date4"
+                                            aria-describedby="date4"></form:input>
+                            </div>
                         </div>
                         <input type="hidden" id="dtp_input2" value=""/><br/>
                     </div>
 
-                    <a type="button" href="<%=request.getContextPath()%>/viewVacation" class="btn btn-dark">Cancel</a>
+                    <a type="button" href="<%=request.getContextPath()%>/viewVacation" class="btn btn-dark btn-cancel-vacation">Cancel</a>
                     <form:button type="submit" class="btn btn-primary">Submit</form:button>
                 </form:form>
             </div>
@@ -90,7 +101,7 @@
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
             <div class="col-12 col-md">
-                <img class="mb-2" src="<%=request.getContextPath()%>/resources/image/dotin.jpg" alt="" width="24"
+                <img class="mb-2" src="<%=request.getContextPath()%>/resources/images/dotin.jpg" alt="" width="24"
                      height="24">
                 <small class="d-block mb-3 text-muted">&copy; 2019-2020</small>
             </div>
@@ -121,11 +132,11 @@
 </div>
 
 <script src="<%=request.getContextPath()%>/resources/js/jquery-1.11.1.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/dateTimePicher/js/bootstrap.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/bootstrap-datetimepicker.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/jquery-3.5.1.slim.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/popper.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/holder.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/jquery.md.bootstrap.datetimepicker.js"></script>
 
 <script>
     Holder.addTheme('thumb', {
@@ -134,15 +145,24 @@
         text: 'Thumbnail'
     });
 
-    $('.form_datetime').datetimepicker({
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        forceParse: 0,
-        showMeridian: 1
+    $('#date1').MdPersianDateTimePicker({
+        targetTextSelector: '#inputDate1',
+        fromDate: true,
+        enableTimePicker: true,
+        groupId: 'rangeSelector1',
+        dateFormat: 'yyyy-MM-dd HH:mm:ss',
+        textFormat: 'yyyy-MM-dd HH:mm:ss',
     });
+
+    $('#date2').MdPersianDateTimePicker({
+        targetTextSelector: '#inputDate2',
+        fromDate: true,
+        enableTimePicker: true,
+        groupId: 'rangeSelector1',
+        dateFormat: 'yyyy-MM-dd HH:mm:ss',
+        textFormat: 'yyyy-MM-dd HH:mm:ss',
+    });
+
 </script>
 </body>
 </html>

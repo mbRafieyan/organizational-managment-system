@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <html>
     <head>
@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <title>Vacation</title>
-        <link rel="icon" href="<%=request.getContextPath()%>/resources/image/dotin.jpg">
+        <link rel="icon" href="<%=request.getContextPath()%>/resources/images/dotin.jpg">
         <link href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="<%=request.getContextPath()%>/resources/css/main.css" rel="stylesheet">
     </head>
@@ -18,8 +18,8 @@
         <div class="alert alert-success text-center" role="alert">${successMassage}</div>
         </c:if>
 
-        <c:if test="${warningDelete != null}">
-        <div class="alert alert alert-danger text-center" role="alert">${warningDelete}</div>
+        <c:if test="${failedMassage != null}">
+        <div class="alert alert alert-danger text-center" role="alert">${failedMassage}</div>
         </c:if>
 
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
@@ -67,10 +67,12 @@
                             <tr>
                                 <td align="center">${rowNumber.index+1}</td>
                                 <td align="center">${vacation.employeeEntity.firstName}${" "}${vacation.employeeEntity.lastName}</td>
-                                <td align="center">${vacation.vacationStart}</td>
-                                <td align="center">${vacation.vacationEnd}</td>
-                                <td align="center">${vacation.vacationTypeCee.code}</td>
-                                <td align="center">${vacation.vacationStatusCee.code}</td>
+
+                                <jsp:useBean id="convertor" class="com.util.Convertor"/>
+                                <td align="center">${convertor.gregorianDateToPersian(vacation.vacationStart)}</td>
+                                <td align="center">${convertor.gregorianDateToPersian(vacation.vacationEnd)}</td>
+                                <td align="center">${vacation.vacationTypeCee.name}</td>
+                                <td align="center">${vacation.vacationStatusCee.name}</td>
                                 <td align="center">
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"

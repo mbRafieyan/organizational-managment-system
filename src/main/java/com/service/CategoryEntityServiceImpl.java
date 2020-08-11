@@ -12,21 +12,26 @@ import java.util.Map;
 public class CategoryEntityServiceImpl implements ICategoryEntityService {
 
     @Autowired
-    private ICategoryEntityCRUD ICategoryEntityCRUD;
+    private ICategoryEntityCRUD iCategoryEntityCRUD;
 
     @Override
     public List<CategoryEntity> selectAllCategory() {
-        return ICategoryEntityCRUD.selectAllCategory();
+        return iCategoryEntityCRUD.selectAllCategory();
     }
 
     @Override
     public List<CategoryEntity> findByCategoryName(String name) {
-        return ICategoryEntityCRUD.findByCategoryName(name);
+        return iCategoryEntityCRUD.findByCategoryName(name);
     }
 
     @Override
     public Map<Long, CategoryEntity> insertAllCategory() {
-        return ICategoryEntityCRUD.insertAllCategory();
+        return iCategoryEntityCRUD.insertAllCategory();
+    }
+
+    @Override
+    public CategoryEntity findByCategoryId(long id) {
+        return iCategoryEntityCRUD.findByCategoryId(id);
     }
 
 }

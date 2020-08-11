@@ -24,13 +24,6 @@ public class AppConfig implements WebMvcConfigurer {
         return resolver;
     }
 
-    /*@Bean(name = "multipartResolver")
-    public CommonsMultipartResolver multipartResolver() {
-        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(20971520);
-        return multipartResolver;
-    }*/
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry

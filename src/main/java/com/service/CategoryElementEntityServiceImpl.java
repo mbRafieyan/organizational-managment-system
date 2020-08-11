@@ -13,27 +13,27 @@ import java.util.Map;
 public class CategoryElementEntityServiceImpl implements ICategoryElementEntityService {
 
     @Autowired
-    private ICategoryElementEntityCRUD ICategoryElementEntityCRUD;
+    private ICategoryElementEntityCRUD iCategoryElementEntityCRUD;
 
     @Override
     public CategoryElementEntity findCategoryElementById(long id) {
-        return ICategoryElementEntityCRUD.findCategoryElementById(id);
+        return iCategoryElementEntityCRUD.findCategoryElementById(id);
     }
 
     @Override
     public void insertAllCategoryElement(CategoryEntity categoryEntity) {
-        ICategoryElementEntityCRUD.insertAllCategoryElement(categoryEntity);
+        iCategoryElementEntityCRUD.insertAllCategoryElement(categoryEntity);
     }
 
     @Override
     public Map<Long, String> findByCategory(CategoryEntity categoryEntity) {
-        Map<Long, String> categoryElementEntityMap = ICategoryElementEntityCRUD.findByCategory(categoryEntity);
+        Map<Long, String> categoryElementEntityMap = iCategoryElementEntityCRUD.findByCategory(categoryEntity);
         return categoryElementEntityMap;
     }
 
     @Override
     public List<CategoryElementEntity> findCategoryElementEntityByName(String name) {
-        List<CategoryElementEntity> categoryElementEntityList = ICategoryElementEntityCRUD.findCategoryElementByName(name);
+        List<CategoryElementEntity> categoryElementEntityList = iCategoryElementEntityCRUD.findCategoryElementByName(name);
         return categoryElementEntityList;
     }
 }

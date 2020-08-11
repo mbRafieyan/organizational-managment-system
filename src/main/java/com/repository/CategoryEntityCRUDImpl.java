@@ -63,4 +63,9 @@ public class CategoryEntityCRUDImpl implements ICategoryEntityCRUD {
 
         return categoryMap;
     }
+
+    public CategoryEntity findByCategoryId(long id){
+        CategoryEntity categoryEntity = entityManager.find(CategoryEntity.class, id);
+        return categoryEntity;
+    }
 }

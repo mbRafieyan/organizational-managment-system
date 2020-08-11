@@ -1,10 +1,11 @@
 package com.service;
 
+import com.model.EmployeeEntity;
 import com.model.VacationsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.repository.IVocationEntityCRUD;
+import com.repository.IVacationEntityCRUD;
 
 import java.util.List;
 
@@ -12,35 +13,50 @@ import java.util.List;
 public class VacationsEntityServiceImpl implements IVacationsEntityService {
 
     @Autowired
-    private IVocationEntityCRUD IVocationEntityCRUD;
+    private IVacationEntityCRUD iVacationEntityCRUD;
 
     @Override
     @Transactional
-    public void addVacationsEntity(VacationsEntity vacationsEntity) {
-        IVocationEntityCRUD.insert(vacationsEntity);
+    public String addVacationsEntity(VacationsEntity vacationsEntity) {
+
+        String massage = "";
+        List<VacationsEntity> vacationsEntityList = iVacationEntityCRUD.findByEmployee_Date(vacationsEntity);
+
+        if (vacationsEntityList.size() == 0) {
+            iVacationEntityCRUD.insert(vacationsEntity);
+        } else {
+            massage = "failed";
+        }
+        return massage;
     }
 
     @Override
     @Transactional
     public void updateVacationsEntity(VacationsEntity vacationsEntity) {
-        IVocationEntityCRUD.update(vacationsEntity);
+        iVacationEntityCRUD.update(vacationsEntity);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<VacationsEntity> getVacationsEntities() {
-        return IVocationEntityCRUD.selectAll();
+        return iVacationEntityCRUD.selectAll();
     }
 
     @Override
     @Transactional(readOnly = true)
     public VacationsEntity getVacationsEntityById(long id) {
-        return IVocationEntityCRUD.selectById(id);
+        return iVacationEntityCRUD.selectById(id);
     }
 
     @Override
     @Transactional
     public void deleteVacationsEntity(VacationsEntity vacationsEntity) {
-        IVocationEntityCRUD.delete(vacationsEntity);
+        iVacationEntityCRUD.delete(vacationsEntity);
+    }
+
+    @Override
+    @Transactional
+    public List<VacationsEntity> findByEmployee_Date(VacationsEntity vacationsEntity) {
+        return iVacationEntityCRUD.findByEmployee_Date(vacationsEntity);
     }
 }
