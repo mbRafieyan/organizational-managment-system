@@ -5,6 +5,7 @@ import com.model.EmailEntity;
 import com.model.EmployeeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.io.InputStream;
 import java.util.List;
 
 public interface IEmailEntityCRUD {
@@ -19,5 +20,5 @@ public interface IEmailEntityCRUD {
 
     void deleteEmailEntity(EmailEntity emailEntity);
 
-    byte[]  getEmailFile(EmailEntity emailEntity);
+    byte[] getEmailFile(EmailEntity emailEntity);
 }

@@ -2,30 +2,38 @@ package com.controller;
 
 import com.model.EmailEntity;
 import com.model.EmployeeEntity;
-import com.util.MimeTypesAndExtensions;
-import net.sf.jmimemagic.*;
-import org.apache.commons.io.IOUtils;
+import com.service.ICategoryElementEntityService;
+import com.service.ICategoryEntityService;
+import com.service.IEmailEntityService;
+import com.service.IEmployeeEntityService;
 import org.apache.log4j.Logger;
-import org.apache.tika.Tika;
-import org.apache.tika.io.TikaInputStream;
-import org.apache.tika.mime.*;
+import org.apache.tika.config.TikaConfig;
+import org.apache.tika.exception.TikaException;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.mime.MediaType;
+import org.apache.tika.mime.MimeType;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.Parser;
+import org.apache.tika.sax.BodyContentHandler;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import com.service.ICategoryElementEntityService;
-import com.service.ICategoryEntityService;
-import com.service.IEmailEntityService;
-import com.service.IEmployeeEntityService;
+import org.xml.sax.SAXException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +54,7 @@ public class EmailController {
     @Autowired
     ICategoryElementEntityService iCategoryElementEntityService;
 
-    public static final Logger logger = Logger.getLogger(EmailController.class);
+    private final Logger logger = Logger.getLogger(EmailController.class);
 
     @RequestMapping(value = {"/viewEmail"})
     public ModelAndView viewEmail() {
@@ -182,49 +190,40 @@ public class EmailController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/fileRetriever")
-    @ResponseBody
-    public void fileRetriever(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/fileRetriever", method = RequestMethod.GET)
+    public ResponseEntity<Resource> fileRetriever(HttpServletRequest request) {
 
         String emailId = request.getParameter("emailId");
         EmailEntity emailEntity = iEmailEntityService.findEmailById(Long.valueOf(emailId));
 
         try {
             byte[] bytes = iEmailEntityService.getEmailFile(emailEntity);
-            InputStream inputStream = new ByteArrayInputStream(bytes);
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
 
-            /*MagicMatch magicMatch = Magic.getMagicMatch(bytes);
-            String mimeType = magicMatch.getMimeType();*/
+            BodyContentHandler contentHandler = new BodyContentHandler(2000000);
+            Metadata metadata = new Metadata();
+            ParseContext context = new ParseContext();
 
-            Tika tika = new Tika();
-            String mimeType = tika.detect(inputStream);
-            String extension = MimeTypesAndExtensions.getExtensionFromMimeType(mimeType);
+            TikaConfig config = TikaConfig.getDefaultConfig();
+            Parser autoDetectParser = new AutoDetectParser(config);
+            autoDetectParser.parse(inputStream, contentHandler, metadata, context);
 
-            /*TikaInputStream tikaStream = TikaInputStream.get(bytes);
-            Tika tika = new Tika();
-            String mimeType = tika.detect(tikaStream);
+            MediaType mediaType = config.getMimeRepository().detect(inputStream, metadata);
+            MimeType mimeType = config.getMimeRepository().forName(mediaType.toString());
 
-            MimeTypes defaultMimeTypes = MimeTypes.getDefaultMimeTypes();
-            String extension = defaultMimeTypes.forName(mimeType).getExtension();*/
+            return ResponseEntity.ok()
+                    .contentType(org.springframework.http.MediaType.parseMediaType(metadata.get(Metadata.CONTENT_TYPE)))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"file" + mimeType.getExtension() + "\"")
+                    .body(new ByteArrayResource(bytes));
 
-
-            response.setContentType(mimeType);
-            response.setHeader("Content-Transfer-Encoding", "binary");
-            response.setHeader("Content-Disposition", "attachment; filename=\"file" + extension + "\"");
-
-            IOUtils.copy(inputStream, response.getOutputStream());
-
-        } /*catch (MagicException e) {
+        } catch (IOException e) {
             logger.error(e.getMessage(), e);
-        } catch (MagicParseException e) {
+        } catch (TikaException e) {
             logger.error(e.getMessage(), e);
-        } catch (MagicMatchNotFoundException e) {
+        } catch (SAXException e) {
             logger.error(e.getMessage(), e);
-        }*/ catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        } /*catch (MimeTypeException e) {
-            e.printStackTrace();
-        }*/
+        }
+        return null;
     }
 
     private List<EmailEntity> getSentOrInboxEmails(String mailBoxName, long employeeId) {
@@ -237,8 +236,6 @@ public class EmailController {
         } else {
             emailList = iEmailEntityService.findSentEmailBySenderEmployee(employee);
         }
-
         return emailList;
     }
-
 }

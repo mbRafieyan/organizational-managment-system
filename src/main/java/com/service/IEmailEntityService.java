@@ -4,6 +4,7 @@ package com.service;
 import com.model.EmailEntity;
 import com.model.EmployeeEntity;
 
+import java.io.InputStream;
 import java.util.List;
 
 public interface IEmailEntityService {

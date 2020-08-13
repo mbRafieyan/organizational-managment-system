@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.repository.IEmailEntityCRUD;
 
+import java.io.InputStream;
 import java.util.List;
 
 @Service
@@ -43,7 +44,7 @@ public class EmailEntityServiceImpl implements IEmailEntityService {
     }
 
     @Override
-    public  byte[] getEmailFile(EmailEntity emailEntity) {
+    public byte[] getEmailFile(EmailEntity emailEntity) {
         return iEmailEntityCRUD.getEmailFile(emailEntity);
     }
 
