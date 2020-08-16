@@ -119,6 +119,8 @@ public class EmployeeController {
             }
 
             modelAndView.addObject(employeeEntity);
+            request.getSession().setAttribute("employeeEntityList", getPagedListHolder());
+
             return modelAndView;
         }
     }
@@ -135,7 +137,7 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = {"/deleteEmployee/{employeeId}"}, method = RequestMethod.GET)
-    public ModelAndView deleteEmployee(@PathVariable(name = "employeeId") String employeeId) {
+    public ModelAndView deleteEmployee(HttpServletRequest request, @PathVariable(name = "employeeId") String employeeId) {
 
         ModelAndView modelAndView = new ModelAndView("employee");
 
@@ -148,6 +150,7 @@ public class EmployeeController {
             modelAndView.addObject("warningDelete", "The Record Has a Child");
         }
 
+        request.getSession().setAttribute("employeeEntityList", getPagedListHolder());
         return modelAndView;
     }
 
@@ -176,5 +179,15 @@ public class EmployeeController {
         modelAndView.addObject("managerEmployeeEntityMap", managerEmployeeEntityMap);
 
         return modelAndView;
+    }
+
+    private  PagedListHolder<EmployeeEntity> getPagedListHolder() {
+
+        PagedListHolder<EmployeeEntity> employeeEntities = new PagedListHolder<EmployeeEntity>();
+        List<EmployeeEntity> employeeEntityList = iEmployeeEntityService.getEmployeeEntities();
+        employeeEntities.setSource(employeeEntityList);
+        employeeEntities.setPageSize(2);
+
+        return employeeEntities;
     }
 }

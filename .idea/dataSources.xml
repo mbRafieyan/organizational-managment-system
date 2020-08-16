@@ -8,12 +8,12 @@
       <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
       <jdbc-url>jdbc:oracle:thin:@localhost:1521:db11g</jdbc-url>
     </data-source>
-    <data-source source="LOCAL" name="My Sql" uuid="d39779bd-4c5b-4f67-a49a-6f19a582e071">
+    <data-source source="LOCAL" name="My Sql" uuid="63e780c4-0f64-426c-b4e9-eeffad973ab3">
       <driver-ref>b270c1ef-ba58-464d-a626-5197e490624a</driver-ref>
       <synchronize>true</synchronize>
       <configured-by-url>true</configured-by-url>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/dotin_product?</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/dotin_project?</jdbc-url>
     </data-source>
   </component>
 </project>

@@ -3,8 +3,6 @@ package com.model;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -34,7 +32,6 @@ public class EmailEntity extends ParentEntity implements Serializable {
             joinColumns = {@JoinColumn(name = "C_EMAILID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "C_EMPLOYEEID", referencedColumnName = "ID")})
     @NotEmpty(message = "Recievers is a required field")
-    @NonNull
     private List<EmployeeEntity> recievers;
 
     @ManyToOne

@@ -18,6 +18,7 @@ import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.hibernate.engine.jdbc.BlobProxy;
+import org.hibernate.engine.jdbc.SerializableBlobProxy;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +92,7 @@ public class EmailController {
     }
 
     @RequestMapping(value = {"/sendEmail"}, method = RequestMethod.POST)
-    public ModelAndView sendEmail(HttpServletRequest request, @RequestParam  MultipartFile file, @ModelAttribute("emailEntity") @Valid EmailEntity emailEntity, BindingResult bindingResult) {
+    public ModelAndView sendEmail(HttpServletRequest request, @RequestParam MultipartFile file, @ModelAttribute("emailEntity") @Valid EmailEntity emailEntity, BindingResult bindingResult) {
 
         new FileSizeValidator().validate(file, bindingResult);
 
@@ -118,8 +119,9 @@ public class EmailController {
 
             try {
                 Blob blobFile = BlobProxy.generateProxy(file.getBytes());
-                if(blobFile.length()>0)
-                    emailEntity.setAttachment(blobFile);
+                Blob serializableBlobFile = SerializableBlobProxy.generateProxy(blobFile);
+                if (blobFile.length() > 0)
+                    emailEntity.setAttachment(serializableBlobFile);
 
             } catch (IOException e) {
                 logger.error(e.getMessage(), e);
@@ -128,6 +130,7 @@ public class EmailController {
             }
 
             iEmailEntityService.sendEmailEntity(emailEntity);
+            modelAndView.addObject("successMassage", "Email is sent");
             return modelAndView;
         }
     }
@@ -155,21 +158,15 @@ public class EmailController {
     @RequestMapping(value = {"", "/{page}"}, method = RequestMethod.GET)
     public ModelAndView getAllEmail(@PathVariable(required = false, name = "page") String page, HttpServletRequest request) {
 
-        String employeeId = request.getParameter("employeeId");
         String mailBoxName = request.getParameter("mailBoxName");
-
         ModelAndView modelAndView = new ModelAndView(mailBoxName);
-
-        if (employeeId.equals("0")) {
-            List<EmployeeEntity> adminList = iEmployeeEntityService.findByEmployeeName("admin");
-            employeeId = String.valueOf(adminList.get(0).getId());
-        }
+        List<EmployeeEntity> adminList = iEmployeeEntityService.findByEmployeeName("admin");
 
         PagedListHolder<EmailEntity> emailEntities;
         if (page == null) {
 
             emailEntities = new PagedListHolder<EmailEntity>();
-            List<EmailEntity> emailEntityList = getSentOrInboxEmails(mailBoxName, Long.valueOf(employeeId));
+            List<EmailEntity> emailEntityList = getSentOrInboxEmails(mailBoxName, adminList.get(0).getId());
             emailEntities.setSource(emailEntityList);
             emailEntities.setPageSize(2);
 
@@ -194,15 +191,24 @@ public class EmailController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/deleteEmail/{emailId}", method = RequestMethod.GET)
-    public ModelAndView deleteEmail(@PathVariable(name = "emailId") String emailId) {
+    @RequestMapping(value = "/deleteEmail", method = RequestMethod.GET)
+    public ModelAndView deleteEmail(HttpServletRequest request) {
 
-        ModelAndView modelAndView = new ModelAndView("sentEmail");
+        String emailId = request.getParameter("emailId");
+        String mailBoxName = request.getParameter("mailBoxName");
+
+        ModelAndView modelAndView = new ModelAndView(mailBoxName);
         EmailEntity emailEntity = iEmailEntityService.findEmailById(Long.valueOf(emailId));
         iEmailEntityService.deleteEmailEntity(emailEntity);
 
-        modelAndView.addObject("successMassage", "The record deleted");
+        List<EmployeeEntity> admin = iEmployeeEntityService.findByEmployeeName("admin");
+        PagedListHolder<EmailEntity> emailEntities = new PagedListHolder<EmailEntity>();
+        List<EmailEntity> emailEntityList = getSentOrInboxEmails(mailBoxName, admin.get(0).getId());
+        emailEntities.setSource(emailEntityList);
+        emailEntities.setPageSize(2);
 
+        request.getSession().setAttribute("emailEntities", emailEntities);
+        modelAndView.addObject("successMassage", "The record deleted");
         return modelAndView;
     }
 
@@ -247,10 +253,10 @@ public class EmailController {
         EmployeeEntity employee = iEmployeeEntityService.getEmployeeEntityById(employeeId);
         List<EmailEntity> emailList = new ArrayList<>();
 
-        if (mailBoxName.equals("sent")) {
-            emailList = iEmailEntityService.findInboxEmailByReceiverEmployee(employee);
-        } else {
+        if (mailBoxName.equals("sentEmail")) {
             emailList = iEmailEntityService.findSentEmailBySenderEmployee(employee);
+        } else {
+            emailList = iEmailEntityService.findInboxEmailByReceiverEmployee(employee);
         }
 
         return emailList;

@@ -79,22 +79,22 @@ public class VacationsController {
             } else {
                 modelAndView.addObject("failedMassage", "Vacation was not recorded due to overlap");
             }
-
+            request.getSession().setAttribute("vacationsEntityList", getPagedListHolder());
             return modelAndView;
         }
     }
 
     @RequestMapping(value = {"/updateVacation/{vacationId}/{vacationStatusId}"}, method = RequestMethod.GET)
-    public ModelAndView updateVacation(@PathVariable(name = "vacationId") String vacationId, @PathVariable(name = "vacationStatusId") String vacationStatusId) {
+    public ModelAndView updateVacation(HttpServletRequest request, @PathVariable(name = "vacationId") String vacationId, @PathVariable(name = "vacationStatusId") String vacationStatusId) {
 
-        ModelAndView modelAndView = new ModelAndView("vacations");
+        ModelAndView modelAndView = getModelAndView("vacations");
 
         VacationsEntity vacation = vacationsEntityService.getVacationsEntityById(Long.valueOf(vacationId));
         CategoryElementEntity vacationStatus = iCategoryElementEntityService.findCategoryElementById(Long.valueOf(vacationStatusId));
         vacation.setVacationStatusCee(vacationStatus);
         vacationsEntityService.updateVacationsEntity(vacation);
         modelAndView.addObject("successMassage", "The Record Was Successfully Updated");
-
+        request.getSession().setAttribute("vacationsEntityList", getPagedListHolder());
         return modelAndView;
     }
 
@@ -135,11 +135,12 @@ public class VacationsController {
     }
 
     @RequestMapping(value = {"/deleteVacation/{vacationId}"}, method = RequestMethod.GET)
-    public ModelAndView deleteEmployee(@PathVariable(name = "vacationId") String vacationId) {
+    public ModelAndView deleteEmployee(HttpServletRequest request, @PathVariable(name = "vacationId") String vacationId) {
 
         ModelAndView modelAndView = new ModelAndView("vacations");
         VacationsEntity vacationsEntity = vacationsEntityService.getVacationsEntityById(Long.valueOf(vacationId));
         vacationsEntityService.deleteVacationsEntity(vacationsEntity);
+        request.getSession().setAttribute("vacationsEntityList", getPagedListHolder());
 
         return modelAndView;
     }
@@ -164,5 +165,15 @@ public class VacationsController {
         modelAndView.addObject("vacationStatusList", vacationStatusList);
 
         return modelAndView;
+    }
+
+    private  PagedListHolder<VacationsEntity> getPagedListHolder() {
+
+        PagedListHolder<VacationsEntity> vacationsEntities = new PagedListHolder<VacationsEntity>();
+        List<VacationsEntity> vacationsEntityList = vacationsEntityService.getVacationsEntities();
+        vacationsEntities.setSource(vacationsEntityList);
+        vacationsEntities.setPageSize(2);
+
+        return vacationsEntities;
     }
 }

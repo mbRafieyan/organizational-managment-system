@@ -68,7 +68,10 @@
                                     <a href='<c:out value="${showUrl}" />' class="dropdown-item"
                                        type="button">show</a>
 
-                                    <c:url value="/email/deleteEmail/${emailEntity.id}" var="deleteUrl"/>
+                                    <c:url value="/email/deleteEmail" var="deleteUrl">
+                                        <c:param name="emailId" value="${emailEntity.id}"/>
+                                        <c:param name="mailBoxName" value='<%=request.getParameter("mailBoxName")%>'/>
+                                    </c:url>
                                     <a class="dropdown-item" href="${deleteUrl}" type="button">Delete</a>
 
                                 </div>

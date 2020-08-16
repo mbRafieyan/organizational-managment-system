@@ -1,8 +1,10 @@
+<%@ page import="com.model.EmployeeEntity" %>
+<%@ page import="java.util.List" %>
+<%@ page import="org.springframework.beans.factory.annotation.Autowired" %>
+<%@ page import="com.service.IEmployeeEntityService" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-    String employeeId = request.getParameter("employeeid");
-%>
+
 <html>
     <head>
         <meta charset="utf-8">
@@ -15,6 +17,11 @@
     </head>
     <body>
         <%@include file="header.jsp" %>
+
+        <c:if test="${successMassage != null}">
+        <div class="alert alert-success text-center" role="alert">${successMassage}</div>
+        </c:if>
+
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
             <h1 class="display-4">Send or Show Your Emails</h1>
             <p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap example.
@@ -40,7 +47,6 @@
                     </div>
                     <div class="card-body">
                         <c:url value="/email/" var="sentEmailUrl">
-                            <c:param name="employeeId" value='${employeeId ? employeeId : "0"}'/>
                             <c:param name="mailBoxName" value="sentEmail"/>
                         </c:url>
                         <a href="${sentEmailUrl}" class="btn btn-lg btn-block btn-outline-primary">Sent Emails</a>
@@ -54,7 +60,6 @@
                     </div>
                     <div class="card-body">
                         <c:url value="/email/" var="inboxEmailUrl">
-                            <c:param name="employeeId" value='${employeeId ? employeeId : "0"}'/>
                             <c:param name="mailBoxName" value="inboxEmail"/>
                         </c:url>
                         <a href="${inboxEmailUrl}" class="btn btn-lg btn-block btn-outline-primary">Inbox Emails</a>
