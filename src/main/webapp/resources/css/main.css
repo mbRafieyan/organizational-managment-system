@@ -55,3 +55,20 @@ th{
 .btn-cancel-vacation{
     margin-left: 15px;
 }
+
+.error{
+    color:red
+}
+
+.validation-error{
+    margin-left: 18px;
+}
+
+label.error {
+    color: red;
+    font-size: 1rem;
+    display: block;
+    margin-top: 5px;
+}
+
+

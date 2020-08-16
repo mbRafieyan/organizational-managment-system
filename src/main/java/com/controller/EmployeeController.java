@@ -1,18 +1,22 @@
 package com.controller;
 
+import com.editors.CategoryElementEntityEditor;
 import com.model.CategoryElementEntity;
 import com.model.CategoryEntity;
 import com.model.EmployeeEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import com.service.ICategoryElementEntityService;
 import com.service.ICategoryEntityService;
 import com.service.IEmployeeEntityService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,40 +81,46 @@ public class EmployeeController {
         return modelAndView;
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        dataBinder.registerCustomEditor(CategoryElementEntity.class, new CategoryElementEntityEditor(this.iCategoryElementEntityService));
+    }
+
     @RequestMapping(value = {"/updateEmployee"}, method = RequestMethod.POST)
-    public ModelAndView updateEmployee(HttpServletRequest request, @ModelAttribute("employeeEntity") EmployeeEntity employeeEntity) {
+    public ModelAndView updateEmployee(HttpServletRequest request, @Valid @ModelAttribute("employeeEntity") EmployeeEntity employeeEntity, BindingResult bindingResult) {
 
-        ModelAndView modelAndView = getModelAndView("employee");
+        if (bindingResult.hasErrors()) {
 
-        long employeeRole = Long.parseLong(request.getParameter("emRole"));
-        long employeeManager = Long.parseLong(request.getParameter("emManager"));
-
-        if (employeeRole > 0) {
-            CategoryElementEntity categoryElementEntityRole = iCategoryElementEntityService.findCategoryElementById(employeeRole);
-            employeeEntity.setEmployeeRole(categoryElementEntityRole);
-        }
-
-        if (employeeManager > 0) {
-            EmployeeEntity employeeEntityManager = iEmployeeEntityService.getEmployeeEntityById(employeeManager);
-            employeeEntity.setEmployeeManager(employeeEntityManager);
-        }
-
-        if (employeeEntity.getId() == 0) {
-
-            iEmployeeEntityService.addEmployeeEntity(employeeEntity);
-            modelAndView.addObject("subject", "Add");
-            modelAndView.addObject("successMassage", "The Record Was Successfully Added");
+            ModelAndView modelAndView = getModelAndView("updateEmployee");
+            return modelAndView;
 
         } else {
+            ModelAndView modelAndView = getModelAndView("employee");
 
-            EmployeeEntity oldEmployeeEntity = iEmployeeEntityService.getEmployeeEntityById(employeeEntity.getId());
-            iEmployeeEntityService.updateEmployeeEntity(employeeEntity, oldEmployeeEntity);
-            modelAndView.addObject("subject", "Update");
-            modelAndView.addObject("successMassage", "The Record Was Successfully Updated");
+            long employeeManager = Long.parseLong(request.getParameter("emManager"));
+
+            if (employeeManager > 0) {
+                EmployeeEntity employeeEntityManager = iEmployeeEntityService.getEmployeeEntityById(employeeManager);
+                employeeEntity.setEmployeeManager(employeeEntityManager);
+            }
+
+            if (employeeEntity.getId() == 0) {
+
+                iEmployeeEntityService.addEmployeeEntity(employeeEntity);
+                modelAndView.addObject("subject", "Add");
+                modelAndView.addObject("successMassage", "The Record Was Successfully Added");
+
+            } else {
+
+                EmployeeEntity oldEmployeeEntity = iEmployeeEntityService.getEmployeeEntityById(employeeEntity.getId());
+                iEmployeeEntityService.updateEmployeeEntity(employeeEntity, oldEmployeeEntity);
+                modelAndView.addObject("subject", "Update");
+                modelAndView.addObject("successMassage", "The Record Was Successfully Updated");
+            }
+
+            modelAndView.addObject(employeeEntity);
+            return modelAndView;
         }
-
-        modelAndView.addObject(employeeEntity);
-        return modelAndView;
     }
 
     @RequestMapping(value = {"/updateEmployee/{employeeId}"}, method = RequestMethod.GET)
@@ -147,7 +157,7 @@ public class EmployeeController {
 
         List<CategoryEntity> roleCategoryList = iCategoryEntityService.findByCategoryName("employeeRole");
         CategoryEntity roleCategory = roleCategoryList.get(0);
-        Map<Long, String> roleCategoryElementMap = iCategoryElementEntityService.findByCategory(roleCategory);
+        List<CategoryElementEntity> roleCategoryElementList = iCategoryElementEntityService.findByCategory(roleCategory);
 
         List<CategoryElementEntity> managerCategoryElementList = iCategoryElementEntityService.findCategoryElementEntityByName("Manager");
 
@@ -162,7 +172,7 @@ public class EmployeeController {
             }
         }
 
-        modelAndView.addObject("roleCategoryElementMap", roleCategoryElementMap);
+        modelAndView.addObject("roleCategoryElementList", roleCategoryElementList);
         modelAndView.addObject("managerEmployeeEntityMap", managerEmployeeEntityMap);
 
         return modelAndView;

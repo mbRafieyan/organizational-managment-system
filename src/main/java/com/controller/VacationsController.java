@@ -1,20 +1,25 @@
 package com.controller;
 
+import com.editors.EmployeeEntityEditor;
 import com.model.CategoryElementEntity;
 import com.model.CategoryEntity;
 import com.model.EmployeeEntity;
 import com.model.VacationsEntity;
+import com.service.ICategoryElementEntityService;
+import com.service.ICategoryEntityService;
+import com.service.IEmployeeEntityService;
+import com.service.IVacationsEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import com.service.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping(value = {"/viewVacation"})
@@ -33,49 +38,54 @@ public class VacationsController {
     private IEmployeeEntityService iEmployeeEntityService;
 
     @RequestMapping(value = {"/viewUpdateVacations"}, method = RequestMethod.GET)
-    public ModelAndView viewUpdateVacations(){
+    public ModelAndView viewUpdateVacations() {
 
         VacationsEntity vacationsEntity = new VacationsEntity();
         ModelAndView modelAndView = getModelAndView("updateVacation");
         modelAndView.addObject("vacationsEntity", vacationsEntity);
         modelAndView.addObject("subject", "Request");
 
-        return  modelAndView;
-    }
-
-    @RequestMapping(value = {"/addVacation"}, method = RequestMethod.POST)
-    public ModelAndView addVacation(HttpServletRequest request, @ModelAttribute("vacationsEntity") VacationsEntity vacationsEntity){
-
-        ModelAndView modelAndView = new ModelAndView("vacations");
-
-        long employeeId = Long.parseLong(request.getParameter("selectedEmployee"));
-        long vacationCategoryTypeId = Long.parseLong(request.getParameter("vacationType"));
-
-        if(employeeId>0){
-            EmployeeEntity employeeEntity = iEmployeeEntityService.getEmployeeEntityById(employeeId);
-            vacationsEntity.setEmployeeEntity(employeeEntity);
-        }
-
-        if(vacationCategoryTypeId>0){
-            CategoryElementEntity vacationTypeCategoryElement = iCategoryElementEntityService.findCategoryElementById(vacationCategoryTypeId);
-            vacationsEntity.setVacationTypeCee(vacationTypeCategoryElement);
-        }
-
-        List<CategoryElementEntity> categoryElementEntityList = iCategoryElementEntityService.findCategoryElementEntityByName("indeterminate");
-        vacationsEntity.setVacationStatusCee(categoryElementEntityList.get(0));
-        String massage = vacationsEntityService.addVacationsEntity(vacationsEntity);
-
-        if(!massage.equals("failed")){
-            modelAndView.addObject("successMassage", "The Record Was Successfully Added");
-        } else {
-            modelAndView.addObject("failedMassage", "Vacation was not recorded due to overlap");
-        }
-
         return modelAndView;
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        dataBinder.registerCustomEditor(EmployeeEntity.class, new EmployeeEntityEditor(this.iEmployeeEntityService));
+    }
+
+    @RequestMapping(value = {"/addVacation"}, method = RequestMethod.POST)
+    public ModelAndView addVacation(HttpServletRequest request, @Valid @ModelAttribute("vacationsEntity") VacationsEntity vacationsEntity, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = getModelAndView("updateVacation");
+            return modelAndView;
+        } else {
+
+            ModelAndView modelAndView = getModelAndView("vacations");
+
+            long vacationCategoryTypeId = Long.parseLong(request.getParameter("vacationType"));
+
+            if (vacationCategoryTypeId > 0) {
+                CategoryElementEntity vacationTypeCategoryElement = iCategoryElementEntityService.findCategoryElementById(vacationCategoryTypeId);
+                vacationsEntity.setVacationTypeCee(vacationTypeCategoryElement);
+            }
+
+            List<CategoryElementEntity> categoryElementEntityList = iCategoryElementEntityService.findCategoryElementEntityByName("indeterminate");
+            vacationsEntity.setVacationStatusCee(categoryElementEntityList.get(0));
+            String massage = vacationsEntityService.addVacationsEntity(vacationsEntity);
+
+            if (!massage.equals("failed")) {
+                modelAndView.addObject("successMassage", "The Record Was Successfully Added");
+            } else {
+                modelAndView.addObject("failedMassage", "Vacation was not recorded due to overlap");
+            }
+
+            return modelAndView;
+        }
+    }
+
     @RequestMapping(value = {"/updateVacation/{vacationId}/{vacationStatusId}"}, method = RequestMethod.GET)
-    public ModelAndView updateVacation(@PathVariable(name = "vacationId") String vacationId, @PathVariable(name = "vacationStatusId") String vacationStatusId){
+    public ModelAndView updateVacation(@PathVariable(name = "vacationId") String vacationId, @PathVariable(name = "vacationStatusId") String vacationStatusId) {
 
         ModelAndView modelAndView = new ModelAndView("vacations");
 
@@ -94,7 +104,7 @@ public class VacationsController {
 
         ModelAndView modelAndView = getModelAndView("vacations");
 
-        PagedListHolder<VacationsEntity>  vacationsEntities;
+        PagedListHolder<VacationsEntity> vacationsEntities;
 
         if (page == null) {
 
@@ -139,24 +149,19 @@ public class VacationsController {
 
         ModelAndView modelAndView = new ModelAndView(viewName);
 
-        List<CategoryEntity> vacationTypeList = iCategoryEntityService.findByCategoryName("vacationType");
-        CategoryEntity typeCategory = vacationTypeList.get(0);
-        Map<Long, String> vacationTypeMap = iCategoryElementEntityService.findByCategory(typeCategory);
+        List<CategoryEntity> categoryVacationTypeList = iCategoryEntityService.findByCategoryName("vacationType");
+        CategoryEntity typeCategory = categoryVacationTypeList.get(0);
+        List<CategoryElementEntity> vacationTypeList = iCategoryElementEntityService.findByCategory(typeCategory);
 
-        List<CategoryEntity> vacationStatusList = iCategoryEntityService.findByCategoryName("vacationStatus");
-        CategoryEntity statusCategory = vacationStatusList.get(0);
-        Map<Long, String> vacationStatusMap = iCategoryElementEntityService.findByCategory(statusCategory);
+        List<CategoryEntity> categoryVacationStatusList = iCategoryEntityService.findByCategoryName("vacationStatus");
+        CategoryEntity statusCategory = categoryVacationStatusList.get(0);
+        List<CategoryElementEntity> vacationStatusList = iCategoryElementEntityService.findByCategory(statusCategory);
 
         List<EmployeeEntity> employeeEntities = iEmployeeEntityService.getEmployeeEntities();
-        Map<Long, String> employeeEntityMap = new HashMap<>();
 
-        for(EmployeeEntity employeeEntity :employeeEntities){
-            employeeEntityMap.put(employeeEntity.getId(), employeeEntity.getFirstName() + " " + employeeEntity.getLastName());
-        }
-
-        modelAndView.addObject("employeeEntityMap", employeeEntityMap);
-        modelAndView.addObject("vacationTypeMap", vacationTypeMap);
-        modelAndView.addObject("vacationStatusMap", vacationStatusMap);
+        modelAndView.addObject("employeeEntities", employeeEntities);
+        modelAndView.addObject("vacationTypeList", vacationTypeList);
+        modelAndView.addObject("vacationStatusList", vacationStatusList);
 
         return modelAndView;
     }

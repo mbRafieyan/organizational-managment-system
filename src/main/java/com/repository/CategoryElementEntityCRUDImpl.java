@@ -1,6 +1,6 @@
 package com.repository;
 
-import com.controller.EmailController;
+import com.configuration.JpaConfig;
 import com.model.CategoryElementEntity;
 import com.model.CategoryEntity;
 import org.apache.log4j.Logger;
@@ -65,21 +65,19 @@ public class CategoryElementEntityCRUDImpl implements ICategoryElementEntityCRUD
     }
 
     @Override
-    public Map<Long, String> findByCategory(CategoryEntity categoryEntity) {
+    public  List<CategoryElementEntity> findByCategory(CategoryEntity categoryEntity) {
 
         Query query = entityManager.createQuery("select c from CategoryElementEntity c where c.categoryEntity =:categoryEntity");
         query.setParameter("categoryEntity", categoryEntity);
 
-        List<CategoryElementEntity> categoryElementEntityList = query.getResultList();
-
-        Map<Long, String> categoryElementEntityMap = new HashMap<>();
-
-        for (CategoryElementEntity ce : categoryElementEntityList) {
+        List<CategoryElementEntity> categoryElementEntities = query.getResultList();
+        List<CategoryElementEntity> categoryElementEntityList = new ArrayList<>();
+        for (CategoryElementEntity ce : categoryElementEntities) {
             if(!ce.getName().equals("administrator")){
-                categoryElementEntityMap.put(ce.getId(), ce.getName());
+                categoryElementEntityList.add(ce);
             }
         }
-        return categoryElementEntityMap;
+        return categoryElementEntityList;
     }
 
     @Override

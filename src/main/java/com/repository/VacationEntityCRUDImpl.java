@@ -85,7 +85,7 @@ public class VacationEntityCRUDImpl implements IVacationEntityCRUD {
         String  GregorianStartDate = Convertor.persianDateToGregorian(enStartDate);
         String  GregorianEndDate = Convertor.persianDateToGregorian(enEndDate);
 
-        String queryStr = stringBuilder.toString().replace("employeeId", String.valueOf(vacationsEntity.getEmployeeEntity().getId()))
+        String queryStr = stringBuilder.toString().replace("employeeId", String.valueOf(vacationsEntity.getEmployee().getId()))
                 .replace("startDate", GregorianStartDate)
                 .replace("endDate", GregorianEndDate);
 

@@ -29,7 +29,7 @@
             </div>
             <div class="card-body">
                 <c:url var="sendEmail" value="/email/sendEmail" ></c:url>
-                <form:form method="POST" action="${sendEmail}" modelAttribute="emailEntity" enctype="multipart/form-data">
+                <form:form method="POST" name="emailForm" action="${sendEmail}" modelAttribute="emailEntity" enctype="multipart/form-data">
                     <div class="form-group">
 
                         <form:input type="hidden" path="id" />
@@ -37,22 +37,24 @@
                         <input type="hidden" name="selectedIds" id="selectedIds"/>
 
                         <label for="selectEmployee">Employee</label>
-                        <select name = "selectedEmployee" id="selectEmployee" class="browser-default custom-select" multiple="multiple">
-                            <c:if test = "${not empty emailEntity.recievers}">
-                                <c:forEach items="${emailEntity.recievers}" var="employee">
-                                    <option value="${employee.id}" selected="selected">${employee.firstName}${" "}${employee.lastName}</option>
-                                </c:forEach>
-                            </c:if>
-                        </select>
+                        <form:select path="recievers" id="selectEmployee" cssClass="browser-default custom-select" multiple="multiple">
+                            <form:options items="${emailEntity.recievers}" itemValue="id" itemLabel="lastName"></form:options>
+                        </form:select>
+                        <form:errors path="recievers" cssClass="error"></form:errors>
 
+                        </br></br>
                         <label for="inputSubject">Subject</label>
                         <form:input type="text" path="subject" class="form-control" id="inputSubject" placeholder="Subject"/>
+                        <form:errors path="subject" cssClass="error"></form:errors>
 
+                        </br>
                         <label for="editor">Content</label>
                         <form:textarea path="text" cols="80" rows="10" class="form-control" id="editor" dir="rtl"></form:textarea>
 
                         <label for="file">Upload File</label>
-                        <input name="file" type="file" class="form-control" id="file"/>
+                        <input name="file" type="file" class="form-control" id="file"></input>
+                        <form:errors path="attachment" cssClass="error"></form:errors>
+
 
                         <c:if test = "${not empty emailEntity.attachment}">
                             <c:url var="urlFile" value="/email/fileRetriever">
@@ -131,6 +133,26 @@
                 $("#selectedIds").val(values);
             })
         });
+
+        $(function() {
+            $("form[name='emailForm']").validate({
+
+                rules: {
+                    recievers: "required",
+                    subject: "required",
+                },
+                messages: {
+                    recievers: "Please select employee",
+                    subject: "Please enter subject email",
+                },
+            });
+        });
+
+        $.validator.addMethod('file', function (value, element, param) {
+            return this.optional(element) || (element.files[0].size <= (4194304))
+        },
+            'The file size can not exceed 4MB.'
+        );
 
     </script>
 </html>

@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.editors.EmployeeEntityEditor;
 import com.model.EmailEntity;
 import com.model.EmployeeEntity;
 import com.service.ICategoryElementEntityService;
@@ -26,12 +27,15 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.xml.sax.SAXException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.Blob;
@@ -41,6 +45,8 @@ import java.util.List;
 @Controller
 @RequestMapping(value = {"/email"})
 public class EmailController {
+
+    private final Logger logger = Logger.getLogger(EmailController.class);
 
     @Autowired
     IEmailEntityService iEmailEntityService;
@@ -53,8 +59,6 @@ public class EmailController {
 
     @Autowired
     ICategoryElementEntityService iCategoryElementEntityService;
-
-    private final Logger logger = Logger.getLogger(EmailController.class);
 
     @RequestMapping(value = {"/viewEmail"})
     public ModelAndView viewEmail() {
@@ -81,39 +85,51 @@ public class EmailController {
         return modelAndView;
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        dataBinder.registerCustomEditor(EmployeeEntity.class, new EmployeeEntityEditor(this.iEmployeeEntityService));
+    }
+
     @RequestMapping(value = {"/sendEmail"}, method = RequestMethod.POST)
-    public ModelAndView sendEmail(HttpServletRequest request, @RequestParam(value = "file") MultipartFile file, @ModelAttribute("emailEntity") EmailEntity emailEntity) {
+    public ModelAndView sendEmail(HttpServletRequest request, @RequestParam  MultipartFile file, @ModelAttribute("emailEntity") @Valid EmailEntity emailEntity, BindingResult bindingResult) {
 
-        ModelAndView modelAndView = new ModelAndView("email");
+        new FileSizeValidator().validate(file, bindingResult);
 
-        String selectedEmployeeStr = request.getParameter("selectedIds");
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("updateEmail");
+            return modelAndView;
+        } else {
+            ModelAndView modelAndView = new ModelAndView("email");
 
-        String[] selectedEmployeeArray = selectedEmployeeStr.split(",");
+            String selectedEmployeeStr = request.getParameter("selectedIds");
 
-        List<EmployeeEntity> receiverList = new ArrayList<>();
+            String[] selectedEmployeeArray = selectedEmployeeStr.split(",");
 
-        for (String employeeEntityId : selectedEmployeeArray) {
-            EmployeeEntity selectedEmployee = iEmployeeEntityService.getEmployeeEntityById(Long.valueOf(employeeEntityId));
-            receiverList.add(selectedEmployee);
+            List<EmployeeEntity> receiverList = new ArrayList<>();
+
+            for (String employeeEntityId : selectedEmployeeArray) {
+                EmployeeEntity selectedEmployee = iEmployeeEntityService.getEmployeeEntityById(Long.valueOf(employeeEntityId));
+                receiverList.add(selectedEmployee);
+            }
+
+            List<EmployeeEntity> adminList = iEmployeeEntityService.findByEmployeeName("admin");
+            emailEntity.setSenderEmployee(adminList.get(0));
+            emailEntity.setRecievers(receiverList);
+
+            try {
+                Blob blobFile = BlobProxy.generateProxy(file.getBytes());
+                if(blobFile.length()>0)
+                    emailEntity.setAttachment(blobFile);
+
+            } catch (IOException e) {
+                logger.error(e.getMessage(), e);
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+            }
+
+            iEmailEntityService.sendEmailEntity(emailEntity);
+            return modelAndView;
         }
-
-        List<EmployeeEntity> adminList = iEmployeeEntityService.findByEmployeeName("admin");
-        emailEntity.setSenderEmployee(adminList.get(0));
-        emailEntity.setRecievers(receiverList);
-
-        try {
-
-            Blob blobFile = BlobProxy.generateProxy(file.getBytes());
-            emailEntity.setAttachment(blobFile);
-
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-
-        iEmailEntityService.sendEmailEntity(emailEntity);
-        return modelAndView;
     }
 
     @RequestMapping(value = {"/searchEmployee"}, method = RequestMethod.GET)
@@ -236,6 +252,7 @@ public class EmailController {
         } else {
             emailList = iEmailEntityService.findSentEmailBySenderEmployee(employee);
         }
+
         return emailList;
     }
 }

@@ -1,5 +1,11 @@
 package com.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Blob;
@@ -11,6 +17,7 @@ public class EmailEntity extends ParentEntity implements Serializable {
 
     @Basic
     @Column(name = "C_SUBJECT")
+    @NotBlank(message = "Subject is a required field")
     private String subject;
 
     @Basic
@@ -26,6 +33,8 @@ public class EmailEntity extends ParentEntity implements Serializable {
     @JoinTable(name = "T_RECIEVER",
             joinColumns = {@JoinColumn(name = "C_EMAILID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "C_EMPLOYEEID", referencedColumnName = "ID")})
+    @NotEmpty(message = "Recievers is a required field")
+    @NonNull
     private List<EmployeeEntity> recievers;
 
     @ManyToOne

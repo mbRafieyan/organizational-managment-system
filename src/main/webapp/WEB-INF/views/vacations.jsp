@@ -66,7 +66,7 @@
                                    varStatus="rowNumber">
                             <tr>
                                 <td align="center">${rowNumber.index+1}</td>
-                                <td align="center">${vacation.employeeEntity.firstName}${" "}${vacation.employeeEntity.lastName}</td>
+                                <td align="center">${vacation.employee.firstName}${" "}${vacation.employee.lastName}</td>
 
                                 <jsp:useBean id="convertor" class="com.util.Convertor"/>
                                 <td align="center">${convertor.gregorianDateToPersian(vacation.vacationStart)}</td>
@@ -81,10 +81,10 @@
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 
-                                            <c:forEach items="${vacationStatusMap}" var="vacationStatus">
-                                                <c:if test = "${vacationStatus.value != \"indeterminate\"}">
-                                                    <c:url value="/viewVacation/updateVacation/${vacation.id}/${vacationStatus.key.toString()}" var="url"/>
-                                                    <a href='<c:out value="${url}" />' class="dropdown-item" type="button"><c:out value="${vacationStatus.value}"/></a>
+                                            <c:forEach items="${vacationStatusList}" var="vacationStatus">
+                                                <c:if test = "${vacationStatus.getName() != \"indeterminate\"}">
+                                                    <c:url value="/viewVacation/updateVacation/${vacation.id}/${vacationStatus.getId().toString()}" var="url"/>
+                                                    <a href='<c:out value="${url}" />' class="dropdown-item" type="button"><c:out value="${vacationStatus.getName()}"/></a>
                                                 </c:if>
                                             </c:forEach>
 

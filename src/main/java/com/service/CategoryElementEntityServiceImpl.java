@@ -26,9 +26,8 @@ public class CategoryElementEntityServiceImpl implements ICategoryElementEntityS
     }
 
     @Override
-    public Map<Long, String> findByCategory(CategoryEntity categoryEntity) {
-        Map<Long, String> categoryElementEntityMap = iCategoryElementEntityCRUD.findByCategory(categoryEntity);
-        return categoryElementEntityMap;
+    public List<CategoryElementEntity> findByCategory(CategoryEntity categoryEntity) {
+         return iCategoryElementEntityCRUD.findByCategory(categoryEntity);
     }
 
     @Override

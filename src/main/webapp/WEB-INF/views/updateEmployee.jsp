@@ -29,35 +29,32 @@
             </div>
             <div class="card-body">
                 <c:url var="updateEmployee" value="/viewEmployee/updateEmployee" ></c:url>
-                <form:form method="POST" action="${updateEmployee}" modelAttribute="employeeEntity">
+                <form:form method="POST" name="employeeForm" action="${updateEmployee}" modelAttribute="employeeEntity">
                     <div class="form-group">
 
                         <form:input type="hidden" path="id" />
 
                         <label for="inputFirstName">First Name</label>
                         <form:input type="text" path="firstName" class="form-control" id="inputFirstName" placeholder="First Name"/>
+                        <form:errors path="firstName" cssClass="error"></form:errors>
 
+                        </br>
                         <label for="inputLastName">Last Name</label>
                         <form:input type="text" path="lastName" class="form-control" id="inputLastName" placeholder="Last Name"/>
+                        <form:errors path="lastName" cssClass="error"></form:errors>
 
+                        </br>
                         <label for="inputEmail">Email</label>
                         <form:input type="text" path="emailAddress" class="form-control" id="inputEmail" placeholder="Email address"/>
+                        <form:errors path="emailAddress" cssClass="error"></form:errors>
 
                         </br>
                         <label for="selectRole">Eployee Role</label>
-                        <select name="emRole" id="selectRole" class="browser-default custom-select">
-                            <option value="0"><c:out value="Select Employee Role"/></option>
-                            <c:forEach var="role" items="${roleCategoryElementMap}">
-                                <c:choose>
-                                    <c:when test="${employeeEntity != null && employeeEntity.employeeRole.id == role.key}">
-                                        <option selected value="${role.key.toString()}"><c:out value="${role.value}"/></option>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <option  value="${role.key.toString()}"><c:out value="${role.value}"/></option>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </select>
+                        <form:select path="employeeRole" id="selectRole" cssClass="browser-default custom-select">
+                            <form:option value="" label="select role employee"></form:option>
+                            <form:options items="${roleCategoryElementList}" itemValue="id" itemLabel="name"></form:options>
+                        </form:select>
+                        <form:errors path="employeeRole" cssClass="error"></form:errors>
 
                         </br></br>
                         <label for="selectManager">Employee Manager</label>
@@ -84,4 +81,31 @@
     </div>
 
 <%@include file="footer.jsp" %>
+
+<script>
+    $(function() {
+        $("form[name='employeeForm']").validate({
+
+            rules: {
+                firstName: "required",
+                lastName: "required",
+                emailAddress: {
+                    required: true,
+                    email: true
+                },
+                employeeRole: "required"
+            },
+            messages: {
+                firstName: "Please enter firstName",
+                lastName: "Please enter lastName",
+                emailAddress: {
+                    required: "Please enter email address",
+                    email: "Please enter a valid email address"
+                },
+                employeeRole: "Please select employee role"
+            },
+        });
+    });
+</script>
+
 </html>

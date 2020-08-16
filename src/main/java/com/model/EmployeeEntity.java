@@ -1,7 +1,11 @@
 package com.model;
 
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,18 +15,23 @@ public class EmployeeEntity extends ParentEntity implements Serializable {
 
     @Basic
     @Column(name = "C_FIRSTNAME")
+    @NotBlank(message = "First name is a required field")
     private String firstName;
 
     @Basic
     @Column(name = "C_LASTNAME")
+    @NotBlank(message = "Last name is a required field")
     private String lastName;
 
     @Basic
     @Column(name = "C_EMAILADDRESS")
+    @NotBlank(message = "Email address name is a required field")
+    @Email(message = "Enter a valid email address")
     private String emailAddress;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "C_ROLEID")
+    @NotNull(message = "Role is a required field")
     private CategoryElementEntity employeeRole;
 
     @ManyToOne

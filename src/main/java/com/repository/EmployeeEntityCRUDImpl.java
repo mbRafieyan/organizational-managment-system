@@ -116,4 +116,5 @@ public class EmployeeEntityCRUDImpl implements IEmployeeEntityCRUD {
         query.setParameter("name", "%" + name +"%");
         return query.getResultList();
     }
+
 }

@@ -1,6 +1,9 @@
 package com.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "T_VACATIONS", schema = "DOTIN")
@@ -8,14 +11,17 @@ public class VacationsEntity extends ParentEntity {
 
     @Basic
     @Column(name = "C_VACATIONSTART")
+    @NotBlank(message = "Vacation start is a required field")
     private String vacationStart;
 
     @Basic
     @Column(name = "C_VACATIONEND")
+    @NotBlank(message = "Vacation end is a required field")
     private String vacationEnd;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "C_REQUESTEDEMPLOYEEID")
+    @NotNull(message = "Employee is a required field")
     private EmployeeEntity employee;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -42,11 +48,11 @@ public class VacationsEntity extends ParentEntity {
         this.vacationEnd = vacationEnd;
     }
 
-    public EmployeeEntity getEmployeeEntity() {
+    public EmployeeEntity getEmployee() {
         return employee;
     }
 
-    public void setEmployeeEntity(EmployeeEntity employeeEntity) {
+    public void setEmployee(EmployeeEntity employeeEntity) {
         this.employee = employeeEntity;
     }
 

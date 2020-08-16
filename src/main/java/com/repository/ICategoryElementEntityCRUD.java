@@ -12,7 +12,7 @@ public interface ICategoryElementEntityCRUD {
 
     void insertAllCategoryElement(CategoryEntity categoryEntity);
 
-    Map<Long, String> findByCategory(CategoryEntity categoryEntity);
+    List<CategoryElementEntity> findByCategory(CategoryEntity categoryEntity);
 
     List<CategoryElementEntity> findCategoryElementByName(String name);
 }

@@ -31,34 +31,32 @@
             </div>
             <div class="card-body">
                 <c:url var="updateVacation" value="/viewVacation/addVacation"></c:url>
-                <form:form method="POST" action="${updateVacation}" class="form-horizontal" modelAttribute="vacationsEntity">
+                <form:form method="POST" name="vacationForm" action="${updateVacation}" modelAttribute="vacationsEntity">
 
                     <form:input type="hidden" path="id"/>
-                    <div class="form-group">
+
                         <label for="inputVacationType" class="col-md-2 control-label">Vacation Type</label>
-                        <c:forEach var="type" items="${vacationTypeMap}">
+                        <c:forEach var="type" items="${vacationTypeList}">
                             <div class="form-check col-md-2" id="inputVacationType">
-                                <input type="radio" value="${type.key.toString()}" class="form-check-input"
-                                       id="${type.key.toString()}" name="vacationType" checked>
-                                <label class="form-check-label col-md-8" for="${type.key.toString()}"><c:out value="${type.value}"/></label>
+                                <input type="radio" value="${type.getId().toString()}" class="form-check-input"
+                                       id="${type.getId().toString()}" name="vacationType" checked>
+                                <label class="form-check-label col-md-8" for="${type.getId().toString()}"><c:out value="${type.getName()}"/></label>
                             </div>
                         </c:forEach>
                         </br>
-                    </div>
 
-                    <div class="form-group">
                         <label for="selectEmployee" class="col-md-2 control-label">Select Employee</label>
                         <div class="input-group col-md-5">
-                            <select name = "selectedEmployee" id="selectEmployee" class="browser-default custom-select">
-                                <option value="0"><c:out value="Select Employee"/></option>
-                                <c:forEach var="employee" items="${employeeEntityMap}">
-                                    <option  value="${employee.key.toString()}"><c:out value="${employee.value}"/></option>
+                            <form:select path="employee" id="selectEmployee" cssClass="browser-default custom-select">
+                                <form:option value="" label="select employee"></form:option>
+                                <c:forEach var="emp" items="${employeeEntities}">
+                                    <form:option value="${emp.id.toString()}"><c:out value="${emp.firstName}${\" \"}${emp.lastName}"/></form:option>
                                 </c:forEach>
-                            </select>
+                            </form:select>
                         </div>
-                    </div>
+                        <form:errors path="employee" cssClass="error validation-error"></form:errors>
 
-                    <div class="form-group">
+                        </br>
                         <label for="inputDate1" class="col-md-2 control-label">Start Date</label>
                         <div class="col-sm-6">
                             <div class="input-group">
@@ -72,10 +70,10 @@
                                             aria-describedby="date4"></form:input>
                             </div>
                         </div>
-                        <input type="hidden" id="dtp_input1" value=""/><br/>
-                    </div>
+                        <form:errors path="vacationStart" cssClass="error validation-error"></form:errors>
+                        <input type="hidden" id="dtp_input1" value=""/>
 
-                    <div class="form-group">
+                        </br>
                         <label for="inputDate2" class="col-md-2 control-label">End Date</label>
                         <div class="col-sm-6">
                             <div class="input-group">
@@ -89,8 +87,8 @@
                                             aria-describedby="date4"></form:input>
                             </div>
                         </div>
+                        <form:errors path="vacationEnd" cssClass="error validation-error"></form:errors>
                         <input type="hidden" id="dtp_input2" value=""/><br/>
-                    </div>
 
                     <a type="button" href="<%=request.getContextPath()%>/viewVacation" class="btn btn-dark btn-cancel-vacation">Cancel</a>
                     <form:button type="submit" class="btn btn-primary">Submit</form:button>
@@ -137,6 +135,7 @@
 <script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/holder.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/jquery.md.bootstrap.datetimepicker.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/jquery.validate.min.js"></script>
 
 <script>
     Holder.addTheme('thumb', {
@@ -163,6 +162,23 @@
         textFormat: 'yyyy-MM-dd HH:mm:ss',
     });
 
+    $(function() {
+        $("form[name='vacationForm']").validate({
+
+            rules: {
+                employee: "required",
+                vacationStart: "required",
+                vacationEnd: "required"
+            },
+            messages: {
+                employee: "Please select employee",
+                vacationStart: "Please enter start vacation date",
+                vacationEnd: "Please enter end vacation date"
+            },
+        });
+    });
+
 </script>
+
 </body>
 </html>
