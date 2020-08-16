@@ -56,11 +56,11 @@ th{
     margin-left: 15px;
 }
 
-.error{
+.validation-error{
     color:red
 }
 
-.validation-error{
+.vacation-error{
     margin-left: 18px;
 }
 
@@ -71,4 +71,7 @@ label.error {
     margin-top: 5px;
 }
 
+.error {
+    width: 100%;
+}
 

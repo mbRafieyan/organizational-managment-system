@@ -47,14 +47,14 @@
 
                         <label for="selectEmployee" class="col-md-2 control-label">Select Employee</label>
                         <div class="input-group col-md-5">
-                            <form:select path="employee" id="selectEmployee" cssClass="browser-default custom-select">
+                            <form:select path="employee" id="selectEmployee" cssClass="browser-default custom-select vacation-jquery-validation">
                                 <form:option value="" label="select employee"></form:option>
                                 <c:forEach var="emp" items="${employeeEntities}">
                                     <form:option value="${emp.id.toString()}"><c:out value="${emp.firstName}${\" \"}${emp.lastName}"/></form:option>
                                 </c:forEach>
                             </form:select>
                         </div>
-                        <form:errors path="employee" cssClass="error validation-error"></form:errors>
+                        <form:errors path="employee" cssClass="validation-error vacation-error"></form:errors>
 
                         </br>
                         <label for="inputDate1" class="col-md-2 control-label">Start Date</label>
@@ -66,11 +66,11 @@
                                              height="24">
                                     </span>
                                 </div>
-                                <form:input path="vacationStart" type="text" id="inputDate1" class="form-control" placeholder="From Date" aria-label="date4"
+                                <form:input path="vacationStart" type="text" id="inputDate1" class="form-control vacation-jquery-validation" placeholder="From Date" aria-label="date4"
                                             aria-describedby="date4"></form:input>
                             </div>
                         </div>
-                        <form:errors path="vacationStart" cssClass="error validation-error"></form:errors>
+                        <form:errors path="vacationStart" cssClass="validation-error vacation-error"></form:errors>
                         <input type="hidden" id="dtp_input1" value=""/>
 
                         </br>
@@ -83,11 +83,11 @@
                                              height="24">
                                     </span>
                                 </div>
-                                <form:input path="vacationEnd" type="text" id="inputDate2" class="form-control" placeholder="End Date" aria-label="date4"
+                                <form:input path="vacationEnd" type="text" id="inputDate2" class="form-control vacation-jquery-validation" placeholder="End Date" aria-label="date4"
                                             aria-describedby="date4"></form:input>
                             </div>
                         </div>
-                        <form:errors path="vacationEnd" cssClass="error validation-error"></form:errors>
+                        <form:errors path="vacationEnd" cssClass="validation-error vacation-error"></form:errors>
                         <input type="hidden" id="dtp_input2" value=""/><br/>
 
                     <a type="button" href="<%=request.getContextPath()%>/viewVacation" class="btn btn-dark btn-cancel-vacation">Cancel</a>

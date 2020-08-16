@@ -40,12 +40,12 @@
                         <form:select path="recievers" id="selectEmployee" cssClass="browser-default custom-select" multiple="multiple">
                             <form:options items="${emailEntity.recievers}" itemValue="id" itemLabel="lastName"></form:options>
                         </form:select>
-                        <form:errors path="recievers" cssClass="error"></form:errors>
+                        <form:errors path="recievers" cssClass="validation-error"></form:errors>
 
                         </br></br>
                         <label for="inputSubject">Subject</label>
                         <form:input type="text" path="subject" class="form-control" id="inputSubject" placeholder="Subject"/>
-                        <form:errors path="subject" cssClass="error"></form:errors>
+                        <form:errors path="subject" cssClass="validation-error"></form:errors>
 
                         </br>
                         <label for="editor">Content</label>
@@ -53,7 +53,7 @@
 
                         <label for="file">Upload File</label>
                         <input name="file" type="file" class="form-control" id="file"></input>
-                        <form:errors path="attachment" cssClass="error"></form:errors>
+                        <form:errors path="attachment" cssClass="validation-error"></form:errors>
 
 
                         <c:if test = "${not empty emailEntity.attachment}">

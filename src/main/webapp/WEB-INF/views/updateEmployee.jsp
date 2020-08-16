@@ -36,17 +36,17 @@
 
                         <label for="inputFirstName">First Name</label>
                         <form:input type="text" path="firstName" class="form-control" id="inputFirstName" placeholder="First Name"/>
-                        <form:errors path="firstName" cssClass="error"></form:errors>
+                        <form:errors path="firstName" cssClass="validation-error"></form:errors>
 
                         </br>
                         <label for="inputLastName">Last Name</label>
                         <form:input type="text" path="lastName" class="form-control" id="inputLastName" placeholder="Last Name"/>
-                        <form:errors path="lastName" cssClass="error"></form:errors>
+                        <form:errors path="lastName" cssClass="validation-error"></form:errors>
 
                         </br>
                         <label for="inputEmail">Email</label>
                         <form:input type="text" path="emailAddress" class="form-control" id="inputEmail" placeholder="Email address"/>
-                        <form:errors path="emailAddress" cssClass="error"></form:errors>
+                        <form:errors path="emailAddress" cssClass="validation-error"></form:errors>
 
                         </br>
                         <label for="selectRole">Eployee Role</label>
@@ -54,7 +54,7 @@
                             <form:option value="" label="select role employee"></form:option>
                             <form:options items="${roleCategoryElementList}" itemValue="id" itemLabel="name"></form:options>
                         </form:select>
-                        <form:errors path="employeeRole" cssClass="error"></form:errors>
+                        <form:errors path="employeeRole" cssClass="validation-error"></form:errors>
 
                         </br></br>
                         <label for="selectManager">Employee Manager</label>
