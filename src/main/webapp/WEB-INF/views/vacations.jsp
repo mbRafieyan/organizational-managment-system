@@ -69,8 +69,8 @@
                                 <td align="center">${vacation.employee.firstName}${" "}${vacation.employee.lastName}</td>
 
                                 <jsp:useBean id="convertor" class="com.util.Convertor"/>
-                                <td align="center">${convertor.gregorianDateToPersian(vacation.vacationStart)}</td>
-                                <td align="center">${convertor.gregorianDateToPersian(vacation.vacationEnd)}</td>
+                                <td align="center">${vacation.vacationStart}</td>
+                                <td align="center">${vacation.vacationEnd}</td>
                                 <td align="center">${vacation.vacationTypeCee.name}</td>
                                 <td align="center">${vacation.vacationStatusCee.name}</td>
                                 <td align="center">

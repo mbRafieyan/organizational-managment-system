@@ -18,6 +18,6 @@ public interface IVacationsEntityService {
 
     void deleteVacationsEntity(VacationsEntity vacationsEntity);
 
-    List<VacationsEntity> findByEmployee_Date(VacationsEntity vacationsEntity);
+    int findByEmployee_Date(VacationsEntity vacationsEntity);
 
 }

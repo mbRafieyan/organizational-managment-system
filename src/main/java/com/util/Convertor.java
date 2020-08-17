@@ -24,64 +24,44 @@ public class Convertor {
             while (i < inputArray.length) {
                 int code = (int) inputArray[i];
                 switch (code) {
-                    case 1610:
-                        character = (char) 1740;
+                    case 1776:
+                        character = (char) 48;
                         inputArray[i] = character;
                         break;
-                    case 1574:
-                        character = (char) 1740;
+                    case 1777:
+                        character = (char) 49;
                         inputArray[i] = character;
                         break;
-                    case 1569:
-                        character = (char) 1740;
+                    case 1778:
+                        character = (char) 50;
                         inputArray[i] = character;
                         break;
-                    case 1571:
-                        character = (char) 1575;
+                    case 1779:
+                        character = (char) 51;
                         inputArray[i] = character;
                         break;
-                    case 1603:
-                        character = (char) 1705;
+                    case 1780:
+                        character = (char) 52;
                         inputArray[i] = character;
                         break;
-                    case 48:
-                        character = (char) 1632;
+                    case 1781:
+                        character = (char) 53;
                         inputArray[i] = character;
                         break;
-                    case 49:
-                        character = (char) 1633;
+                    case 1782:
+                        character = (char) 54;
                         inputArray[i] = character;
                         break;
-                    case 50:
-                        character = (char) 1634;
+                    case 1783:
+                        character = (char) 55;
                         inputArray[i] = character;
                         break;
-                    case 51:
-                        character = (char) 1635;
+                    case 1784:
+                        character = (char) 56;
                         inputArray[i] = character;
                         break;
-                    case 52:
-                        character = (char) 1636;
-                        inputArray[i] = character;
-                        break;
-                    case 53:
-                        character = (char) 1637;
-                        inputArray[i] = character;
-                        break;
-                    case 54:
-                        character = (char) 1638;
-                        inputArray[i] = character;
-                        break;
-                    case 55:
-                        character = (char) 1639;
-                        inputArray[i] = character;
-                        break;
-                    case 56:
-                        character = (char) 1640;
-                        inputArray[i] = character;
-                        break;
-                    case 57:
-                        character = (char) 1641;
+                    case 1785:
+                        character = (char) 57;
                         inputArray[i] = character;
                         break;
                 }

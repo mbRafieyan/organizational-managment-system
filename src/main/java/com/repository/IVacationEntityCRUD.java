@@ -18,5 +18,5 @@ public interface IVacationEntityCRUD {
 
     void delete(VacationsEntity vacationsEntity);
 
-    List<VacationsEntity> findByEmployee_Date(VacationsEntity vacationsEntity);
+    int findByEmployee_Date(VacationsEntity vacationsEntity);
 }

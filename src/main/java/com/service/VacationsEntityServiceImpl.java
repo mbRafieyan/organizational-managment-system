@@ -1,11 +1,10 @@
 package com.service;
 
-import com.model.EmployeeEntity;
 import com.model.VacationsEntity;
+import com.repository.IVacationEntityCRUD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.repository.IVacationEntityCRUD;
 
 import java.util.List;
 
@@ -20,9 +19,9 @@ public class VacationsEntityServiceImpl implements IVacationsEntityService {
     public String addVacationsEntity(VacationsEntity vacationsEntity) {
 
         String massage = "";
-        List<VacationsEntity> vacationsEntityList = iVacationEntityCRUD.findByEmployee_Date(vacationsEntity);
+        int overlapCount = iVacationEntityCRUD.findByEmployee_Date(vacationsEntity);
 
-        if (vacationsEntityList.size() == 0) {
+        if ( overlapCount == 0) {
             iVacationEntityCRUD.insert(vacationsEntity);
         } else {
             massage = "failed";
@@ -56,7 +55,7 @@ public class VacationsEntityServiceImpl implements IVacationsEntityService {
 
     @Override
     @Transactional
-    public List<VacationsEntity> findByEmployee_Date(VacationsEntity vacationsEntity) {
+    public int findByEmployee_Date(VacationsEntity vacationsEntity) {
         return iVacationEntityCRUD.findByEmployee_Date(vacationsEntity);
     }
 }
