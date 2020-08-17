@@ -20,9 +20,9 @@ public interface IEmployeeEntityService {
 
     void insertAdminEmployee(EmployeeEntity employeeEntity, CategoryElementEntity categoryElementEntity);
 
-    List<EmployeeEntity>  findByEmployeeName(String name);
+    List<EmployeeEntity> findByEmployeeName(String name);
 
-    List<EmployeeEntity>  findByManager(EmployeeEntity employeeEntity);
+    List<EmployeeEntity> findByManager(EmployeeEntity employeeEntity);
 
     Map<Long, String> findByEmployeeRole(CategoryElementEntity categoryElementEntity);
 

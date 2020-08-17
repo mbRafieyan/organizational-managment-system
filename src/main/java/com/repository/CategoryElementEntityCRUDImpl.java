@@ -1,6 +1,5 @@
 package com.repository;
 
-import com.configuration.JpaConfig;
 import com.model.CategoryElementEntity;
 import com.model.CategoryEntity;
 import org.apache.log4j.Logger;
@@ -65,7 +64,7 @@ public class CategoryElementEntityCRUDImpl implements ICategoryElementEntityCRUD
     }
 
     @Override
-    public  List<CategoryElementEntity> findByCategory(CategoryEntity categoryEntity) {
+    public List<CategoryElementEntity> findByCategory(CategoryEntity categoryEntity) {
 
         Query query = entityManager.createQuery("select c from CategoryElementEntity c where c.categoryEntity =:categoryEntity");
         query.setParameter("categoryEntity", categoryEntity);
@@ -73,7 +72,7 @@ public class CategoryElementEntityCRUDImpl implements ICategoryElementEntityCRUD
         List<CategoryElementEntity> categoryElementEntities = query.getResultList();
         List<CategoryElementEntity> categoryElementEntityList = new ArrayList<>();
         for (CategoryElementEntity ce : categoryElementEntities) {
-            if(!ce.getName().equals("administrator")){
+            if (!ce.getName().equals("administrator")) {
                 categoryElementEntityList.add(ce);
             }
         }
@@ -84,7 +83,7 @@ public class CategoryElementEntityCRUDImpl implements ICategoryElementEntityCRUD
     public List<CategoryElementEntity> findCategoryElementByName(String name) {
 
         Query query = entityManager.createQuery("select c from CategoryElementEntity c where c.code like :name");
-        query.setParameter("name", "%"+ name +"%");
+        query.setParameter("name", "%" + name + "%");
         List<CategoryElementEntity> CategoryElementEntityList = query.getResultList();
         return CategoryElementEntityList;
     }

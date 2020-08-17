@@ -51,7 +51,7 @@ public class EmailEntityCRUDImpl implements IEmailEntityCRUD {
         }
         List<EmployeeEntity> recievers = emailEntity.getRecievers();
 
-        for (EmployeeEntity reciever :recievers) {
+        for (EmployeeEntity reciever : recievers) {
             Query recieverNativeQuery = entityManager.createNativeQuery("INSERT INTO t_reciever(C_EMAILID, C_EMPLOYEEID) VALUES((SELECT ID FROM t_email WHERE ID=LAST_INSERT_ID()), :C_RECIEVER)");
             recieverNativeQuery.setParameter("C_RECIEVER", reciever.getId());
             recieverNativeQuery.executeUpdate();

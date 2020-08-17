@@ -1,7 +1,6 @@
 package com.repository;
 
 
-import com.model.EmployeeEntity;
 import com.model.VacationsEntity;
 
 import java.util.List;

@@ -5,19 +5,16 @@ import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Convertor {
 
     public static String persianCharacterToEnglish(String input) {
 
-        if (input != null && !input.equals("")  ) {
-            // string used for recording results
+        if (input != null && !input.equals("")) {
+
             String resultString = "???";
-            // input an_input_string to char array
             char[] inputArray = input.toCharArray();
             char character;
             int i = 0;
@@ -73,7 +70,7 @@ public class Convertor {
         return input;
     }
 
-    public static String persianDateToGregorian(String date){
+    public static String persianDateToGregorian(String date) {
 
         Map<String, Integer> dateMap = spliteDate(date);
 
@@ -85,12 +82,12 @@ public class Convertor {
         persiancal.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
 
         int month = dateMap.get("month");
-        persiancal.set(dateMap.get("year"), --month, dateMap.get("day") , dateMap.get("hour"), dateMap.get("minute"), dateMap.get("second"));
+        persiancal.set(dateMap.get("year"), --month, dateMap.get("day"), dateMap.get("hour"), dateMap.get("minute"), dateMap.get("second"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", gregorianLocal);
         return sdf.format(persiancal.getTime());
     }
 
-    public static String gregorianDateToPersian(String date){
+    public static String gregorianDateToPersian(String date) {
 
         Map<String, Integer> dateMap = spliteDate(date);
 
@@ -103,12 +100,12 @@ public class Convertor {
         gregorianCal.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
 
         int month = dateMap.get("month");
-        gregorianCal.set(dateMap.get("year"), --month, dateMap.get("day") , dateMap.get("hour"), dateMap.get("minute"), dateMap.get("second"));
-        SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss", persianLocal);
+        gregorianCal.set(dateMap.get("year"), --month, dateMap.get("day"), dateMap.get("hour"), dateMap.get("minute"), dateMap.get("second"));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", persianLocal);
         return sdf.format(gregorianCal.getTime());
     }
 
-    private static Map<String, Integer> spliteDate(String date){
+    private static Map<String, Integer> spliteDate(String date) {
 
         String[] dateTimeArray = date.split(" ");
         String dateStr = dateTimeArray[0];

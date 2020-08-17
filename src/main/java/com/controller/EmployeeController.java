@@ -181,7 +181,7 @@ public class EmployeeController {
         return modelAndView;
     }
 
-    private  PagedListHolder<EmployeeEntity> getPagedListHolder() {
+    private PagedListHolder<EmployeeEntity> getPagedListHolder() {
 
         PagedListHolder<EmployeeEntity> employeeEntities = new PagedListHolder<EmployeeEntity>();
         List<EmployeeEntity> employeeEntityList = iEmployeeEntityService.getEmployeeEntities();

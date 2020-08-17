@@ -21,7 +21,7 @@ public class VacationsEntityServiceImpl implements IVacationsEntityService {
         String massage = "";
         int overlapCount = iVacationEntityCRUD.findByEmployee_Date(vacationsEntity);
 
-        if ( overlapCount == 0) {
+        if (overlapCount == 0) {
             iVacationEntityCRUD.insert(vacationsEntity);
         } else {
             massage = "failed";

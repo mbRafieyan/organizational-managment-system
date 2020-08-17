@@ -2,12 +2,11 @@ package com.service;
 
 import com.model.CategoryElementEntity;
 import com.model.CategoryEntity;
+import com.repository.ICategoryElementEntityCRUD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.repository.ICategoryElementEntityCRUD;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CategoryElementEntityServiceImpl implements ICategoryElementEntityService {
@@ -27,7 +26,7 @@ public class CategoryElementEntityServiceImpl implements ICategoryElementEntityS
 
     @Override
     public List<CategoryElementEntity> findByCategory(CategoryEntity categoryEntity) {
-         return iCategoryElementEntityCRUD.findByCategory(categoryEntity);
+        return iCategoryElementEntityCRUD.findByCategory(categoryEntity);
     }
 
     @Override

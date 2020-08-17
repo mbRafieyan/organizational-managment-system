@@ -3,6 +3,7 @@ package com.repository;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.model.VacationsEntity;
 import com.util.Convertor;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,8 @@ import java.util.List;
 @Repository
 @Transactional
 public class VacationEntityCRUDImpl implements IVacationEntityCRUD {
+
+    public static final Logger logger = Logger.getLogger(VacationEntityCRUDImpl.class);
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -99,9 +102,8 @@ public class VacationEntityCRUDImpl implements IVacationEntityCRUD {
             }
 
         } catch (ParseException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
-
         return overlapCount;
     }
 }

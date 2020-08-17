@@ -1,10 +1,7 @@
 package com.repository;
 
 import com.model.CategoryEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,7 +61,7 @@ public class CategoryEntityCRUDImpl implements ICategoryEntityCRUD {
         return categoryMap;
     }
 
-    public CategoryEntity findByCategoryId(long id){
+    public CategoryEntity findByCategoryId(long id) {
         CategoryEntity categoryEntity = entityManager.find(CategoryEntity.class, id);
         return categoryEntity;
     }

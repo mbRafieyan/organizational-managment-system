@@ -36,7 +36,7 @@ public class EmployeeEntityCRUDImpl implements IEmployeeEntityCRUD {
         employeeEntity.setCreateDate(oldEmployeeEntity.getCreateDate());
         employeeEntity.setModifiedDate(new Date().toString());
         employeeEntity.setActive(oldEmployeeEntity.getActive());
-        employeeEntity.setVersion(oldEmployeeEntity.getVersion()+1);
+        employeeEntity.setVersion(oldEmployeeEntity.getVersion() + 1);
         entityManager.merge(employeeEntity);
     }
 
@@ -72,7 +72,7 @@ public class EmployeeEntityCRUDImpl implements IEmployeeEntityCRUD {
         EmployeeEntity employee = entityManager.find(EmployeeEntity.class, employeeEntity.getId());
         employee.setActive(false);
         employee.setModifiedDate(new Date().toString());
-        employee.setVersion(employeeEntity.getVersion()+1);
+        employee.setVersion(employeeEntity.getVersion() + 1);
         entityManager.merge(employee);
     }
 
@@ -80,7 +80,7 @@ public class EmployeeEntityCRUDImpl implements IEmployeeEntityCRUD {
     @Override
     public List<EmployeeEntity> selectAll() {
         Query query = entityManager.createQuery("select c from EmployeeEntity c where c.active = true and c.lastName <> :name");
-        query.setParameter("name","admin");
+        query.setParameter("name", "admin");
         List<EmployeeEntity> EmployeeEntityList = query.getResultList();
         return EmployeeEntityList;
     }
@@ -113,7 +113,7 @@ public class EmployeeEntityCRUDImpl implements IEmployeeEntityCRUD {
     @Override
     public List<EmployeeEntity> findEmployeeForSelect2(String name) {
         Query query = entityManager.createQuery("select e from EmployeeEntity e where (e.firstName like :name or e.lastName like :name) and e.active = true");
-        query.setParameter("name", "%" + name +"%");
+        query.setParameter("name", "%" + name + "%");
         return query.getResultList();
     }
 
