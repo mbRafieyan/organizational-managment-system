@@ -171,6 +171,12 @@
     </dependency>
 
     <dependency>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-serialization</artifactId>
+      <version>1.24</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.ibm.icu</groupId>
       <artifactId>icu4j</artifactId>
       <version>66.1</version>

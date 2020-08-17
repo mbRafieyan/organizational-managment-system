@@ -11,7 +11,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,29 +18,37 @@ import java.util.List;
 @Transactional
 public class EmailEntityCRUDImpl implements IEmailEntityCRUD {
 
+    public static final Logger logger = Logger.getLogger(EmailEntityCRUDImpl.class);
+
     @PersistenceContext
     private EntityManager entityManager;
 
     @PersistenceContext
     private EntityManager blobEntityManager;
 
-    public static final Logger logger = Logger.getLogger(EmailEntityCRUDImpl.class);
-
     @Override
     public void insert(EmailEntity emailEntity) {
 
-        Query emailNativeQuery = entityManager.createNativeQuery("INSERT INTO t_email(ID, C_ACTIVE, C_CREATEDATE, C_VERSION, C_ATTACHMENT, C_SUBJECT, C_TEXT, C_SENDERID) " +
-                "VALUES(:ID, :C_ACTIVE, :C_CREATEDATE, :C_VERSION, :C_ATTACHMENT, :C_SUBJECT, :C_TEXT, :C_SENDERID)");
-        emailNativeQuery.setParameter("ID", emailEntity.getId());
-        emailNativeQuery.setParameter("C_ACTIVE", 1);
-        emailNativeQuery.setParameter("C_CREATEDATE", new Date().toString());
-        emailNativeQuery.setParameter("C_VERSION", "1");
-        emailNativeQuery.setParameter("C_ATTACHMENT", emailEntity.getAttachment());
-        emailNativeQuery.setParameter("C_SUBJECT", emailEntity.getSubject());
-        emailNativeQuery.setParameter("C_TEXT", emailEntity.getText());
-        emailNativeQuery.setParameter("C_SENDERID", emailEntity.getSenderEmployee().getId());
-        emailNativeQuery.executeUpdate();
+        Blob attachment = emailEntity.getAttachment();
+        try {
 
+            byte[] attachmentBytes = attachment.getBytes(1, (int) attachment.length());
+
+            Query emailNativeQuery = entityManager.createNativeQuery("INSERT INTO t_email(ID, C_ACTIVE, C_CREATEDATE, C_VERSION, C_ATTACHMENT, C_SUBJECT, C_TEXT, C_SENDERID) " +
+                    "VALUES(:ID, :C_ACTIVE, :C_CREATEDATE, :C_VERSION, :C_ATTACHMENT, :C_SUBJECT, :C_TEXT, :C_SENDERID)");
+            emailNativeQuery.setParameter("ID", emailEntity.getId());
+            emailNativeQuery.setParameter("C_ACTIVE", 1);
+            emailNativeQuery.setParameter("C_CREATEDATE", new Date().toString());
+            emailNativeQuery.setParameter("C_VERSION", "1");
+            emailNativeQuery.setParameter("C_ATTACHMENT", attachmentBytes);
+            emailNativeQuery.setParameter("C_SUBJECT", emailEntity.getSubject());
+            emailNativeQuery.setParameter("C_TEXT", emailEntity.getText());
+            emailNativeQuery.setParameter("C_SENDERID", emailEntity.getSenderEmployee().getId());
+            emailNativeQuery.executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+        }
         List<EmployeeEntity> recievers = emailEntity.getRecievers();
 
         for (EmployeeEntity reciever :recievers) {

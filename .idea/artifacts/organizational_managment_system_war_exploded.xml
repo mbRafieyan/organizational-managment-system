@@ -107,6 +107,8 @@
           <element id="library" level="project" name="Maven: org.ccil.cowan.tagsoup:tagsoup:1.2" />
           <element id="library" level="project" name="Maven: asm:asm:3.1" />
           <element id="library" level="project" name="Maven: com.drewnoakes:metadata-extractor:2.4.0-beta-1" />
+          <element id="library" level="project" name="Maven: org.apache.tika:tika-serialization:1.24" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.6" />
           <element id="library" level="project" name="Maven: com.ibm.icu:icu4j:66.1" />
         </element>
       </element>

@@ -9,13 +9,14 @@ import com.service.IEmailEntityService;
 import com.service.IEmployeeEntityService;
 import org.apache.log4j.Logger;
 import org.apache.tika.config.TikaConfig;
+import org.apache.tika.config.TikaConfigSerializer;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
+import org.apache.tika.metadata.serialization.JsonMetadataDeserializer;
 import org.apache.tika.mime.MediaType;
 import org.apache.tika.mime.MimeType;
-import org.apache.tika.parser.AutoDetectParser;
-import org.apache.tika.parser.ParseContext;
-import org.apache.tika.parser.Parser;
+import org.apache.tika.parser.*;
+import org.apache.tika.parser.external.CompositeExternalParser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.hibernate.engine.jdbc.SerializableBlobProxy;
@@ -33,15 +34,20 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.xml.bind.DatatypeConverter;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = {"/email"})
@@ -119,9 +125,8 @@ public class EmailController {
 
             try {
                 Blob blobFile = BlobProxy.generateProxy(file.getBytes());
-                Blob serializableBlobFile = SerializableBlobProxy.generateProxy(blobFile);
                 if (blobFile.length() > 0)
-                    emailEntity.setAttachment(serializableBlobFile);
+                    emailEntity.setAttachment(blobFile);
 
             } catch (IOException e) {
                 logger.error(e.getMessage(), e);
@@ -222,7 +227,7 @@ public class EmailController {
             byte[] bytes = iEmailEntityService.getEmailFile(emailEntity);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
 
-            BodyContentHandler contentHandler = new BodyContentHandler(2000000);
+            BodyContentHandler contentHandler = new BodyContentHandler(40000000);
             Metadata metadata = new Metadata();
             ParseContext context = new ParseContext();
 
