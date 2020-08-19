@@ -29,8 +29,8 @@ public class EmailEntity extends ParentEntity implements Serializable {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "T_RECIEVER",
-            joinColumns = {@JoinColumn(name = "C_EMAILID", referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "C_EMPLOYEEID", referencedColumnName = "ID")})
+            joinColumns = @JoinColumn(name = "C_EMAILID"),
+            inverseJoinColumns = @JoinColumn(name = "C_EMPLOYEEID"))
     @NotEmpty(message = "Recievers is a required field")
     private List<EmployeeEntity> recievers;
 

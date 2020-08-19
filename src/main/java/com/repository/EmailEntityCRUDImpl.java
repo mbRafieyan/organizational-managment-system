@@ -32,15 +32,18 @@ public class EmailEntityCRUDImpl implements IEmailEntityCRUD {
         Blob attachment = emailEntity.getAttachment();
         try {
 
-            byte[] attachmentBytes = attachment.getBytes(1, (int) attachment.length());
-
             Query emailNativeQuery = entityManager.createNativeQuery("INSERT INTO t_email(ID, C_ACTIVE, C_CREATEDATE, C_VERSION, C_ATTACHMENT, C_SUBJECT, C_TEXT, C_SENDERID) " +
                     "VALUES(:ID, :C_ACTIVE, :C_CREATEDATE, :C_VERSION, :C_ATTACHMENT, :C_SUBJECT, :C_TEXT, :C_SENDERID)");
             emailNativeQuery.setParameter("ID", emailEntity.getId());
             emailNativeQuery.setParameter("C_ACTIVE", 1);
             emailNativeQuery.setParameter("C_CREATEDATE", new Date().toString());
             emailNativeQuery.setParameter("C_VERSION", "1");
-            emailNativeQuery.setParameter("C_ATTACHMENT", attachmentBytes);
+            if(emailEntity.getAttachment() != null){
+                byte[] attachmentBytes = attachment.getBytes(1, (int) attachment.length());
+                emailNativeQuery.setParameter("C_ATTACHMENT", attachmentBytes);
+            }else{
+                emailNativeQuery.setParameter("C_ATTACHMENT", null);
+            }
             emailNativeQuery.setParameter("C_SUBJECT", emailEntity.getSubject());
             emailNativeQuery.setParameter("C_TEXT", emailEntity.getText());
             emailNativeQuery.setParameter("C_SENDERID", emailEntity.getSenderEmployee().getId());
